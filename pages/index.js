@@ -3,16 +3,12 @@ import { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import ProfileCard from "../components/ProfileCard";
 
-const UPCOMING_EVENTS = gql`
-  query Events {
-    profiles(
-      orderBy: eventTimestamp
-      orderDirection: asc
-      where: { isDisabled: false }
-    ) {
+const LATEST_PROFILES = gql`
+  query Profiles {
+    profiles(where: { isDisabled: false }) {
       id
       firstName
-      eventTimestamp
+      jobTitle
       imageURL
     }
   }
@@ -37,12 +33,12 @@ export default function Home() {
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
 
-  const [currentTimestamp, setCurrentTimestamp] = useState(
-    new Date().getTime().toString()
-  );
+  // const [currentTimestamp, setCurrentTimestamp] = useState(
+  //   new Date().getTime().toString()
+  // );
 
-  const { loading, error, data, refetch } = useQuery(UPCOMING_EVENTS, {
-    variables: { currentTimestamp, searchText },
+  const { loading, error, data, refetch } = useQuery(LATEST_PROFILES, {
+    variables: { searchText },
   });
 
   function searchInputHandler(e) {
@@ -55,7 +51,7 @@ export default function Home() {
         setFilteredProfiles(data.profiles);
       } else {
         setFilteredProfiles(
-          data.profiles.filter((event) =>
+          data.profiles.filter((profile) =>
             profile.firstName.toLowerCase().includes(searchText.toLowerCase())
           )
         );
@@ -114,14 +110,15 @@ export default function Home() {
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
-        {filteredProfiles.map((event) => (
-          <li key={event.id}>
+        {filteredProfiles.map((profile) => (
+          <li key={profile.id}>
             <ProfileCard
-              id={event.id}
-              name={event.name}
-              eventTimestamp={event.eventTimestamp}
-              imageURL={event.imageURL}
-              eventCost={event.cost}
+              id={profile.id}
+              firstName={profile.firstName}
+              // eventTimestamp={event.eventTimestamp}
+              imageURL={profile.imageURL}
+              // eventCost={event.cost}
+              jobTitle={profile.jobTitle}
             />
           </li>
         ))}

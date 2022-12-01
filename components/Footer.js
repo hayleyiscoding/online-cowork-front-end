@@ -10,7 +10,10 @@ export default function Footer() {
             Online CoWork
           </a>
 
-          <a href="#" className="text-gray-400 hover:text-gray-500">
+          <a
+            href="https://twitter.com/onlinecowork"
+            className="text-gray-400 hover:text-gray-500"
+          >
             <span className="sr-only">Twitter</span>
             <svg
               className="h-6 w-6"
@@ -22,7 +25,7 @@ export default function Footer() {
             </svg>
           </a>
           <a href="#" className="text-gray-400 hover:text-gray-500">
-            <span className="sr-only">GitHub</span>
+            <span className="sr-only">Instagram</span>
             <svg
               className="h-6 w-6"
               fill="currentColor"

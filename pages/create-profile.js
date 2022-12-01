@@ -101,11 +101,10 @@ export default function CreateProfile() {
 
         if (profileContract) {
           let profileDataCID = cid;
-          let profileTimestamp = profileDateAndTime.getTime();
+          //   let profileTimestamp = profileDateAndTime.getTime();
           const txn = await profileContract.createNewProfile({
             profileDataCID,
-            eventTimestamp,
-            gasLimit: 900000,
+            // gasLimit: 900000,
           });
           setLoading(true);
           console.log("Minting...", txn.hash);
