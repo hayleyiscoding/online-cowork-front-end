@@ -47,8 +47,8 @@ export default function CreateProfile() {
     e.preventDefault();
 
     const body = {
-      name: firstName,
-      job: jobTitle,
+      firstName: firstName,
+      jobTitle: jobTitle,
       city: city,
       country: country,
       website: websiteLink,
@@ -62,7 +62,7 @@ export default function CreateProfile() {
       freebie: freebieLink,
       otherLink: otherLink,
       bio: bio,
-      image: "/" + coverImage.name,
+      imageURL: "/" + coverImage.name,
     };
 
     try {
