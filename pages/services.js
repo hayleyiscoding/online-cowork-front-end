@@ -80,7 +80,7 @@ export default function Services() {
           <div></div>
           <div></div>
         </div>
-      </LandingSevices>
+      </LandingServices>
     );
   if (error)
     return (

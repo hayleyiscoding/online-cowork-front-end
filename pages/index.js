@@ -177,12 +177,12 @@ export default function Home() {
         </div>
       </LandingLottery>
     );
-  if (error)
-    return (
-      <LandingLottery>
-        <p>`Error! ${error.message}`</p>
-      </LandingLottery>
-    );
+  // if (error)
+  //   return (
+  //     <LandingLottery>
+  //       <p>`Error! ${error.message}`</p>
+  //     </LandingLottery>
+  //   );
 
   return (
     <LandingLottery>
@@ -219,6 +219,16 @@ export default function Home() {
             <p className="font-light text-base pr-40 pb-8 pt-8">ok</p>
           </div>
         )} */}
+
+        {!account && (
+          <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center">
+            <p className="mb-4 text-sm font-light">
+              Please connect your wallet to add a task. If you have not yet
+              registered, please register here first.
+            </p>
+            <ConnectButton />
+          </section>
+        )}
         {account && !success && (
           <form
             onSubmit={handleSubmit}
@@ -231,9 +241,10 @@ export default function Home() {
                 className="block text-2xl font-bold text-gray-700 sm:mt-px sm:pt-2 text-center"
               >
                 Add a Task{" "}
-                <p className="mt-1 mx-auto px-4 lg:px-40 text-sm text-gray-400 font-normal">
-                  Add a task that you've been procrastination about completing,
-                  as well as an amount.
+                <p className="mt-1 mx-auto px-4 lg:px-36 text-sm text-gray-400 font-light">
+                  Add a task that you have been procrastination about
+                  completing, as well as an amount and time. Not sure how this
+                  works? Click here.
                 </p>
               </label>
 
@@ -295,14 +306,7 @@ export default function Home() {
         )}
       </section>
 
-      {!account && (
-        <section className="flex flex-col items-start py-2 mx-auto">
-          <p className="mb-4">Please connect your wallet to add a task.</p>
-          <ConnectButton />
-        </section>
-      )}
-
-      <ul
+      {/* <ul
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 py-12"
       >
@@ -318,7 +322,7 @@ export default function Home() {
             />
           </li>
         ))}
-      </ul>
+      </ul> */}
     </LandingLottery>
   );
 }

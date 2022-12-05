@@ -29,7 +29,7 @@ const LATEST_PROFILES = gql`
 //   }
 // `;
 
-export default function Members() {
+export default function Events() {
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
 
