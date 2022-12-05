@@ -23,8 +23,6 @@ export default function CreateProfile() {
   const [loading, setLoading] = useState(null);
   const [profileID, setProfileID] = useState(null);
 
-  const [profileDate, setProfileDate] = useState("");
-  const [profileTime, setProfileTime] = useState("");
   const [firstName, setFirstName] = useState("");
   // const [eventTime, setProfileTime] = useState("");
   const [jobTitle, setJobTitle] = useState("");
@@ -49,8 +47,8 @@ export default function CreateProfile() {
     e.preventDefault();
 
     const body = {
-      firstName: firstName,
-      jobTitle: jobTitle,
+      name: firstName,
+      job: jobTitle,
       city: city,
       country: country,
       website: websiteLink,
@@ -102,10 +100,7 @@ export default function CreateProfile() {
         if (profileContract) {
           let profileDataCID = cid;
           //   let profileTimestamp = profileDateAndTime.getTime();
-          const txn = await profileContract.createNewProfile({
-            profileDataCID,
-            // gasLimit: 900000,
-          });
+          const txn = await profileContract.createNewProfile(profileDataCID);
           setLoading(true);
           console.log("Minting...", txn.hash);
           let wait = await txn.wait();

@@ -40,7 +40,7 @@ function Profile({ event }) {
   //   return false;
   // }
 
-  async function handleDeleteEvent(eventId) {
+  async function handleDeleteProfile(profileId) {
     const profileContract = connectProfilesContract();
     console.log({ profileContract });
     if (profileContract) {
@@ -396,8 +396,7 @@ function Profile({ event }) {
                 </a>
               </span>
             </div>
-            {event?.profileOwner?.toLowerCase() ===
-              account?.address?.toLowerCase() && (
+            {/* {event?.toLowerCase() === account?.address?.toLowerCase() && (
               <div>
                 <button
                   type="button"
@@ -407,7 +406,7 @@ function Profile({ event }) {
                   Delete Profile
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </section>
@@ -430,8 +429,6 @@ export async function getServerSideProps(context) {
           firstName
           city
           country
-          profileOwner
-          profileTimestamp
           website
           facebookPage
           facebookGroup
