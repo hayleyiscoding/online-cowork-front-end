@@ -4,8 +4,8 @@ import { gql, useQuery } from "@apollo/client";
 import ProfileCard from "../components/ProfileCard";
 
 const LATEST_PROFILES = gql`
-  query Profiles {
-    profiles(where: { isDisabled: false }) {
+  query ProfileMetadata {
+    profileMetadata(where: { isDisabled: false }) {
       id
       firstName
       jobTitle
@@ -110,15 +110,15 @@ export default function Members() {
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
-        {filteredProfiles.map((profile) => (
-          <li key={profile.id}>
+        {filteredProfiles.map((profileMetadata) => (
+          <li key={profileMetadata.id}>
             <ProfileCard
-              id={profile.id}
-              firstName={profile.firstName}
+              id={profileMetadata.id}
+              firstName={profileMetadata.firstName}
               // eventTimestamp={event.eventTimestamp}
-              imageURL={profile.imageURL}
+              imageURL={profileMetadata.imageURL}
               // eventCost={event.cost}
-              jobTitle={profile.jobTitle}
+              jobTitle={profileMetadata.jobTitle}
             />
           </li>
         ))}

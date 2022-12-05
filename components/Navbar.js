@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navmenu from "./Navmenu";
 import DirectoriesMenu from "./DirectoriesMenu";
+import Image from "next/image";
+import darkLogo from "../public/logos/dark-logo.png";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect } from "wagmi";
@@ -25,12 +27,19 @@ export default function Navbar() {
         >
           <div className="w-full py-6 flex flex-wrap items-center justify-between border-b border-indigo-500 lg:border-none">
             <div className="flex items-center">
-              <Link href="/">
-                <a>Online CoWork</a>
+              <Link href="/" passHref>
+                <Image
+                  src={darkLogo}
+                  alt="logo"
+                  width={170}
+                  height={60}
+                  // blurDataURL="data:..." automatically provided
+                  placeholder="blur"
+                />
               </Link>
             </div>
             <div className="ml-10 space-x-4 flex items-center">
-              <Link href="'/how-it-works'">
+              <Link href="/how-it-works">
                 <a className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-black hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   How it Works
                 </a>
@@ -42,7 +51,7 @@ export default function Navbar() {
                 </a>
               </Link>
               <Link href="/create-profile">
-                <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 border border-indigo-100 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-black border border-indigo-100 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Create Profile
                 </a>
               </Link>

@@ -139,7 +139,9 @@ const LotteryPageStats = () => {
                 </svg>
               </span> */}
             </div>
-            <p className="mt-4 text-xs font-medium text-gray-500">Countdown</p>
+            <p className="mt-4 text-xs font-medium text-gray-500">
+              2 Lucky Winners!
+            </p>
           </div>
         </div>
       </div>

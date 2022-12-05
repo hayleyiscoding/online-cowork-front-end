@@ -106,7 +106,7 @@ export default function CreateProfile() {
           let wait = await txn.wait();
           console.log("Minted -- ", txn.hash);
 
-          setProfileID(wait.profiles[0].args[0]);
+          //   setProfileID(wait.profiles[0].args[0]);
 
           setSuccess(true);
           setLoading(false);
