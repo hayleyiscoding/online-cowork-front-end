@@ -1,15 +1,37 @@
 import LandingProfiles from "../components/LandingProfiles";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import ProfileCard from "../components/ProfileCard";
 
 const LATEST_PROFILES = gql`
-  query ProfileMetadata {
-    profileMetadata(where: { isDisabled: false }) {
+  query LatestProfiles {
+    profiles(
+      first: 20
+      orderBy: blockTimestamp
+      orderDirection: desc
+      where: { isDisabled: false }
+    ) {
+      creatorAddress
       id
-      firstName
-      jobTitle
-      imageURL
+      profileMetadata {
+        bio
+        city
+        country
+        facebookGroup
+        facebookPage
+        firstName
+        freebie
+        id
+        imageURL
+        instagram
+        jobTitle
+        linkedin
+        otherLink
+        pinterest
+        tiktok
+        twitter
+        website
+      }
     }
   }
 `;
@@ -46,13 +68,16 @@ export default function Members() {
   }
 
   function updateFilteredProfiles() {
+    console.log(data?.profiles, "hello");
     if (data?.profiles) {
       if (!searchText) {
         setFilteredProfiles(data.profiles);
       } else {
         setFilteredProfiles(
           data.profiles.filter((profile) =>
-            profile.firstName.toLowerCase().includes(searchText.toLowerCase())
+            profile?.profileMetadata?.firstName
+              .toLowerCase()
+              .includes(searchText.toLowerCase())
           )
         );
       }
@@ -110,18 +135,13 @@ export default function Members() {
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
-        {filteredProfiles.map((profileMetadata) => (
-          <li key={profileMetadata.id}>
-            <ProfileCard
-              id={profileMetadata.id}
-              firstName={profileMetadata.firstName}
-              // eventTimestamp={event.eventTimestamp}
-              imageURL={profileMetadata.imageURL}
-              // eventCost={event.cost}
-              jobTitle={profileMetadata.jobTitle}
-            />
-          </li>
-        ))}
+        {filteredProfiles
+          .filter((p) => p.profileMetadata)
+          .map((profile) => (
+            <li key={profile.id}>
+              <ProfileCard id={profile.id} metadata={profile.profileMetadata} />
+            </li>
+          ))}
       </ul>
     </LandingProfiles>
   );
