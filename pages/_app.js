@@ -9,7 +9,6 @@ import { publicProvider } from "wagmi/providers/public";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
-import { MoralisProvider } from "react-moralis";
 
 import { ItemsProvider } from "../context/items";
 
@@ -34,8 +33,7 @@ const wagmiClient = createClient({
 export default function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig client={wagmiClient}>
-      {/* <MoralisProvider initializeOnMount="false"> */}
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider chains={chains} coolMode>
         <ApolloProvider client={client}>
           <ItemsProvider>
             <Layout>
@@ -44,7 +42,6 @@ export default function MyApp({ Component, pageProps }) {
           </ItemsProvider>
         </ApolloProvider>
       </RainbowKitProvider>
-      {/* </MoralisProvider> */}
     </WagmiConfig>
   );
 }

@@ -6,7 +6,7 @@ const Item = ({ item }) => {
       <p className={`flex-1 text-gray-800 `}>
         On {format(new Date(item.fields.time), "PPPPpppp")}, an Online CoWorker
         added a task:&nbsp;{" "}
-        <strong className="font-bold">{item.fields.Task}!</strong> 🥳
+        <strong className="font-bold">{item.fields.Task}</strong>
       </p>
     </li>
   );

@@ -144,13 +144,29 @@ export default function Home({ initialItems }) {
     <LandingLottery>
       <section className="relative py-1">
         {!account && (
-          <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center">
-            <p className="mb-4 text-sm font-light">
-              Please connect your wallet to add a task. If you have not yet
-              registered, please register here first.
-            </p>
-            <ConnectButton />
-          </section>
+          <div>
+            <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center">
+              <h3 className="text-xl font-bold mb-4">Add a Task Here!</h3>
+              <p className="mb-4 text-sm font-light">
+                Please connect your wallet to add a task. If you are not sure
+                what a wallet is, please click here. NOTE: Only verified members
+                of our Discord community may take part - if you are
+                <Link href="/how-it-works" className="underline">
+                  Learn More
+                </Link>
+              </p>
+              <ConnectButton />
+            </section>
+            <section>
+              <h3 className="text-xl font-bold py-5 pt-8 text-center">
+                Latest Tasks Being Completed by Women Who Work Online:
+              </h3>
+              <ul className="text-black py-5">
+                {items &&
+                  items?.map((item) => <Item key={item.id} item={item} />)}
+              </ul>
+            </section>
+          </div>
         )}
 
         {account && !success && (
@@ -207,7 +223,7 @@ export default function Home({ initialItems }) {
             <section>
               <ul className="text-black py-5">
                 {items &&
-                  items.map((item) => <Item key={item.id} item={item} />)}
+                  items?.map((item) => <Item key={item.id} item={item} />)}
               </ul>
             </section>
           </div>

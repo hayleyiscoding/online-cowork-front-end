@@ -51,7 +51,7 @@ export default function Navbar() {
                 </a>
               </Link>
               <Link href="/create-profile">
-                <a className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-black border border-indigo-100 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a className="inline-flex items-center px-4 py-2 border-transparent text-sm font-medium rounded-md text-black border border-indigo-100 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Create Profile
                 </a>
               </Link>
