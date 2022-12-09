@@ -701,12 +701,12 @@ export default function CreateProfile() {
             </div>
             <div className="pt-5">
               <div className="flex justify-end">
-                <Link
+                {/* <Link
                   href="/"
                   className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                 >
                   Cancel
-                </Link>
+                </Link> */}
                 <button
                   type="submit"
                   className="ml-3 inline-flex justify-center py-2 px-4 border-2 border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:text-black hover:border-2 border-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"

@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import joinClassNames from "../utils/joinClassNames";
+import { AiOutlineDown } from "react-icons/ai";
 
 export default function Navmenu({ account, disconnect }) {
   return (
@@ -9,6 +10,9 @@ export default function Navmenu({ account, disconnect }) {
         <Menu.Button className="inline-flex items-center px-2.5 py-2 rounded-md text-sm font-medium bg-indigo-100 text-indigo-800 w-32 cursor-pointer">
           <span className="w-12 h-3 mr-1 bg-indigo-400 rounded-full"></span>
           <p className="text-ellipsis overflow-hidden">{account.address}</p>
+          <span>
+            <AiOutlineDown />
+          </span>
         </Menu.Button>
       </div>
       <Transition

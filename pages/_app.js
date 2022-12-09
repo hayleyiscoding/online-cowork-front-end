@@ -9,6 +9,9 @@ import { publicProvider } from "wagmi/providers/public";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
+import { MoralisProvider } from "react-moralis";
+
+import { ItemsProvider } from "../context/items";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 
@@ -31,13 +34,17 @@ const wagmiClient = createClient({
 export default function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig client={wagmiClient}>
+      {/* <MoralisProvider initializeOnMount="false"> */}
       <RainbowKitProvider chains={chains}>
         <ApolloProvider client={client}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <ItemsProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ItemsProvider>
         </ApolloProvider>
       </RainbowKitProvider>
+      {/* </MoralisProvider> */}
     </WagmiConfig>
   );
 }

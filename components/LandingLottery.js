@@ -31,12 +31,13 @@ export default function LandingLottery({ children }) {
           </div>
 
           <p className="mt-3 text-extralight text-gray-800sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 lg:text-lg font-extralight">
-            Add a task that you've been procrastinating about completing and an
-            amount that will push you to complete it - and get entered into our
-            weekly draw! 🥳 One task = one lottery ticket. Helping women to get
-            funding for their online businesses. Yes, we are looking at you -
-            virtual assistants, online yoga instructors, health coaches,
-            bloggers, Etsy sellers and more! Get funding by being productive.{" "}
+            Add a business task that you've been procrastinating about
+            completing (e.g. writing a blog) and an amount that will push you to
+            complete it - and get entered into our weekly draw! 🥳 One task =
+            one lottery ticket. Helping women to get funding for their online
+            businesses. Yes, we are looking at you - virtual assistants, online
+            yoga instructors, health coaches, bloggers, Etsy sellers and more!
+            Get funding by being productive.{" "}
             <Link href="/how-it-works" passHref>
               <span className="underline cursor-pointer">Learn more</span>
             </Link>
