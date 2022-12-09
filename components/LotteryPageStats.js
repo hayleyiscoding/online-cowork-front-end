@@ -1,6 +1,6 @@
 import React from "react";
-import { HiOutlineInformationCircle } from "react-icons/hi";
-import { GiPartyPopper } from "react-icons/gi";
+// import { HiOutlineInformationCircle } from "react-icons/hi";
+// import { GiPartyPopper } from "react-icons/gi";
 
 const LotteryPageStats = () => {
   return (
