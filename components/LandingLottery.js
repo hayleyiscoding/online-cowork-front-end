@@ -16,17 +16,17 @@ export default function LandingLottery({ children }) {
       <section className="pt-16 pb-4">
         <div className="w-full md:w-11/12 text-left">
           <div className="flex items-center">
-            <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              <span>The Online CoWork </span>
+            <h1 className="mb-8 text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+              <span>Welcome to the Online CoWork </span>
               <span className="text-gray-300">Lottery!</span>
             </h1>
             <div className=" mx-6 text-white my-5 ml-10">
-              <button
+              {/* <button
                 type="button"
                 className="inline-flex items-center justify-center px-4 py-1 text-xs font-semibold leading-5 text-white transition-all duration-200 bg-pink-500 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 hover:bg-indigo-500"
               >
                 Donate to Lottery
-              </button>
+              </button> */}
             </div>
           </div>
 
@@ -46,10 +46,9 @@ export default function LandingLottery({ children }) {
             <br />
             Simply input a business task (such as 'get to inbox zero') that
             you'd like to get done, and pay a small fee of your choice to hold
-            yourself accountable (we dare ya!). Not only will you have some
-            accountability to get your pending tasks done and dusted, but this
-            fee will also buy you a ticket to win valuable funds for your
-            business in our weekly lottery.
+            yourself accountable (we dare ya!). Doing this will automatically
+            entitle you to a lottery ticket. The draw will take place once a
+            week giving you the chance to win valuable funds for your business!
             <br />
             <br />
             The more tasks you add (i.e. the more you commit to getting done),
@@ -58,9 +57,9 @@ export default function LandingLottery({ children }) {
             <br />
             <br />
             Plus, our platform is built on blockchain technology to ensure a
-            fair and verifiably random lottery with no human interference. Don't
-            miss out on this opportunity to grow your business and achieve your
-            dreams!{" "}
+            fair and verifiably random lottery with no human interference. So,
+            don't miss out on this opportunity to grow your business and achieve
+            your dreams!{" "}
             <Link href="/how-it-works" passHref>
               <span className="underline cursor-pointer">Learn More</span>
             </Link>
@@ -68,7 +67,7 @@ export default function LandingLottery({ children }) {
         </div>
       </section>
       <section className="py-4 pb-0">
-        <div className="flex items-center justify-center mt-2 mb-4  text-center bg-coworkblue p-1 bg-blend-soft-light rounded-lg">
+        <div className="flex items-center justify-center my-12 text-center  p-5 bg-blend-soft-light rounded-lg bg-gradient-to-r from-[#7928ca] to-[#ff0080]">
           <h3 className="text-white text-xl">
             A huge congrats to last week's winner:
             0x02389745619387465kajshgd12341234 (~ USD 200.80){" "}

@@ -13,6 +13,7 @@ import { table, minifyItems } from "../utils/Airtable";
 import { ItemsContext } from "../context/items";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";
+import LotteryPageStatsSecond from "../components/LotteryPageStatsSecondVersion";
 
 export default function Home({ initialItems }) {
   const { data: account } = useAccount();
@@ -151,16 +152,19 @@ export default function Home({ initialItems }) {
       <section className="relative py-8">
         {!account && (
           <div>
-            <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center sm:w-12/12">
-              <h3 className="text-xl font-bold mb-4">
-                Grab a lottery ticket here by adding a business task!
+            <section className="flex flex-col items-center p-16 mx-auto border w-3/6 text-center sm:w-12/12 shadow-xl mt-8">
+              <h3 className="text-4xl font-bold mb-8">
+                Connect your wallet here to add a task to enter the lottery!
               </h3>
-              <p className="mb-6 text-sm font-light">
+              <p className="mb-10 text-sm font-light">
                 1) Please connect your wallet to add a task. If you are not sure
                 what a wallet is, please see our FAQ's{" "}
                 <Link href="/how-it-works" passHref>
-                  <p className="underline  mb-4 text-sm font-light">here.</p>
+                  <p className="underline  mb-4 text-sm font-light inline-block">
+                    here.
+                  </p>
                 </Link>
+                <br />
                 2) In order to limit spammers, registration is required in order
                 to take part - please also complete this quick application form{" "}
                 <a
@@ -175,17 +179,14 @@ export default function Home({ initialItems }) {
               </p>
               <ConnectButton />
             </section>
-            <section className="mt-8">
-              <h3 className="text-xl font-bold py-1 pt-5 text-center">
-                Latest Tasks Being Completed by Women Who Work Online 🥳:
-              </h3>
-            </section>
-            <section>
-              <ul className="text-black py-3 w-2/3 mx-auto sm:w-12/12">
-                {items &&
-                  items?.map((item) => <Item key={item.id} item={item} />)}
-              </ul>
-            </section>
+            <h3 className="text-4xl font-bold pt-12 pb-4 text-center">
+              Latest Tasks:
+            </h3>
+
+            <ul className="text-black py-3 mx-auto sm:w-12/12 grid grid-cols-1 lg:grid-cols-3 ">
+              {items &&
+                items?.map((item) => <Item key={item.id} item={item} />)}
+            </ul>
           </div>
         )}
 
@@ -193,13 +194,38 @@ export default function Home({ initialItems }) {
           <div>
             <form
               onSubmit={handleSubmit}
-              className="space-y-8 divide-y divide-gray-200 pt-4 "
+              className="space-y-8 divide-y divide-gray-200 pt-4"
             >
-              <div className="space-y-6 sm:space-y-5 border-2 w-3/6 py-4 mx-auto text-center ">
-                <section className="flex flex-col items-center p-6 mx-auto text-center w-2/3 ">
-                  <h3 className="text-xl font-bold mb-4">
+              <div className="space-y-6 sm:space-y-5  w-4/6 py-4 mx-auto text-center shadow-xl">
+                <section className="flex flex-col items-center p-6 mx-auto text-center w-9/12">
+                  <h3 className="font-bold mb-8 mt-5 text-4xl leading-normal">
                     Grab a lottery ticket here by adding a business task!
                   </h3>
+                  <p className="font-light text-sm">
+                    If you are not sure how this works, click{" "}
+                    <Link href="/how-it-works" passHref>
+                      <p className="underline  mb-4 text-sm font-light inline-block">
+                        here.
+                      </p>
+                    </Link>
+                    <br />
+                    <strong>TASK: </strong>This is the task that you'd like to
+                    complete.
+                    <br />
+                    <br />
+                    <strong>AMOUNT: </strong>This is the amount of money (in
+                    MATIC) that you wish to pay in order to make a contract with
+                    yourself to complete your task. This amount needs to be a
+                    minimum of 1 MATIC. Please note that you WONT get this money
+                    back.
+                    <br />
+                    <br />
+                    This fee will buy you a lottery ticket/s. And one lucky
+                    random winner will win the prize pool each week! NOTE: 1
+                    MATIC = 1 LOTTERY TICKET. This means that if you pay 10
+                    MATIC to complete your task, you will get 10 entries into
+                    the draw.
+                  </p>
                 </section>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <label
@@ -263,7 +289,7 @@ export default function Home({ initialItems }) {
                       Get it done!
                     </button>
                   </div>
-                  <p className="p-8 font-xs w-2/3 mx-auto font-extralight">
+                  <p className="p-8 text-xs w-5/12 mx-auto font-extralight">
                     By adding your task you agree to our{" "}
                     <a
                       href="https://onlinecowork.com/terms-and-conditions"
@@ -286,18 +312,14 @@ export default function Home({ initialItems }) {
                 </div>
               </div>
             </form>
-            {/* <section className="mt-12">
-              <h3 className="text-xl font-bold py-1 text-center">
-                Latest Tasks Being Completed by Women Who Work Online 🥳:
-              </h3>
-            </section> */}
-            <section className="w-2/3 mx-auto pt-6">
-              <h3 className="text-xl font-bold py-4 text-center mx-auto">
-                Latest Tasks Being Completed by Women Who Work Online 🥳:
-              </h3>
-            </section>
+
             <section>
-              <ul className="text-black py-3">
+              <div className="w-2/3 mx-auto pt-6">
+                <h3 className="text-4xl font-bold py-4 pb-4 mt-12 text-center mx-auto">
+                  Latest Tasks:
+                </h3>
+              </div>
+              <ul className="text-black py-3 grid grid-cols-1 lg:grid-cols-3">
                 {items &&
                   items?.map((item) => <Item key={item.id} item={item} />)}
               </ul>
