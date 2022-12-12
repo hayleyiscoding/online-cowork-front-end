@@ -94,15 +94,15 @@ export default function Home({ initialItems }) {
     setItems(initialItems);
   }, [initialItems, setItems]);
 
-  const [item, setItem] = useState("");
+  const [task, setTask] = useState("");
   const [amount, setAmount] = useState(1);
   const [email, setEmail] = useState("");
   const { addItem } = useContext(ItemsContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addItem(item, email);
-    setItem("");
+    addItem({ task, email, amount: amount });
+    setTask("");
     setAmount(1);
     setEmail("");
   };
@@ -229,7 +229,7 @@ export default function Home({ initialItems }) {
                     type="text"
                     className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
                     required
-                    onChange={(e) => setItem(e.target.value)}
+                    onChange={(e) => setTask(e.target.value)}
                     placeholder="e.g. Write a blog about 10 tips for branding..."
                     maxLength={35}
                   />

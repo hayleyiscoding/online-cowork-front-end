@@ -6,12 +6,12 @@ const ItemsProvider = ({ children }) => {
   const [items, setItems] = useState();
 
   // for creating an item
-  const addItem = async (item) => {
+  const addItem = async (taskInfo) => {
     try {
       // we will send a POST request with the data required to create an item
       const res = await fetch("/api/createItem", {
         method: "POST",
-        body: JSON.stringify({ item }),
+        body: JSON.stringify(taskInfo),
         headers: { "Content-Type": "application/json" },
       });
       const newItem = await res.json();
