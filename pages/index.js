@@ -147,24 +147,22 @@ export default function Home({ initialItems }) {
 
   return (
     <LandingLottery>
-      <section>
-        <LotteryPageStats initialItems={initialItems} />
-      </section>
-      <section className="relative py-1">
+      <LotteryPageStats initialItems={initialItems} />
+      <section className="relative py-8">
         {!account && (
           <div>
             <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center sm:w-12/12">
               <h3 className="text-xl font-bold mb-4">
                 Grab a lottery ticket here by adding a business task!
               </h3>
-              <p className="mb-4 text-sm font-light">
-                Please connect your wallet to add a task. If you are not sure
+              <p className="mb-6 text-sm font-light">
+                1) Please connect your wallet to add a task. If you are not sure
                 what a wallet is, please see our FAQ's{" "}
                 <Link href="/how-it-works" passHref>
                   <p className="underline  mb-4 text-sm font-light">here.</p>
                 </Link>
-                NOTE: In order to limit spammers, registration is required in
-                order to take part - please complete this quick application form{" "}
+                2) In order to limit spammers, registration is required in order
+                to take part - please also complete this quick application form{" "}
                 <a
                   href="https://airtable.com/shrDASlmULZmdC0C1"
                   target="_blank"
@@ -177,8 +175,8 @@ export default function Home({ initialItems }) {
               </p>
               <ConnectButton />
             </section>
-            <section className="mt-12">
-              <h3 className="text-xl font-bold py-1 text-center">
+            <section className="mt-8">
+              <h3 className="text-xl font-bold py-1 pt-5 text-center">
                 Latest Tasks Being Completed by Women Who Work Online 🥳:
               </h3>
             </section>
@@ -202,27 +200,6 @@ export default function Home({ initialItems }) {
                   <h3 className="text-xl font-bold mb-4">
                     Grab a lottery ticket here by adding a business task!
                   </h3>
-                  <p className="mb-4 text-sm font-light">
-                    Please connect your wallet to add a task. If you are not
-                    sure what a wallet is, please see our FAQ's{" "}
-                    <Link href="/how-it-works" passHref>
-                      <p className="underline  mb-1 text-sm font-light">
-                        here.
-                      </p>
-                    </Link>
-                    NOTE: In order to limit spammers, registration is required
-                    in order to take part - please complete this quick
-                    application form{" "}
-                    <a
-                      href="https://airtable.com/shrDASlmULZmdC0C1"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline"
-                    >
-                      here
-                    </a>{" "}
-                    if this is your first time adding a task. Thank you!
-                  </p>
                 </section>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <label
@@ -286,7 +263,7 @@ export default function Home({ initialItems }) {
                       Get it done!
                     </button>
                   </div>
-                  <p className="p-8 font-xs w-1/2 mx-auto">
+                  <p className="p-8 font-xs w-2/3 mx-auto font-extralight">
                     By adding your task you agree to our{" "}
                     <a
                       href="https://onlinecowork.com/terms-and-conditions"
@@ -314,10 +291,12 @@ export default function Home({ initialItems }) {
                 Latest Tasks Being Completed by Women Who Work Online 🥳:
               </h3>
             </section> */}
-            <section className="w-2/3 mx-auto">
-              <h3 className="text-xl font-bold py-1 text-center">
+            <section className="w-2/3 mx-auto pt-6">
+              <h3 className="text-xl font-bold py-4 text-center mx-auto">
                 Latest Tasks Being Completed by Women Who Work Online 🥳:
               </h3>
+            </section>
+            <section>
               <ul className="text-black py-3">
                 {items &&
                   items?.map((item) => <Item key={item.id} item={item} />)}

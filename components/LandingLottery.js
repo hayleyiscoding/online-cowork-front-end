@@ -34,28 +34,41 @@ export default function LandingLottery({ children }) {
             For virtual assistants, Etsy sellers, online yoga instructors,
             bloggers, online bookeepers, online freelancers and more! Get things
             done AND win funding for your online business with the Online CoWork
-            Lottery! Our unique platform for women and non-binary people
-            combines the productivity of a to-do list with the excitement of a
-            lottery, giving you that extra dose of motivation that you need to
-            succeed. Simply input a business task that you'd like to get done,
-            and pay a small fee of your choice to hold yourself accountable (we
-            dare ya!). Not only will you have some accountability to get your
-            pending tasks done and dusted, but this fee will also buy you a
-            ticket to win valuable funds for your business in our weekly
-            lottery. The more tasks you add (i.e. the more you commit to getting
-            done!), the more lottery entries you get, the better your chances of
-            winning. Plus, our platform is built on blockchain technology to
-            ensure a fair and verifiably random lottery with no human
-            interference. Don't miss out on this opportunity to grow your
-            business and achieve your dreams!{" "}
+            Lottery!
+            <br />
+            <br />
+            Our unique platform for women and non-binary people combines{" "}
+            <strong>
+              the productivity of a to-do list with the excitement of a lottery
+            </strong>
+            , giving you that extra dose of motivation that you need to succeed.
+            <br />
+            <br />
+            Simply input a business task (such as 'get to inbox zero') that
+            you'd like to get done, and pay a small fee of your choice to hold
+            yourself accountable (we dare ya!). Not only will you have some
+            accountability to get your pending tasks done and dusted, but this
+            fee will also buy you a ticket to win valuable funds for your
+            business in our weekly lottery.
+            <br />
+            <br />
+            The more tasks you add (i.e. the more you commit to getting done),
+            the more lottery entries you get, and the better your chances of
+            winning!
+            <br />
+            <br />
+            Plus, our platform is built on blockchain technology to ensure a
+            fair and verifiably random lottery with no human interference. Don't
+            miss out on this opportunity to grow your business and achieve your
+            dreams!{" "}
             <Link href="/how-it-works" passHref>
               <span className="underline cursor-pointer">Learn More</span>
             </Link>
           </p>
         </div>
       </section>
-      <section className="py-4">
-        <div className="flex items-center justify-center mt-2 mb-8  text-center bg-coworkblue p-1 bg-blend-soft-light rounded-lg">
+      <section className="py-4 pb-0">
+        <div className="flex items-center justify-center mt-2 mb-4  text-center bg-coworkblue p-1 bg-blend-soft-light rounded-lg">
           <h3 className="text-white text-xl">
             A huge congrats to last week's winner:
             0x02389745619387465kajshgd12341234 (~ USD 200.80){" "}

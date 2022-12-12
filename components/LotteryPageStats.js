@@ -4,9 +4,9 @@ import React from "react";
 
 const LotteryPageStats = ({ initialItems }) => {
   return (
-    <div className="py-4 sm:py-16 lg:py-4">
+    <div className="sm:py-16 lg:py-4">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 py-8 border-t border-b border-gray-200 xl:grid-cols-5">
+        <div className="grid grid-cols-2 py-6 border-t border-b border-gray-200 xl:grid-cols-5">
           <div className="pb-10 lg:pb-0">
             <p className="text-sm font-medium text-gray-600">Tasks Added</p>
             <div className="inline-flex items-center mt-3">
