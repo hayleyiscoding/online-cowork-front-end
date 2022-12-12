@@ -185,7 +185,7 @@ export default function Home({ initialItems }) {
           <div>
             <form
               //   onSubmit={handleSubmit}
-              className="space-y-8 divide-y divide-gray-200 pt-4"
+              className="space-y-8 divide-y divide-gray-200 pt-4 "
               action="https://hooks.airtable.com/workflows/v1/genericWebhook/appOs0bZoIYV6pN8J/wflx34cTTlzuczr0w/wtrN1EuwIY37vjQOP"
               method="POST"
             >
