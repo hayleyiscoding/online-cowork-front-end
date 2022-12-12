@@ -1,14 +1,11 @@
 import { table, getMinifiedItem } from "../../utils/Airtable";
 
-export default async (req, res) => {
-  const { item, email } = req.body;
+const handler = async (req, res) => {
+  const fields = req.body;
   try {
     const newRecords = await table.create([
       {
-        fields: {
-          Task: item,
-          Email: email,
-        },
+        fields,
       },
     ]);
     res.status(200).json(getMinifiedItem(newRecords[0]));
@@ -17,3 +14,5 @@ export default async (req, res) => {
     res.status(500).json({ msg: "Something went wrong! 😕" });
   }
 };
+
+export default handler;
