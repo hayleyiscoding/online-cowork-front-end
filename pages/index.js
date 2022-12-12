@@ -73,7 +73,7 @@ export default function Home({ initialItems }) {
   //       setEventID(wait.events[0].args[0]);
   //       setSuccess(true);
   //       setLoading(false);
-  //       setMessage("Your task has been created successfully.");
+  //       setMessage("Woohoo! Your task has been created successfully. Now get it done! 🥳");
   //     } else {
   //       console.log("Error getting contract.");
   //     }
@@ -145,23 +145,35 @@ export default function Home({ initialItems }) {
       <section className="relative py-1">
         {!account && (
           <div>
-            <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center">
+            <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center sm:w-12/12">
               <h3 className="text-xl font-bold mb-4">Add a Task Here!</h3>
               <p className="mb-4 text-sm font-light">
                 Please connect your wallet to add a task. If you are not sure
-                what a wallet is, please click here. NOTE: Only verified members
-                of our Discord community may take part - if you are
-                <Link href="/how-it-works" className="underline">
-                  Learn More
+                what a wallet is, please see our FAQ's{" "}
+                <Link href="/how-it-works" passHref>
+                  <p className="underline  mb-4 text-sm font-light">here.</p>
                 </Link>
+                NOTE: In order to limit spammers, registration is required in
+                order to take part - please complete this quick application form{" "}
+                <a
+                  href="https://airtable.com/shrDASlmULZmdC0C1"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline"
+                >
+                  here
+                </a>{" "}
+                if this is your first time adding a task. Thank you!
               </p>
               <ConnectButton />
             </section>
-            <section>
-              <h3 className="text-xl font-bold py-5 pt-8 text-center">
-                Latest Tasks Being Completed by Women Who Work Online:
+            <section className="mt-12">
+              <h3 className="text-xl font-bold py-1 text-center">
+                Latest Tasks Being Completed by Women Who Work Online 🥳:
               </h3>
-              <ul className="text-black py-5">
+            </section>
+            <section>
+              <ul className="text-black py-3 w-2/3 mx-auto sm:w-12/12">
                 {items &&
                   items?.map((item) => <Item key={item.id} item={item} />)}
               </ul>
@@ -173,26 +185,35 @@ export default function Home({ initialItems }) {
           <div>
             <form
               //   onSubmit={handleSubmit}
-              className="space-y-8 divide-y divide-gray-200 pt-4 "
+              className="space-y-8 divide-y divide-gray-200 pt-4"
               action="https://hooks.airtable.com/workflows/v1/genericWebhook/appOs0bZoIYV6pN8J/wflx34cTTlzuczr0w/wtrN1EuwIY37vjQOP"
               method="POST"
             >
-              <div className="space-y-6 sm:space-y-5 border-2 w-3/5 py-4 mx-auto">
-                <label
-                  htmlFor="task"
-                  className="block text-2xl font-bold text-gray-700 sm:mt-px sm:pt-2 text-center"
-                >
-                  Add a Task{" "}
-                  <p className="mt-1 mx-auto px-4 lg:px-36 text-sm text-gray-400 font-light w-5/6">
-                    Add a task that you have been procrastinating about
-                    completing! Not sure how this works? Click{" "}
-                    <a href="#" className="underline">
+              <div className="space-y-6 sm:space-y-5 border-2 w-3/6 py-4 mx-auto text-center ">
+                <section className="flex flex-col items-center p-6 mx-auto text-center w-2/3 ">
+                  <h3 className="text-xl font-bold mb-4">Add a Task Here!</h3>
+                  <p className="mb-4 text-sm font-light">
+                    Please connect your wallet to add a task. If you are not
+                    sure what a wallet is, please see our FAQ's{" "}
+                    <Link href="/how-it-works" passHref>
+                      <p className="underline  mb-1 text-sm font-light">
+                        here.
+                      </p>
+                    </Link>
+                    NOTE: In order to limit spammers, registration is required
+                    in order to take part - please complete this quick
+                    application form{" "}
+                    <a
+                      href="https://airtable.com/shrDASlmULZmdC0C1"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline"
+                    >
                       here
-                    </a>
-                    .
+                    </a>{" "}
+                    if this is your first time adding a task. Thank you!
                   </p>
-                </label>
-
+                </section>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
                     id="task"
@@ -220,8 +241,16 @@ export default function Home({ initialItems }) {
                 </div>
               </div>
             </form>
-            <section>
-              <ul className="text-black py-5">
+            {/* <section className="mt-12">
+              <h3 className="text-xl font-bold py-1 text-center">
+                Latest Tasks Being Completed by Women Who Work Online 🥳:
+              </h3>
+            </section> */}
+            <section className="w-2/3 mx-auto">
+              <h3 className="text-xl font-bold py-1 text-center">
+                Latest Tasks Being Completed by Women Who Work Online 🥳:
+              </h3>
+              <ul className="text-black py-3">
                 {items &&
                   items?.map((item) => <Item key={item.id} item={item} />)}
               </ul>

@@ -3,15 +3,15 @@ import joinClassNames from "../utils/joinClassNames";
 export default function DashboardNav({ page }) {
   let navigation = [
     {
-      name: "My Events",
-      href: `/my-events/upcoming`,
-      current: page == "events",
+      name: "Create/Edit Profile",
+      href: `/create-profile`,
+      current: page == "members",
     },
-    {
-      name: "My RSVPs",
-      href: `/my-rsvps/upcoming`,
-      current: page == "rsvps",
-    },
+    // {
+    //   name: "My RSVPs",
+    //   href: `/my-rsvps/upcoming`,
+    //   current: page == "rsvps",
+    // },
   ];
 
   return (

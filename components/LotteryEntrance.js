@@ -73,10 +73,10 @@ export default function LotteryEntrance() {
   }
 
   useEffect(() => {
-    if (isWeb3Enabled) {
+    if (account) {
       updateUIValues();
     }
-  }, [isWeb3Enabled]);
+  }, []);
   // no list means it'll update everytime anything changes or happens
   // empty list means it'll run once after the initial rendering
   // and dependencies mean it'll run whenever those things in the list change

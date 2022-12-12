@@ -29,30 +29,30 @@ export default function DirectoriesMenu() {
                 Member Directory
               </a>
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>       
               <a
                 href={`/events`}
                 className="text-gray-700 block px-4 py-2 text-sm cursor-pointer  hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Member Events
-              </a>
-            </Menu.Item>
-            <Menu.Item>
-              <a
-                href={`/services`}
-                className="text-gray-700 block px-4 py-2 text-sm cursor-pointer  hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Member Services
-              </a>
-            </Menu.Item>
-            <Menu.Item>
-              <a
-                href={`/products`}
-                className="text-gray-700 block px-4 py-2 text-sm cursor-pointer  hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Member Products
-              </a>
-            </Menu.Item>
+                              Member Events
+                            </a>
+                          </Menu.Item>
+                          <Menu.Item>
+                            <a
+                              href={`/services`}
+                              className="text-gray-700 block px-4 py-2 text-sm cursor-pointer  hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              Member Services
+                            </a>
+                          </Menu.Item>
+                          <Menu.Item>
+                            <a
+                              href={`/products`}
+                              className="text-gray-700 block px-4 py-2 text-sm cursor-pointer  hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              Member Products
+                            </a>
+                          </Menu.Item> */}
           </div>
         </Menu.Items>
       </Transition>
