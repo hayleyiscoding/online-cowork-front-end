@@ -289,7 +289,13 @@ export default function Home({ initialItems }) {
 
 export async function getServerSideProps(context) {
   try {
-    const items = await table.select({}).firstPage();
+    const items = await table
+      .select({
+        // Selecting the first 2 records in Grid view:
+        maxRecords: 30,
+        view: "Grid view",
+      })
+      .firstPage();
     return {
       props: {
         initialItems: minifyItems(items),
