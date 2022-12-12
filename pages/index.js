@@ -12,6 +12,7 @@ import LandingLottery from "../components/LandingLottery";
 import { table, minifyItems } from "../utils/Airtable";
 import { ItemsContext } from "../context/items";
 import Item from "../components/Item";
+import LotteryPageStats from "../components/LotteryPageStats";
 
 export default function Home({ initialItems }) {
   const { data: account } = useAccount();
@@ -94,12 +95,16 @@ export default function Home({ initialItems }) {
   }, [initialItems, setItems]);
 
   const [item, setItem] = useState("");
+  const [amount, setAmount] = useState(1);
+  const [email, setEmail] = useState("");
   const { addItem } = useContext(ItemsContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addItem(item);
+    addItem(item, email);
     setItem("");
+    setAmount(1);
+    setEmail("");
   };
 
   useEffect(() => {
@@ -142,11 +147,16 @@ export default function Home({ initialItems }) {
 
   return (
     <LandingLottery>
+      <section>
+        <LotteryPageStats initialItems={initialItems} />
+      </section>
       <section className="relative py-1">
         {!account && (
           <div>
             <section className="flex flex-col items-center p-6 mx-auto border w-1/3 text-center sm:w-12/12">
-              <h3 className="text-xl font-bold mb-4">Add a Task Here!</h3>
+              <h3 className="text-xl font-bold mb-4">
+                Grab a lottery ticket here by adding a business task!
+              </h3>
               <p className="mb-4 text-sm font-light">
                 Please connect your wallet to add a task. If you are not sure
                 what a wallet is, please see our FAQ's{" "}
@@ -189,7 +199,9 @@ export default function Home({ initialItems }) {
             >
               <div className="space-y-6 sm:space-y-5 border-2 w-3/6 py-4 mx-auto text-center ">
                 <section className="flex flex-col items-center p-6 mx-auto text-center w-2/3 ">
-                  <h3 className="text-xl font-bold mb-4">Add a Task Here!</h3>
+                  <h3 className="text-xl font-bold mb-4">
+                    Grab a lottery ticket here by adding a business task!
+                  </h3>
                   <p className="mb-4 text-sm font-light">
                     Please connect your wallet to add a task. If you are not
                     sure what a wallet is, please see our FAQ's{" "}
@@ -213,6 +225,27 @@ export default function Home({ initialItems }) {
                   </p>
                 </section>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-bold text-gray-900"
+                  >
+                    Your email address:
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your email address"
+                  />
+                  <label
+                    htmlFor="task"
+                    className="block text-sm font-bold text-gray-900"
+                  >
+                    Task that you would like to complete:
+                  </label>
                   <input
                     id="task"
                     name="task"
@@ -222,6 +255,23 @@ export default function Home({ initialItems }) {
                     onChange={(e) => setItem(e.target.value)}
                     placeholder="e.g. Write a blog about 10 tips for branding..."
                     maxLength={35}
+                  />
+                  <label
+                    htmlFor="amount"
+                    className="block text-sm font-bold text-gray-900"
+                  >
+                    Amount to Pay (in MATIC - minimum 1 MATIC):
+                  </label>
+                  <input
+                    id="amount"
+                    name="amount"
+                    type="text"
+                    className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
+                    required
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="e.g. 5"
+                    step={1}
+                    min={1}
                   />
 
                   <div
@@ -236,6 +286,26 @@ export default function Home({ initialItems }) {
                       Get it done!
                     </button>
                   </div>
+                  <p className="p-8 font-xs w-1/2 mx-auto">
+                    By adding your task you agree to our{" "}
+                    <a
+                      href="https://onlinecowork.com/terms-and-conditions"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline"
+                    >
+                      terms and conditions{" "}
+                    </a>
+                    and{" "}
+                    <a
+                      href="https://onlinecowork.com/privacy-policy"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline"
+                    >
+                      privacy policy
+                    </a>
+                  </p>
                 </div>
               </div>
             </form>
@@ -291,8 +361,8 @@ export async function getServerSideProps(context) {
   try {
     const items = await table
       .select({
-        // Selecting the first 2 records in Grid view:
-        maxRecords: 30,
+        // Selecting the first 20 records in Grid view:
+        maxRecords: 20,
         view: "Grid view",
       })
       .firstPage();

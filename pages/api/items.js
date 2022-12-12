@@ -4,8 +4,8 @@ export default async (_req, res) => {
   try {
     const records = await table
       .select({
-        // Selecting the first 30 records in Grid view:
-        maxRecords: 30,
+        // Selecting the first 20 records in Grid view:
+        maxRecords: 20,
         view: "Grid view",
       })
       .firstPage();

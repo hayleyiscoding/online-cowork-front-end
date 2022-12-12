@@ -2,15 +2,15 @@ import React from "react";
 // import { HiOutlineInformationCircle } from "react-icons/hi";
 // import { GiPartyPopper } from "react-icons/gi";
 
-const LotteryPageStats = () => {
+const LotteryPageStats = ({ initialItems }) => {
   return (
     <div className="py-4 sm:py-16 lg:py-4">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 py-8 border-t border-b border-gray-200 xl:grid-cols-5">
           <div className="pb-10 lg:pb-0">
-            <p className="text-sm font-medium text-gray-600">Tasks Completed</p>
+            <p className="text-sm font-medium text-gray-600">Tasks Added</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-gray-900">2195</p>
+              <p className="text-2xl font-bold text-gray-900">500</p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 36%
                 <svg
@@ -37,7 +37,9 @@ const LotteryPageStats = () => {
           <div className="pb-10 pl-10 border-gray-200 xl:pb-0 xl:border-l">
             <p className="text-sm font-medium text-gray-600">Total Tasks</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-gray-900">254000</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {initialItems.length}
+              </p>
               {/* <span className="text-xs font-semibold text-red-500 ml-2.5 bg-red-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 15%
                 <svg
