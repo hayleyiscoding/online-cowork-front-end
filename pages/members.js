@@ -1,67 +1,18 @@
 import LandingProfiles from "../components/LandingProfiles";
-import { useCallback, useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
+import { table, minifyProfiles } from "../utils/AirtableProfiles";
+import { ProfilesContext } from "../context/profiles";
 
-const LATEST_PROFILES = gql`
-  query LatestProfiles {
-    profiles(
-      first: 20
-      orderBy: blockTimestamp
-      orderDirection: desc
-      where: { isDisabled: false }
-    ) {
-      creatorAddress
-      id
-      profileMetadata {
-        bio
-        city
-        country
-        facebookGroup
-        facebookPage
-        firstName
-        freebie
-        id
-        imageURL
-        instagram
-        jobTitle
-        linkedin
-        otherLink
-        pinterest
-        tiktok
-        twitter
-        website
-      }
-    }
-  }
-`;
-
-// const UPCOMING_EVENTS = gql`
-//   query Events($currentTimestamp: String) {
-//     events(
-//       where: { eventTimestamp_gt: $currentTimestamp }
-//       orderBy: eventTimestamp
-//       orderDirection: desc
-//     ) {
-//       id
-//       name
-//       eventTimestamp
-//       imageURL
-//     }
-//   }
-// `;
-
-export default function Members() {
+export default function Members({ initialProfiles }) {
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const { profiles, setProfiles } = useContext(ProfilesContext);
 
   // const [currentTimestamp, setCurrentTimestamp] = useState(
   //   new Date().getTime().toString()
   // );
-
-  const { loading, error, data, refetch } = useQuery(LATEST_PROFILES, {
-    variables: { searchText },
-  });
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
@@ -75,9 +26,7 @@ export default function Members() {
       } else {
         setFilteredProfiles(
           data.profiles.filter((profile) =>
-            profile?.profileMetadata?.firstName
-              .toLowerCase()
-              .includes(searchText.toLowerCase())
+            profile.name.toLowerCase().includes(searchText.toLowerCase())
           )
         );
       }
@@ -135,14 +84,30 @@ export default function Members() {
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
-        {filteredProfiles
-          .filter((p) => p.profileMetadata)
-          .map((profile) => (
-            <li key={profile.id}>
-              <ProfileCard id={profile.id} metadata={profile.profileMetadata} />
-            </li>
-          ))}
+        {filteredProfiles.map((profile) => (
+          <li key={profile.walletAddress}>
+            <ProfileCard id={profile.walletAddress} profile={profile} />
+          </li>
+        ))}
       </ul>
     </LandingProfiles>
   );
+}
+
+export async function getServerSideProps(context) {
+  try {
+    const profiles = await table.select({}).firstPage();
+    return {
+      props: {
+        initialProfiles: minifyProfiles(profiles),
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        err: "Something went wrong 😕",
+      },
+    };
+  }
 }

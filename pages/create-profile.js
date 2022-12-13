@@ -1,30 +1,22 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 // import getRandomImage from "../utils/getRandomImage";
-import { ethers } from "ethers";
-import connectProfilesContract from "../utils/connectProfilesContract";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
-import { Web3Storage } from "web3.storage";
 import { useRouter } from "next/router";
+import { table, minifyProfiles } from "../utils/AirtableProfiles";
+import { ProfilesContext } from "../context/items";
 
-function makeStorageClient() {
-  return new Web3Storage({
-    token: process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN,
-  });
-}
-
-export default function CreateProfile() {
+export default function CreateProfile({ initialProfiles }) {
   const { data: account } = useAccount();
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
-  const [profileID, setProfileID] = useState(null);
 
   const [firstName, setFirstName] = useState("");
-  // const [eventTime, setProfileTime] = useState("");
+  const [email, setEmail] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -43,93 +35,55 @@ export default function CreateProfile() {
 
   const router = useRouter();
 
-  async function handleSubmit(e) {
+  const { profiles, setProfiles } = useContext(ProfilesContext);
+  const { addProfile } = useContext(ProfilesContext);
+
+  const walletAddress = account.address;
+
+  useEffect(() => {
+    setProfiles(initialProfiles);
+  }, [initialProfiles, setProfiles]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const body = {
-      firstName: firstName,
-      jobTitle: jobTitle,
-      city: city,
-      country: country,
-      website: websiteLink,
-      facebookPage: facebookLink,
-      facebookGroup: facebookGroupLink,
-      twitter: twitterLink,
-      instagram: instagramLink,
-      pinterest: pinterestLink,
-      tiktok: tiktokLink,
-      linkedin: linkedinLink,
-      freebie: freebieLink,
-      otherLink: otherLink,
-      bio: bio,
-      imageURL: "/" + coverImage.name,
-    };
-
-    try {
-      const buffer = Buffer.from(JSON.stringify(body));
-      const files = [new File([buffer], "data.json"), coverImage];
-      const client = makeStorageClient();
-      const cid = await client.put(files);
-      await createProfile(cid);
-    } catch (error) {
-      alert(
-        `Oops! Something went wrong. Please refresh and try again. Error ${error}`
-      );
-    } finally {
-      setFirstName("");
-      setJobTitle("");
-      setCity("");
-      setCountry("");
-      setWebsiteLink("");
-      setFacebookLink("");
-      setFacebookGroupLink("");
-      setTwitterLink("");
-      setInstagramLink("");
-      setPinterestLink("");
-      setTiktokLink("");
-      setLinkedinLink("");
-      setFreebieLink("");
-      setOtherLink("");
-      setBio("");
-    }
-
-    async function createProfile(cid) {
-      try {
-        const profileContract = connectProfilesContract();
-
-        if (profileContract) {
-          let profileDataCID = cid;
-          //   let profileTimestamp = profileDateAndTime.getTime();
-          const txn = await profileContract.createNewProfile(profileDataCID);
-          setLoading(true);
-          console.log("Minting...", txn.hash);
-          let wait = await txn.wait();
-          console.log("Minted -- ", txn.hash);
-
-          //   setProfileID(wait.profiles[0].args[0]);
-
-          setSuccess(true);
-          setLoading(false);
-          setMessage(
-            "Your profile has been created successfully. Please note that it may take a few minutes to appear on the home page."
-          );
-          setTimeout(() => {
-            router.push("/");
-          }, 5000);
-        } else {
-          console.log("Error getting contract.");
-        }
-      } catch (error) {
-        setSuccess(false);
-        setMessage(
-          `There was an error creating your profile: ${error.message}`
-        );
-        setLoading(false);
-        console.log(error);
-      }
-    }
-    console.log("Form submitted");
-  }
+    await addProfile({
+      firstName,
+      email,
+      walletAddress,
+      jobTitle,
+      city,
+      country,
+      websiteLink,
+      facebookLink,
+      facebookGroupLink,
+      twitterLink,
+      instagramLink,
+      pinterestLink,
+      tiktokLink,
+      linkedinLink,
+      freebieLink,
+      otherLink,
+      bio,
+      // coverImage??
+    });
+    setFirstName("");
+    setEmail("");
+    setJobTitle("");
+    setCity("");
+    setCountry("");
+    setWebsiteLink("");
+    setFacebookLink("");
+    setFacebookGroupLink("");
+    setTwitterLink("");
+    setInstagramLink("");
+    setPinterestLink("");
+    setTiktokLink("");
+    setLinkedinLink("");
+    setFreebieLink("");
+    setOtherLink("");
+    setBio("");
+    // task, email, amount: amount
+  };
 
   useEffect(() => {
     // disable scroll on <input> elements of type number
@@ -139,6 +93,7 @@ export default function CreateProfile() {
       }
     });
   });
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
@@ -146,7 +101,7 @@ export default function CreateProfile() {
         <meta name="description" content="Create your profile" />
       </Head>
       <section className="relative py-12">
-        {loading && (
+        {/* {loading && (
           <Alert
             alertType={"loading"}
             alertBody={"Please wait"}
@@ -169,7 +124,7 @@ export default function CreateProfile() {
             triggerAlert={true}
             color={"palevioletred"}
           />
-        )}
+        )} */}
 
         {!success && (
           <div>
@@ -177,14 +132,10 @@ export default function CreateProfile() {
               Create Your Profile
             </h1>
             <p className="font-light text-base pr-40 pb-8 pt-8">
-              Below you will find a form to create your profile. It is free to
-              add your profile, but a small gas fee is required for the
-              transaction. You will need to have a small amount of MATIC in your
-              wallet to cover this (usually less than US$0.01). (((Please note
-              that this data will be stored on the blockchain and thus unable to
-              be deleted?? Put something here) Please do not add any sensitive
-              information. By completing this form you agree to our terms and
-              conditions. You can edit your profile once it has been submitted.
+              Below you will find a form to create your profile. Once you have
+              created your added your details below, we will approve it within
+              72 hours. If approved, you may participate in the Online CoWork
+              Lottery! Please keep an eye on your email (and spam folder!)
             </p>
           </div>
         )}
@@ -219,116 +170,28 @@ export default function CreateProfile() {
                 </div>
               </div>
 
-              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="date"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Date & time
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Your event date and time
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 flex flex-wrap sm:flex-nowrap gap-2">
-                <div className="w-1/2">
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="job-title"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Email{" "}
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Write your email address
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
+                    id="email"
+                    name="email"
+                    type="text"
+                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                     required
-                    //   value={eventDate}
-                    //   onChange={(e) => setEventDate(e.target.value)}
-                  />
-                </div>
-                <div className="w-1/2">
-                  <input
-                    id="time"
-                    name="time"
-                    type="time"
-                    className="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                    required
-                    //   value={eventTime}
-                    //   onChange={(e) => setEventTime(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
-            </div> */}
-
-              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="event-cost"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Event Cost
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Write the cost of your event in US Dollars
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  id="event-cost"
-                  name="event-cost"
-                  type="text"
-                  className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                  required
-                  // value={eventCost}
-                  // onChange={(e) => setEventCost(e.target.value)}
-                  placeholder="15"
-                />
-              </div>
-            </div> */}
-
-              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="max-capacity"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Max capacity
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Limit the number of spots available for your event.
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  type="number"
-                  name="max-capacity"
-                  id="max-capacity"
-                  min="1"
-                  placeholder="100"
-                  className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                  // value={maxCapacity}
-                  // onChange={(e) => setMaxCapacity(e.target.value)}
-                />
-              </div>
-            </div> */}
-
-              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="refundable-deposit"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Refundable deposit
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Require a refundable deposit (in MATIC) to reserve one spot at
-                  your event
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  type="number"
-                  name="refundable-deposit"
-                  id="refundable-deposit"
-                  min="0"
-                  step="any"
-                  inputMode="decimal"
-                  placeholder="0.001"
-                  className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border border-gray-300 rounded-md"
-                  // value={refund}
-                  // onChange={(e) => setRefund(e.target.value)}
-                />
-              </div>
-            </div> */}
 
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
@@ -526,7 +389,6 @@ export default function CreateProfile() {
                     name="pinterest-link"
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    required
                     value={pinterestLink}
                     onChange={(e) => setPinterestLink(e.target.value)}
                   />
@@ -549,7 +411,6 @@ export default function CreateProfile() {
                     name="tiktok-link"
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    required
                     value={tiktokLink}
                     onChange={(e) => setTiktokLink(e.target.value)}
                   />
@@ -572,7 +433,6 @@ export default function CreateProfile() {
                     name="linkedin-link"
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    required
                     value={linkedinLink}
                     onChange={(e) => setLinkedinLink(e.target.value)}
                   />
@@ -597,7 +457,6 @@ export default function CreateProfile() {
                     name="freebie-link"
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    required
                     value={freebieLink}
                     onChange={(e) => setFreebieLink(e.target.value)}
                   />
@@ -620,7 +479,6 @@ export default function CreateProfile() {
                     name="other-link"
                     type="text"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    required
                     value={otherLink}
                     onChange={(e) => setOtherLink(e.target.value)}
                   />
@@ -634,7 +492,7 @@ export default function CreateProfile() {
                 >
                   Bio
                   <p className="mt-2 text-sm text-gray-400">
-                    Let people know a little bit about you! Max 60 words.
+                    Let people know a little bit about you! Max 500 characters.
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -645,6 +503,7 @@ export default function CreateProfile() {
                     className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
+                    max={500}
                   />
                 </div>
               </div>
@@ -679,7 +538,7 @@ export default function CreateProfile() {
                   htmlFor="cover-image"
                   className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
                 >
-                  Cover image (Optional)
+                  Cover image
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
                     Upload a cover image for your profile. Size: 8000 X 1960px.
                     Visit our member directory to see examples of good cover
@@ -693,7 +552,6 @@ export default function CreateProfile() {
                     name="cover-image"
                     type="file"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    required
                     onChange={(event) => setCoverImage(event.target.files[0])}
                   />
                 </div>
@@ -701,12 +559,12 @@ export default function CreateProfile() {
             </div>
             <div className="pt-5">
               <div className="flex justify-end">
-                {/* <Link
+                <Link
                   href="/"
                   className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                 >
                   Cancel
-                </Link> */}
+                </Link>
                 <button
                   type="submit"
                   className="ml-3 inline-flex justify-center py-2 px-4 border-2 border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:text-black hover:border-2 border-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
@@ -717,11 +575,11 @@ export default function CreateProfile() {
             </div>
           </form>
         )}
-        {success && profileID && (
+        {success && (
           <div>
-            Success! Please wait a few minutes, then check out your event page{" "}
+            Success! Please wait a few minutes, then check out your profile page{" "}
             <span className="font-bold">
-              <Link href={`/profiles/${profileID}`}>here</Link>
+              <Link href={`/profiles/${walletAddress}`}>here</Link>
             </span>
           </div>
         )}
@@ -738,3 +596,52 @@ export default function CreateProfile() {
     </div>
   );
 }
+
+export async function getServerSideProps(context) {
+  try {
+    const profiles = await table.select({}).firstPage();
+    return {
+      props: {
+        initialProfiles: minifyProfiles(profiles),
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        err: "Something went wrong 😕",
+      },
+    };
+  }
+}
+
+//         const txn = await profileContract.createNewProfile(profileDataCID);
+//         setLoading(true);
+//         console.log("Minting...", txn.hash);
+//         let wait = await txn.wait();
+//         console.log("Minted -- ", txn.hash);
+
+//         //   setProfileID(wait.profiles[0].args[0]);
+
+//         setSuccess(true);
+//         setLoading(false);
+//         setMessage(
+//           "Your profile has been created successfully. Please note that it may take a few minutes to appear on the home page."
+//         );
+//         setTimeout(() => {
+//           router.push("/");
+//         }, 5000);
+// } else {
+//         console.log("Error getting contract.");
+//       }
+//     } catch (error) {
+//       setSuccess(false);
+//       setMessage(
+//         `There was an error creating your profile: ${error.message}`
+//       );
+//       setLoading(false);
+//       console.log(error);
+//     }
+//   }
+//   console.log("Form submitted");
+// }
