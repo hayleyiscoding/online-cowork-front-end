@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import { useRouter } from "next/router";
 import LandingLottery from "../components/LandingLottery";
-import { minifyItems, taskAirtable } from "../utils/Airtable";
+import { minifyItems, taskAirtable } from "../utils/airtable";
 import { ItemsContext } from "../context/items";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";

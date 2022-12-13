@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+import "../styles/loader.css";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
