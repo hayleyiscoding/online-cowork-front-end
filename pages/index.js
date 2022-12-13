@@ -13,7 +13,6 @@ import { table, minifyItems } from "../utils/Airtable";
 import { ItemsContext } from "../context/items";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";
-import LotteryPageStatsSecond from "../components/LotteryPageStatsSecondVersion";
 
 export default function Home({ initialItems }) {
   const { data: account } = useAccount();
@@ -21,11 +20,6 @@ export default function Home({ initialItems }) {
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
-
-  //   const [task, setTask] = useState("");
-  //   const [taskList, setTaskList] = useState([]);
-  //   const [totalTasks, setTotalTasks] = useState(0);
-  //   const [totalWeeklyTasks, setTotalWeeklyTasks] = useState(0);
 
   const [entranceFee, setEntranceFee] = useState("0");
   const [numberOfPlayers, setNumberOfPlayers] = useState("0");
@@ -88,7 +82,6 @@ export default function Home({ initialItems }) {
   // };
   //   }
 
-  console.log({ initialItems });
   const { items, setItems } = useContext(ItemsContext);
 
   useEffect(() => {
