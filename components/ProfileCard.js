@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function ProfileCard({ id, profile }) {
-  const { firstName, imageURL, jobTitle } = profile;
+  const { firstName, imageURL, jobTitle } = profile.fields;
   return (
     <div className="group relative clickable-card rounded-lg focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500">
       <Link href={`/members/${id}`}>

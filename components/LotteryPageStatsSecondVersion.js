@@ -13,7 +13,7 @@ export default function LotteryPageStats({ initialItems }) {
           </p>
           <p className="text-3xl font-normal sm:text-4xl lg:text-5xl xl:text-6xl pt-40">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500 ">
-              {initialItems.length}
+              {initialItems?.length}
             </span>
           </p>
           <p className="mt-3 text-xs font-normal text-black sm:text-base lg:text-lg">

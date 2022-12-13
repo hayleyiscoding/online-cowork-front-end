@@ -40,7 +40,7 @@ const LotteryPageStats = ({ initialItems }) => {
             </p>
             <div className="inline-flex items-center mt-3">
               <p className="text-2xl font-bold text-gray-900">
-                {initialItems.length}
+                {initialItems?.length}
               </p>
               {/* <span className="text-xs font-semibold text-red-500 ml-2.5 bg-red-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 15%
