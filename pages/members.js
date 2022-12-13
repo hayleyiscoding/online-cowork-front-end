@@ -92,7 +92,6 @@ export default function Members({ initialProfiles }) {
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
-    console.log({ profiles });
     return {
       props: {
         initialProfiles: minifyItems(profiles),

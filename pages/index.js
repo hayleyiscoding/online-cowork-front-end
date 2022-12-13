@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import { useRouter } from "next/router";
 import LandingLottery from "../components/LandingLottery";
-import { table, minifyItems } from "../utils/Airtable";
+import { minifyItems, taskAirtable } from "../utils/Airtable";
 import { ItemsContext } from "../context/items";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";
@@ -85,18 +85,20 @@ export default function Home({ initialItems }) {
 
   const { items, setItems } = useContext(ItemsContext);
 
+  console.log({ items, initialItems });
+
   useEffect(() => {
     setItems(initialItems);
   }, [initialItems, setItems]);
 
   const [task, setTask] = useState("");
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState("1");
   const [email, setEmail] = useState("");
   const { addItem } = useContext(ItemsContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addItem({ task, email, amount: amount });
+    await addItem({ task, email, amount: amount, address: account?.address });
     setTask("");
     setAmount(1);
     setEmail("");
@@ -362,7 +364,7 @@ export default function Home({ initialItems }) {
 
 export async function getServerSideProps(context) {
   try {
-    const items = await table
+    const items = await taskAirtable
       .select({
         // Selecting the first 20 records in Grid view:
         maxRecords: 20,
