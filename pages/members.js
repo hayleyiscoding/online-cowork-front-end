@@ -1,13 +1,24 @@
 import LandingProfiles from "../components/LandingProfiles";
 import { useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
-import { ProfilesContext } from "../context/profiles";
-import { profileAirtable } from "../utils/airtable";
+import { profileAirtable, minifyItems } from "../utils/airtable";
+
+function filterArray(array, searchText) {
+  const filterItems = ["firstName", "city", "bio", "jobTitle", "country"];
+  return array.filter((item) => {
+    return filterItems.some((key) => {
+      const value = item.fields[key]?.toLowerCase() || "";
+      return value.includes(searchText);
+    });
+  });
+}
 
 export default function Members({ initialProfiles }) {
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
+
+  console.log(filterArray(initialProfiles, searchText));
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
@@ -18,11 +29,7 @@ export default function Members({ initialProfiles }) {
       if (!searchText) {
         setFilteredProfiles(initialProfiles);
       } else {
-        setFilteredProfiles(
-          initialProfiles.filter((profile) =>
-            profile.firstName.toLowerCase().includes(searchText.toLowerCase())
-          )
-        );
+        setFilteredProfiles(filterArray(initialProfiles, searchText));
       }
     }
   }
@@ -82,12 +89,13 @@ export default function Members({ initialProfiles }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
+    console.log({ profiles });
     return {
       props: {
-        initialProfiles: minifyProfiles(profiles),
+        initialProfiles: minifyItems(profiles),
       },
     };
   } catch (error) {
