@@ -100,9 +100,9 @@ export default function Home({ initialItems }) {
   const [email, setEmail] = useState("");
   const { addItem } = useContext(ItemsContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addItem({ task, email, amount: amount });
+    await addItem({ task, email, amount: amount });
     setTask("");
     setAmount(1);
     setEmail("");
@@ -242,6 +242,7 @@ export default function Home({ initialItems }) {
                     required
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Your email address"
+                    value={email}
                   />
                   <label
                     htmlFor="task"
@@ -258,6 +259,7 @@ export default function Home({ initialItems }) {
                     onChange={(e) => setTask(e.target.value)}
                     placeholder="e.g. Write a blog about 10 tips for branding..."
                     maxLength={35}
+                    value={task}
                   />
                   <label
                     htmlFor="amount"
@@ -275,6 +277,7 @@ export default function Home({ initialItems }) {
                     placeholder="e.g. 5"
                     step={1}
                     min={1}
+                    value={amount}
                   />
 
                   <div
