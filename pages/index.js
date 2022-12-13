@@ -85,8 +85,6 @@ export default function Home({ initialItems }) {
 
   const { items, setItems } = useContext(ItemsContext);
 
-  console.log({ items, initialItems });
-
   useEffect(() => {
     setItems(initialItems);
   }, [initialItems, setItems]);
