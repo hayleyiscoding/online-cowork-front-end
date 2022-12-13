@@ -1,17 +1,13 @@
 const Airtable = require("airtable");
 
-// Authenticate
-Airtable.configure({
-  apiKey: process.env.AIRTABLE_TOKEN,
-});
-
 // Initialize a base
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID
 );
 
 // Reference a table
-const table = base(process.env.AIRTABLE_TABLE_NAME);
+const taskAirtable = base(process.env.AIRTABLE_TABLE_NAME);
+const profileAirtable = base(process.env.AIRTABLE_PROFILES_TABLE_NAME);
 
 // To get minified records array
 const minifyItems = (records) =>
@@ -28,4 +24,4 @@ const getMinifiedItem = (record) => {
   };
 };
 
-export { table, minifyItems, getMinifiedItem };
+export { taskAirtable, profileAirtable, minifyItems, getMinifiedItem };

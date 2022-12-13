@@ -7,10 +7,10 @@ import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import { useRouter } from "next/router";
 import { table, minifyProfiles } from "../utils/AirtableProfiles";
-import { ProfilesContext } from "../context/items";
+import { ProfilesContext } from "../context/profiles";
 
 export default function CreateProfile({ initialProfiles }) {
-  const { data: account } = useAccount();
+  const { data: account, isConnected } = useAccount();
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
@@ -35,10 +35,7 @@ export default function CreateProfile({ initialProfiles }) {
 
   const router = useRouter();
 
-  const { profiles, setProfiles } = useContext(ProfilesContext);
-  const { addProfile } = useContext(ProfilesContext);
-
-  const walletAddress = account.address;
+  const { addProfile, profiles, setProfiles } = useContext(ProfilesContext);
 
   useEffect(() => {
     setProfiles(initialProfiles);
@@ -49,7 +46,7 @@ export default function CreateProfile({ initialProfiles }) {
     await addProfile({
       firstName,
       email,
-      walletAddress,
+      walletAddress: account?.address,
       jobTitle,
       city,
       country,
@@ -64,7 +61,6 @@ export default function CreateProfile({ initialProfiles }) {
       freebieLink,
       otherLink,
       bio,
-      // coverImage??
     });
     setFirstName("");
     setEmail("");
@@ -140,7 +136,7 @@ export default function CreateProfile({ initialProfiles }) {
           </div>
         )}
 
-        {account && !success && (
+        {!isConnected && !success && (
           <form
             onSubmit={handleSubmit}
             className="space-y-8 divide-y divide-gray-200"
@@ -584,7 +580,7 @@ export default function CreateProfile({ initialProfiles }) {
           </div>
         )}
 
-        {!account && (
+        {!isConnected && (
           <section className="flex flex-col items-start py-8">
             <p className="mb-4">
               Please connect your wallet to create a profile.
