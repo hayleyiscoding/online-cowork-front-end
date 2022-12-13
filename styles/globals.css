@@ -29,3 +29,9 @@ input[type="number"]::-webkit-outer-spin-button {
   content: " *";
   color: red;
 }
+
+.box-shadow-n {
+  background: linear-gradient(145deg, #333c56, #232a3c);
+  border-radius: 5px;
+  box-shadow: 9.31px 9.31px 13px #202737, -9.31px -9.31px 13px #363f5b;
+}
