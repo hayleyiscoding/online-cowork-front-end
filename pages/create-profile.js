@@ -44,8 +44,6 @@ export default function CreateProfile({ initialProfiles }) {
     setProfiles(initialProfiles);
   }, [initialProfiles, setProfiles]);
 
-  console.log({ coverImage, avatarImage });
-
   const uploadImage = async (image, onUpload) => {
     setIsUploading(true);
     const data = new FormData();
@@ -53,7 +51,6 @@ export default function CreateProfile({ initialProfiles }) {
     data.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET);
     data.append("cloud_name", process.env.NEXT_PUBLIC_CLOUD_NAME);
     try {
-      console.log("called", image, onUpload);
       const imageData = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
         {
@@ -63,7 +60,6 @@ export default function CreateProfile({ initialProfiles }) {
       ).then((resp) => resp.json());
 
       onUpload(imageData.url);
-      console.log(imageData.url);
     } catch (error) {
       console.log(error);
     } finally {

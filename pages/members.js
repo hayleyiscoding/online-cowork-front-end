@@ -18,8 +18,6 @@ export default function Members({ initialProfiles }) {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log(filterArray(initialProfiles, searchText));
-
   function searchInputHandler(e) {
     setSearchText(e.target.value);
   }
