@@ -1,9 +1,9 @@
-import { taskAirtable, getMinifiedItem } from "../../utils/Airtable";
+import { profileAirtable, getMinifiedItem } from "../../utils/Airtable";
 
 const handler = async (req, res) => {
   const fields = req.body;
   try {
-    const newRecords = await taskAirtable.create([
+    const newRecords = await profileAirtable.create([
       {
         fields,
       },

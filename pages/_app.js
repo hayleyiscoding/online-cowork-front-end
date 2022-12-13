@@ -11,6 +11,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../apollo-client";
 
 import { ItemsProvider } from "../context/items";
+import { ProfilesProvider } from "../context/profiles";
 
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 
@@ -36,9 +37,11 @@ export default function MyApp({ Component, pageProps }) {
       <RainbowKitProvider chains={chains} coolMode>
         <ApolloProvider client={client}>
           <ItemsProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <ProfilesProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </ProfilesProvider>
           </ItemsProvider>
         </ApolloProvider>
       </RainbowKitProvider>
