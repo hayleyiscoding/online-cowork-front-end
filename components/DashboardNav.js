@@ -3,8 +3,8 @@ import joinClassNames from "../utils/joinClassNames";
 export default function DashboardNav({ page }) {
   let navigation = [
     {
-      name: "Create/Edit Profile",
-      href: `/create-profile`,
+      name: "My Profile",
+      href: `/my-profile`,
       current: page == "members",
     },
     // {
