@@ -1,5 +1,5 @@
 import Dashboard from "../../components/Dashboard";
 
 export default function MyProfiles() {
-  return <Dashboard page="profiles"></Dashboard>;
+  return <Dashboard page="my-dashboard"></Dashboard>;
 }

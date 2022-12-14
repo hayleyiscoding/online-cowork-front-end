@@ -10,7 +10,7 @@ export default function LandingProfiles({ children }) {
           content="The virtual office for women who work online"
         />
       </Head>
-      <section className="py-12">
+      <section className="pt-12 pb-4">
         <div className="w-full md:w-8/12 text-left">
           <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
             <span>Meet our </span>

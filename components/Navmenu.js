@@ -26,7 +26,7 @@ export default function Navmenu({ account, disconnect }) {
       >
         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {/* <Menu.Item>
+            <Menu.Item>
               {({ account }) => (
                 <a
                   href={`/create-profile`}
@@ -38,7 +38,7 @@ export default function Navmenu({ account, disconnect }) {
                   Create/Edit Profile
                 </a>
               )}
-            </Menu.Item> */}
+            </Menu.Item>
             {/* <Menu.Item>
               {({ account }) => (
                 <a

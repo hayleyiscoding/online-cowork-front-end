@@ -15,7 +15,7 @@ export default function HowItWorks() {
       <section className="py-12 bg-white sm:py-16 lg:py-20">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="text-center font-nunito">
-            <h2 className="text-3xl font-normal font-nunito text-gray-900 sm:text-4xl xl:text-5xl font-pj">
+            <h2 className="text-3xl font-bold font-nunito text-gray-900 sm:text-4xl xl:text-5xl font-pj">
               Frequently Asked Questions
             </h2>
             <p className="max-w-lg mx-auto mt-6 text-base text-gray-600 font-nunito font-light">
@@ -29,7 +29,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Why are you using blockchain technology for this?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg">
                 There are a few reasons for this! Firstly, Blockchain technology
                 provides an AMAZING way for us to create a lottery that is&nbsp;
                 <strong>completely automated and completely fair</strong>
@@ -55,7 +55,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Why did you create this lottery?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 If you earn money online, it means you likely have tasks to
                 complete - and you probably wouldn't mind some pocket money to
                 fund your business! This is where the lottery comes in. It aims
@@ -73,7 +73,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Who is this lottery aimed at?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 This lottery is aimed at helping women and non-binary people
                 with online businesses from around the world (including remote
                 workers!). People who work online from home, coffee shops and
@@ -91,7 +91,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 But do I have to be a women/non-binary person to participate?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 The Online CoWork lottery is aimed at helping{" "}
                 <strong>women and non-binary people specifically</strong> - as
                 this is a demographic that has historically been marginalized.
@@ -106,7 +106,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Ok, so what are the exact steps?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 1){" "}
                 <strong>Join the free Online CoWork Discord community</strong>{" "}
                 and <strong>make sure that you are verified</strong> by
@@ -197,7 +197,7 @@ export default function HowItWorks() {
                 Ok, I'm intrigued! So, how do I go about getting a free wallet
                 and loading it with MATIC?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 1) There are many different kinds of crypto wallets - but the
                 easiest is <strong>Metamask</strong>. It takes around 2 minutes
                 to sign up and it is added as a Chrome extension in your
@@ -375,7 +375,7 @@ export default function HowItWorks() {
                 That all sounds good, but will I get my 1 MATIC back if I
                 complete each task?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 We did consider this as an option when creating the platform.
                 However, it is impossible for us to know if you actually
                 completed your task or not. If all users "complete" their tasks,
@@ -393,7 +393,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 What kind of tasks can I add and how often can I add a task?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 You can add any business task that you have been procrastinating
                 about, or that you just need to do that day! It could be writing
                 a blog post, creating your website, emailing 3 clients, creating
@@ -413,7 +413,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Does the full 1 MATIC go into the lottery?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 We do a 70/30 split where 70% of each MATIC goes into the
                 lottery. The other 30% we keep as a service fee for business
                 expenses. This way we can have funding towards our businesses
@@ -425,7 +425,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Will you let us know if we've won?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 Unfortunately, as crypto wallets do not have identity associated
                 with them, we are unable to let you know - you would need to go
                 into your wallet every now and again to check!
@@ -437,7 +437,7 @@ export default function HowItWorks() {
                 I love what you're doing and I'd like to donate to the lottery
                 directly. How do I do this?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 That's amazing! We appreciate you! On the home page, you'll see
                 a button to donate directly to that week's lottery.
               </p>
@@ -447,7 +447,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 If I win the lottery, do I need to pay tax on my winnings?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 Unfortunately, we cannot give any tax advice. But as it is
                 income, please contact your accountant for advice about your
                 individual tax circumstances.
@@ -458,7 +458,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Does this lottery have a free community as well?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 Yes! Join us on Discord - the virtual office for women who work
                 online! Co-work and connect with others from around the world!
                 Click{" "}
@@ -478,7 +478,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Who can I contact if I have more questions?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 You are welcome to message us at info (at) onlinecowork.com!
                 However, as we are a very small team, please allow 3 ot 4 days
                 for a response. Thank you!
@@ -490,7 +490,7 @@ export default function HowItWorks() {
                 I would like to advertise my products and services, do you know
                 where I could do this?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 We have dedicated our home page (onlinecowork.com) to sharing
                 the events, products and services of women who work online!
                 Think of it as a more organized version of a Facebook Group
@@ -515,7 +515,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Can you tell me more about Blockchain security?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 The most important thing that you need to know right now is that
                 while blockchain technology is extremely useful and is changing
                 the face of many industries such as healthcare, finance, etc,
@@ -550,7 +550,7 @@ export default function HowItWorks() {
                 alternatives to buying MATIC with a credit/debit card, Apple
                 Pay, bank transfer, etc?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 There are a few ways that you can 'earn' crypto online - we
                 found{" "}
                 <a
@@ -572,7 +572,7 @@ export default function HowItWorks() {
               <p className="text-xl font-bold text-gray-900 sm:text-2xl font-pj">
                 Where can I learn more about Web3 and Blockchain Technology?
               </p>
-              <p className="mt-3 text-base font-normal text-gray-600 sm:mt-6 sm:text-lg font-pj">
+              <p className="mt-3 text-base font-extralight text-gray-600 sm:mt-6 sm:text-lg font-pj">
                 This{" "}
                 <a
                   href="https://hayleyiscoding.hashnode.dev/web-3-for-beginners"

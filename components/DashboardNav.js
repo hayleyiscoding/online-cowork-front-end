@@ -5,13 +5,13 @@ export default function DashboardNav({ page }) {
     {
       name: "My Profile",
       href: `/my-profile`,
-      current: page == "members",
+      current: page == "profile",
     },
-    // {
-    //   name: "My RSVPs",
-    //   href: `/my-rsvps/upcoming`,
-    //   current: page == "rsvps",
-    // },
+    {
+      name: "My Tasks",
+      href: `/my-tasks`,
+      current: page == "tasks",
+    },
   ];
 
   return (

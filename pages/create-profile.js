@@ -69,7 +69,7 @@ export default function CreateProfile({ initialProfiles }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     await addProfile({
       firstName,
       email,
@@ -107,7 +107,14 @@ export default function CreateProfile({ initialProfiles }) {
     setFreebieLink("");
     setOtherLink("");
     setBio("");
-    // task, email, amount: amount
+    setSuccess(true);
+    setLoading(false);
+    setMessage(
+      "Your profile has been submitted successfully! We aim to approve profiles as fast as we can, but please allow 24 to 72 hours - after which you will be able to see your profile in our member directory and participate in the lottery!"
+    );
+    setTimeout(() => {
+      router.push("/members");
+    }, 10000);
   };
 
   useEffect(() => {
@@ -126,7 +133,7 @@ export default function CreateProfile({ initialProfiles }) {
         <meta name="description" content="Create your profile" />
       </Head>
       <section className="relative py-12">
-        {/* {loading && (
+        {loading && (
           <Alert
             alertType={"loading"}
             alertBody={"Please wait"}
@@ -149,7 +156,7 @@ export default function CreateProfile({ initialProfiles }) {
             triggerAlert={true}
             color={"palevioletred"}
           />
-        )} */}
+        )}
 
         {!success && (
           <div>
@@ -605,14 +612,14 @@ export default function CreateProfile({ initialProfiles }) {
             </div>
           </form>
         )}
-        {success && (
+        {/* {success && (
           <div>
             Success! Please wait a few minutes, then check out your profile page{" "}
             <span className="font-bold">
-              <Link href={`/profiles/${walletAddress}`}>here</Link>
+              <Link href={`/profiles/${account.address}`}>here</Link>
             </span>
           </div>
-        )}
+        )} */}
 
         {!isConnected && (
           <section className="flex flex-col items-start py-8">

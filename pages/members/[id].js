@@ -39,14 +39,18 @@ function MemberProfile() {
       </Head>
       <section className="relative py-12">
         {/* <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6> */}
-        <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 lg:mb-12">
-          Beijing, China
+        <h1 className="py-1 text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 ">
+          Jane - Social Media Manager
         </h1>
-        <div className="flex flex-wrap-reverse lg:flex-nowrap">
+        <div className="flex flex-wrap lg:flex-nowrap">
           <div className="w-full pr-0 lg:pr-24 xl:pr-32">
-            <div className="mb-8 w-full aspect-w-7 aspect-h-7 rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <div className="mb-8 w-full aspect-w-7 aspect-h-7 rounded-full bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
               {/* {event.imageURL && ( */}
-              <Image src={"#"} alt="event image" layout="fill" />
+              {/* <Image
+                src={"../logos/dark-logo.png"}
+                alt="event image"
+                layout="fill"
+              /> */}
               {/* )} */}
             </div>
             <p>
@@ -56,6 +60,28 @@ function MemberProfile() {
             </p>
           </div>
           <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
+            <h5 className=" flex text-sm tracking-tight font-light text-gray-900 sm:text-xl md:text-2xl mb-6 lg:mb-12">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                />
+              </svg>
+              <span>Beijing, China</span>
+            </h5>
             {/* {event.eventTimestamp > currentTimestamp ? (
               account ? (
                 checkIfAlreadyRSVPed() ? (
@@ -322,50 +348,6 @@ function MemberProfile() {
 }
 
 export default MemberProfile;
-
-// export async function getServerSideProps(context) {
-//   const { id } = context.params;
-//   console.log(id);
-
-//   const { data } = await client.query({
-//     query: gql`
-//       query Profile($id: String!) {
-//         profile(id: $id) {
-//           id
-//           profileID
-//           firstName
-//           city
-//           country
-//           website
-//           facebookPage
-//           facebookGroup
-//           twitter
-//           instagram
-//           pinterest
-//           tiktok
-//           linkedin
-//           freebie
-//           otherLink
-//           bio
-//           imageURL
-//         }
-//       }
-//     `,
-//     variables: {
-//       id: id,
-//     },
-//   });
-
-//   return {
-//     props: {
-//       event: data.profile,
-//     },
-//   };
-// }
-
-// export const config = {
-//   unstable_excludeFiles: ["public/**/*"],
-// };
 
 {
   /* <div className="flex items-center">

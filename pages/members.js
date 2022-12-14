@@ -3,6 +3,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import { profileAirtable, minifyItems } from "../utils/airtable";
 import { ProfilesContext } from "../context/profiles";
+import { getAccount } from "@wagmi/core";
 
 function filterArray(array, searchText) {
   const filterItems = ["firstName", "city", "bio", "jobTitle", "country"];
@@ -86,9 +87,9 @@ export default function Members({ initialProfiles }) {
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
-        {filteredProfiles.map((profile) => (
-          <li key={profile.walletAddress}>
-            <ProfileCard id={profile.walletAddress} profile={profile} />
+        {filteredProfiles.reverse().map((profile) => (
+          <li key={profile}>
+            <ProfileCard profile={profile} />
           </li>
         ))}
       </ul>
@@ -99,12 +100,12 @@ export default function Members({ initialProfiles }) {
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
-    const aproovedProfiles = profiles.filter(
+    const aprovedProfiles = profiles.filter(
       (profile) => profile.fields.approved === "yes"
     );
     return {
       props: {
-        initialProfiles: minifyItems(aproovedProfiles),
+        initialProfiles: minifyItems(aprovedProfiles),
       },
     };
   } catch (error) {

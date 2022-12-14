@@ -91,15 +91,13 @@ export default function Home({ initialItems }) {
 
   const [task, setTask] = useState("");
   const [amount, setAmount] = useState("1");
-  const [email, setEmail] = useState("");
   const { addItem } = useContext(ItemsContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addItem({ task, email, amount: amount, address: account?.address });
+    await addItem({ task, amount: amount, address: account?.address });
     setTask("");
     setAmount(1);
-    setEmail("");
   };
 
   useEffect(() => {
@@ -226,22 +224,6 @@ export default function Home({ initialItems }) {
                     </p>
                   </section>
                   <div className="mt-1 sm:mt-0 sm:col-span-2">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-bold text-gray-900"
-                    >
-                      Your email address:
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
-                      required
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Your email address"
-                      value={email}
-                    />
                     <label
                       htmlFor="task"
                       className="block text-sm font-bold text-gray-900"
