@@ -1,4 +1,4 @@
-import { taskAirtable, getMinifiedItem } from "../../utils/Airtable";
+import { taskAirtable, getMinifiedItem } from "../../utils/airtable";
 
 const handler = async (req, res) => {
   const fields = req.body;

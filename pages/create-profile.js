@@ -6,14 +6,16 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import { useRouter } from "next/router";
-import { table, minifyProfiles } from "../utils/AirtableProfiles";
+import { profileAirtable, minifyItems } from "../utils/airtable";
 import { ProfilesContext } from "../context/profiles";
+import Loader from "../components/Loader";
 
 export default function CreateProfile({ initialProfiles }) {
   const { data: account, isConnected } = useAccount();
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,6 +34,7 @@ export default function CreateProfile({ initialProfiles }) {
   const [otherLink, setOtherLink] = useState("");
   const [bio, setBio] = useState("");
   const [coverImage, setCoverImage] = useState(null);
+  const [avatarImage, setAvatarImage] = useState(null);
 
   const router = useRouter();
 
@@ -41,8 +44,32 @@ export default function CreateProfile({ initialProfiles }) {
     setProfiles(initialProfiles);
   }, [initialProfiles, setProfiles]);
 
+  const uploadImage = async (image, onUpload) => {
+    setIsUploading(true);
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET);
+    data.append("cloud_name", process.env.NEXT_PUBLIC_CLOUD_NAME);
+    try {
+      const imageData = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: data,
+        }
+      ).then((resp) => resp.json());
+
+      onUpload(imageData.url);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     await addProfile({
       firstName,
       email,
@@ -61,6 +88,8 @@ export default function CreateProfile({ initialProfiles }) {
       freebieLink,
       otherLink,
       bio,
+      coverImage,
+      avatarImage,
     });
     setFirstName("");
     setEmail("");
@@ -504,30 +533,32 @@ export default function CreateProfile({ initialProfiles }) {
                 </div>
               </div>
 
-              {/* <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-              <label
-                htmlFor="profile-picture"
-                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Profile picture (Optional)
-                <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                  Upload an avatar/business logo for your profile. Size: 800 X
-                  800px (Square). We recommend using an avatar which you can
-                  create for free on canva -
-                  https://www.canva.com/create/avatars/.
-                </p>
-              </label>
-              <div className="mt-1 sm:mt-0 sm:col-span-2">
-                <input
-                  id="profile-picture"
-                  name="profile-picture"
-                  type="file"
-                  className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                  required
-                  onChange={(event) => setProfilePicture(event.target.files[0])}
-                />
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="profile-picture"
+                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                >
+                  Profile picture (Optional)
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Upload an avatar/business logo for your profile. Size: 800 X
+                    800px (Square). We recommend using an avatar which you can
+                    create for free on canva -
+                    https://www.canva.com/create/avatars/.
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    id="profile-picture"
+                    name="profile-picture"
+                    type="file"
+                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    required
+                    onChange={(event) =>
+                      uploadImage(event.target.files[0], setAvatarImage)
+                    }
+                  />
+                </div>
               </div>
-            </div> */}
 
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
@@ -548,7 +579,9 @@ export default function CreateProfile({ initialProfiles }) {
                     name="cover-image"
                     type="file"
                     className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                    onChange={(event) => setCoverImage(event.target.files[0])}
+                    onChange={(event) =>
+                      uploadImage(event.target.files[0], setCoverImage)
+                    }
                   />
                 </div>
               </div>
@@ -563,9 +596,10 @@ export default function CreateProfile({ initialProfiles }) {
                 </Link>
                 <button
                   type="submit"
+                  disabled={isUploading}
                   className="ml-3 inline-flex justify-center py-2 px-4 border-2 border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:text-black hover:border-2 border-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                 >
-                  Create
+                  {isUploading ? <Loader /> : "Create"}
                 </button>
               </div>
             </div>
@@ -595,10 +629,10 @@ export default function CreateProfile({ initialProfiles }) {
 
 export async function getServerSideProps(context) {
   try {
-    const profiles = await table.select({}).firstPage();
+    const profiles = await profileAirtable.select({}).firstPage();
     return {
       props: {
-        initialProfiles: minifyProfiles(profiles),
+        initialProfiles: minifyItems(profiles),
       },
     };
   } catch (error) {

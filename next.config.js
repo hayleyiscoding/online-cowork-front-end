@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["images.unsplash.com", "ipfs.io"],
+    domains: ["images.unsplash.com", "res.cloudinary.com", "ipfs.io"],
   },
   reactStrictMode: false,
 };

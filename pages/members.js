@@ -1,43 +1,42 @@
 import LandingProfiles from "../components/LandingProfiles";
 import { useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
-import { table, minifyProfiles } from "../utils/AirtableProfiles";
-import { ProfilesContext } from "../context/profiles";
+import { profileAirtable, minifyItems } from "../utils/airtable";
+
+function filterArray(array, searchText) {
+  const filterItems = ["firstName", "city", "bio", "jobTitle", "country"];
+  return array.filter((item) => {
+    return filterItems.some((key) => {
+      const value = item.fields[key]?.toLowerCase() || "";
+      return value.includes(searchText);
+    });
+  });
+}
 
 export default function Members({ initialProfiles }) {
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
-
-  const { profiles, setProfiles } = useContext(ProfilesContext);
-
-  // const [currentTimestamp, setCurrentTimestamp] = useState(
-  //   new Date().getTime().toString()
-  // );
+  const [loading, setLoading] = useState(false);
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
   }
 
   function updateFilteredProfiles() {
-    console.log(data?.profiles, "hello");
-    if (data?.profiles) {
+    if (initialProfiles?.length > 0) {
       if (!searchText) {
-        setFilteredProfiles(data.profiles);
+        setFilteredProfiles(initialProfiles);
       } else {
-        setFilteredProfiles(
-          data.profiles.filter((profile) =>
-            profile.name.toLowerCase().includes(searchText.toLowerCase())
-          )
-        );
+        setFilteredProfiles(filterArray(initialProfiles, searchText));
       }
     }
   }
 
   useEffect(() => {
     updateFilteredProfiles();
-  }, [searchText, data]);
+  }, [searchText]);
 
-  if (loading)
+  if (!initialProfiles)
     return (
       <LandingProfiles>
         <div className="lds-spinner">
@@ -54,12 +53,6 @@ export default function Members({ initialProfiles }) {
           <div></div>
           <div></div>
         </div>
-      </LandingProfiles>
-    );
-  if (error)
-    return (
-      <LandingProfiles>
-        <p>`Error! ${error.message}`</p>
       </LandingProfiles>
     );
 
@@ -94,12 +87,12 @@ export default function Members({ initialProfiles }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   try {
-    const profiles = await table.select({}).firstPage();
+    const profiles = await profileAirtable.select({}).firstPage();
     return {
       props: {
-        initialProfiles: minifyProfiles(profiles),
+        initialProfiles: minifyItems(profiles),
       },
     };
   } catch (error) {
