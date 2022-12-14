@@ -74,7 +74,7 @@ export default function CreateProfile({ initialProfiles }) {
       (p) => account?.address === p.fields.walletAddress
     );
 
-    await addProfile({
+    const params = {
       firstName,
       email,
       walletAddress: account?.address,
@@ -94,13 +94,14 @@ export default function CreateProfile({ initialProfiles }) {
       bio,
       coverImage,
       avatarImage,
-    });
+    };
 
     if (profile) {
       await updateProfile(profile.id, params);
     } else {
       await addProfile(params);
     }
+
     setFirstName("");
     setEmail("");
     setJobTitle("");
