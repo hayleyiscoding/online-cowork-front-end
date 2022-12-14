@@ -38,13 +38,27 @@ function MemberProfile() {
         <link rel="icon" href="./images/favicon.png" />
       </Head>
       <section className="relative py-12">
-        {/* <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6> */}
-        <h1 className="py-1 text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 ">
-          Jane - Social Media Manager
-        </h1>
+        <div className="flex item-center justify-start px-6 bg-gray-100">
+          <div>
+            {/* {event.imageURL && ( */}
+            {/* <Image
+                src={"../logos/dark-logo.png"}
+                alt="event image"
+                layout="fill"
+              /> */}
+            {/* )} */}
+          </div>
+          <div>
+            {/* <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6> */}
+            <h1 className="py-1 text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 ">
+              Jane - Social Media Manager
+            </h1>
+          </div>
+        </div>
+
         <div className="flex flex-wrap lg:flex-nowrap">
           <div className="w-full pr-0 lg:pr-24 xl:pr-32">
-            <div className="mb-8 w-full aspect-w-7 aspect-h-7 rounded-full bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            <div className="mb-8 w-full aspect-w-7 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
               {/* {event.imageURL && ( */}
               {/* <Image
                 src={"../logos/dark-logo.png"}
