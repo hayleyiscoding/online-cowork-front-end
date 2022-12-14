@@ -9,13 +9,14 @@ import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
 import { useRouter } from "next/router";
 import LandingLottery from "../components/LandingLottery";
-import { minifyItems, taskAirtable } from "../utils/airtable";
+import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
 import { ItemsContext } from "../context/items";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";
 import SEO from "../components/SEO";
+import { ProfilesContext } from "../context/profiles";
 
-export default function Home({ initialItems }) {
+export default function Home({ tasks, profiles }) {
   const { data: account } = useAccount();
 
   const [success, setSuccess] = useState(null);
@@ -84,10 +85,12 @@ export default function Home({ initialItems }) {
   //   }
 
   const { items, setItems } = useContext(ItemsContext);
+  const { setProfiles } = useContext(ProfilesContext);
 
   useEffect(() => {
-    setItems(initialItems);
-  }, [initialItems, setItems]);
+    setItems(tasks);
+    setProfiles(profiles);
+  }, [tasks, setItems, profiles, setProfiles]);
 
   const [task, setTask] = useState("");
   const [amount, setAmount] = useState("1");
@@ -143,7 +146,7 @@ export default function Home({ initialItems }) {
   return (
     <SEO>
       <LandingLottery>
-        <LotteryPageStats initialItems={initialItems} />
+        <LotteryPageStats initialItems={tasks} />
         <section className="relative py-8">
           {!account && (
             <div>
@@ -351,9 +354,17 @@ export async function getServerSideProps(context) {
         view: "Grid view",
       })
       .firstPage();
+    const profiles = await profileAirtable
+      .select({
+        // Selecting the first 20 records in Grid view:
+        maxRecords: 50,
+        view: "Grid view",
+      })
+      .all();
     return {
       props: {
-        initialItems: minifyItems(items),
+        tasks: minifyItems(items),
+        profiles: minifyItems(profiles),
       },
     };
   } catch (error) {

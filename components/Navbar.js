@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import Navmenu from "./Navmenu";
 import DirectoriesMenu from "./DirectoriesMenu";
@@ -7,17 +7,21 @@ import darkLogo from "../public/logos/dark-logo.png";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect } from "wagmi";
+import { ProfilesContext } from "../context/profiles";
 
 export default function Navbar() {
   const [mounted, setMounted] = useState(false);
-
-  const { data: account } = useAccount();
+  const { profiles } = useContext(ProfilesContext);
+  const { data: account, isSuccess } = useAccount();
   const { disconnect } = useDisconnect();
+  const profile = profiles?.find(
+    (p) => isSuccess && account.address === p.fields.walletAddress
+  );
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
+  console.log({ profile });
   return (
     mounted && (
       <header className="bg-white border-b-2 border-gray-100">
@@ -55,7 +59,7 @@ export default function Navbar() {
                   Join Discord Community
                 </a>
               </Link>
-              {account && (
+              {account && !profile && (
                 <Link href="/create-profile">
                   <a className="inline-flex items-center px-4 py-2 border-transparent text-sm font-medium rounded-md text-black border border-indigo-100 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Start Here

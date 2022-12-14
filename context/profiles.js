@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { useAccount } from "wagmi";
 
 const ProfilesContext = createContext();
 
