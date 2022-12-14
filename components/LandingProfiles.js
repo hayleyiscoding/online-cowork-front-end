@@ -23,7 +23,7 @@ export default function LandingProfiles({ children }) {
           </p>
         </div>
       </section>
-      <section className="py-12">{children}</section>
+      <section className="py-4">{children}</section>
     </div>
   );
 }

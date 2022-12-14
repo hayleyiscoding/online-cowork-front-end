@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function ProfileCard({ id, profile }) {
-  const { firstName, avatarImage, jobTitle } = profile.fields;
+  const { firstName, avatarImage, jobTitle, bio } = profile.fields;
   return (
-    <div className="group relative clickable-card rounded-lg focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500">
+    <div className="group relative clickable-card focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 rounded-full">
       <Link href={`/members/${id}`}>
         <a className="clickable-card__link"></a>
       </Link>
@@ -13,9 +13,10 @@ export default function ProfileCard({ id, profile }) {
           <Image src={avatarImage} alt="event image" layout="fill" />
         )}
       </div>
-      <p className="block text-base font-medium text-gray-900">
+      <h5 className="block text-xl font-normal text-gray-900 py-2">
         {firstName} - {jobTitle}
-      </p>
+      </h5>
+      <p className="block text-base font-medium text-gray-900">{bio}</p>
     </div>
   );
 }
