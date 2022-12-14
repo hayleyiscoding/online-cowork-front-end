@@ -70,6 +70,10 @@ export default function CreateProfile({ initialProfiles }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const profile = profiles.find(
+      (p) => account?.address === p.fields.walletAddress
+    );
+
     await addProfile({
       firstName,
       email,
@@ -90,7 +94,7 @@ export default function CreateProfile({ initialProfiles }) {
       bio,
       coverImage,
       avatarImage,
-    };
+    });
 
     if (profile) {
       await updateProfile(profile.id, params);
