@@ -8,15 +8,15 @@ export default function ProfileCard({ id, profile }) {
       <Link href={`/members/${id}`}>
         <a className="clickable-card__link"></a>
       </Link>
-      <div className="block w-full aspect-w-7 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden relative group-hover:opacity-75">
+      <div className="block w-full aspect-w-7 aspect-h-7 rounded-lg bg-coworkblue overflow-hidden relative group-hover:opacity-75">
         {avatarImage && (
           <Image src={avatarImage} alt="event image" layout="fill" />
         )}
       </div>
-      <h5 className="block text-xl font-normal text-gray-900 py-2">
+      <h5 className="block text-xl font-light text-gray-700 py-3">
         {firstName} - {jobTitle}
       </h5>
-      <p className="block text-base font-medium text-gray-900">{bio}</p>
+      {/* <p className="block text-base font-medium text-gray-900">{bio}</p> */}
     </div>
   );
 }

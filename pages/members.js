@@ -100,12 +100,12 @@ export default function Members({ initialProfiles }) {
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
-    const aprovedProfiles = profiles.filter(
+    const aproovedProfiles = profiles.filter(
       (profile) => profile.fields.approved === "yes"
     );
     return {
       props: {
-        initialProfiles: minifyItems(aprovedProfiles),
+        initialProfiles: minifyItems(aproovedProfiles),
       },
     };
   } catch (error) {

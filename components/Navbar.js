@@ -15,7 +15,7 @@ export default function Navbar() {
   const { data: account, isSuccess } = useAccount();
   const { disconnect } = useDisconnect();
   const profile = profiles?.find(
-    (p) => isSuccess && account.address === p.fields.walletAddress
+    (p) => isSuccess && account?.address === p.fields.walletAddress
   );
 
   useEffect(() => {
