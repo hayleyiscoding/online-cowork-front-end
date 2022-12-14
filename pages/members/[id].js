@@ -8,13 +8,14 @@ import {
   LinkIcon,
   CurrencyDollarIcon,
   MapPinIcon,
+  CheckIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { getMinifiedItem, profileAirtable } from "../../utils/airtable";
 
 function MemberProfile({ profile }) {
   const { query } = useRouter();
-  const { firstName, jobTitle, coverImage } = profile.fields;
+  const { firstName, jobTitle, avatarImage, city, country } = profile.fields;
   // if (!event) {
   //   return (
   //     <div className="lds-spinner ml-20">
@@ -37,35 +38,46 @@ function MemberProfile({ profile }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>Jane - Social Media Manager | Online CoWork</title>
+        <title>
+          {firstName} - {jobTitle} | Online CoWork
+        </title>
         <meta name="description" content={`Jane - Social Media Manager`} />
         <link rel="icon" href="./images/favicon.png" />
       </Head>
       <section className="relative py-12">
-        <div className="flex item-center justify-start px-6 bg-gray-100">
-          <div>
-            {coverImage && (
-              <Image src={coverImage} alt="event image" layout="fill" />
+        <div className="flex items-center mt-4 mb-9">
+          <div className="rounded-xl focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+            {avatarImage && (
+              <Image
+                className="bg-gray-100 rounded-full"
+                src={avatarImage}
+                alt="profile image"
+                width={100}
+                height={100}
+              />
             )}
+            ;
           </div>
-          <div>
+          <div className="ml-10">
             {/* <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6> */}
-            <h1 className="py-1 text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl md:text-5xl mb-6 ">
-              {`${firstName} - ${jobTitle}`}
+            <h6 className="mb-2">
+              {city}, {country}
+            </h6>
+            <h1 className="pt-1 pb-2 text-2xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-5xl lg:text-5xl xl:text-5xl">
+              Jane - Social Media Manager
             </h1>
           </div>
         </div>
 
-        <div className="flex flex-wrap lg:flex-nowrap">
-          <div className="w-full pr-0 lg:pr-24 xl:pr-32">
-            <div className="mb-8 w-full aspect-w-7 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
-              {/* {event.imageURL && ( */}
-              {/* <Image
-                src={"../logos/dark-logo.png"}
+        <div className="flex justify-center flex-wrap lg:flex-nowrap">
+          <div className="w-full pr-0 lg:pr-8 xl:pr-12 text-center lg:text-left xl:text-left">
+            <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
+              {/* {event.coverImage && ( */}
+              <Image
+                src="/images/candyland.png"
                 alt="event image"
                 layout="fill"
-              /> */}
-              {/* )} */}
+              />
             </div>
             <p>
               I'm Jane - a social media manager for the past 5 years. I can help
@@ -73,247 +85,190 @@ function MemberProfile({ profile }) {
               marketing.
             </p>
           </div>
-          <div className="max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
-            <h5 className=" flex text-sm tracking-tight font-light text-gray-900 sm:text-xl md:text-2xl mb-6 lg:mb-12">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
+
+          <div className="pb-12 pt-8 lg:pt-1 xl:pt-1 max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
+            <div className="flex item-center justify-center py-4">
+              <CheckIcon className="w-6 mr-2" />
+              <span className="truncate text-center lg:text-left xl:text-left">
+                <strong>Number of Tasks Added</strong>: 27
+              </span>
+            </div>
+
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                />
-              </svg>
-              <span>Beijing, China</span>
-            </h5>
-            {/* {event.eventTimestamp > currentTimestamp ? (
-              account ? (
-                checkIfAlreadyRSVPed() ? (
-                  <>
-                    <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full text-teal-800 bg-teal-100">
-                      You have RSVPed! 🙌
-                    </span>
-                    <div className="flex item-center">
-                      <LinkIcon className="w-6 mr-2 text-indigo-800" />
-                      <a
-                        className="text-indigo-800 truncate hover:underline"
-                        href={event.link}
-                      >
-                        {event.link}
-                      </a>
-                    </div>
-                  </>
-                ) : (
-                  <button
-                    type="button"
-                    className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={newRSVP}
-                  >
-                    Donate for {ethers.utils.formatEther(event.deposit)} MATIC
-                  </button>
-                )
-              ) : (
-                <ConnectButton />
-              )
-            ) : (
-              <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full border-2 border-gray-200">
-                Event has ended
-              </span>
-            )} */}
-            <div className="flex item-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">https://onlinecowork.com</span>
-            </div>
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-white bg-indigo-500 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://facebook.com
-                </a>
-              </span>
+                  Message Jane on Discord
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-white bg-coworkblue hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://facebook.com
-                </a>
-              </span>
+                  Grab Jane's Freebie!
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#'`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://onlinecowork.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://twitter.com
-                </a>
-              </span>
+                  Website
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://Instagram.com
-                </a>
-              </span>
+                  Facebook Page
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://Pinterest.com
-                </a>
-              </span>
+                  Facebook Group
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://Tiktok.com
-                </a>
-              </span>
+                  Twitter
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://linkedin.com
-                </a>
-              </span>
+                  Instagram
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://freebie.com
-                </a>
-              </span>
+                  Pinterest
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://other.com
-                </a>
-              </span>
+                  Tiktok
+                </button>
+              </a>
             </div>
 
-            <div className="flex items-center">
-              <LinkIcon className="w-6 mr-2" />
-              <span className="truncate">
-                <a
-                  className="text-indigo-800 truncate hover:underline"
-                  href={`#`}
-                  target="_blank"
-                  rel="noreferrer"
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  https://other.com
-                </a>
-              </span>
+                  LinkedIn
+                </button>
+              </a>
             </div>
 
-            {/* <div className="flex item-center">
-              <TicketIcon className="w-6 mr-2" />
-              <span className="truncate">{event.website}</span>
+            <div className="flex">
+              <a
+                className="text-indigo-800 hover:underline w-full"
+                href={`https://facebook.com`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button
+                  type="button"
+                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Other Link
+                </button>
+              </a>
             </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.facebookPage}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.facebookGroup}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.twitter}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.instagram}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.pinterest}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.tiktok}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.linkedin}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.freebie}</span>
-            </div>
-            <div className="flex item-center">
-              <CurrencyDollarIcon className="w-6 mr-2" />
-              <span className="truncate">{event.otherLink}</span>
-            </div> */}
 
             {/* <div className="flex items-center">
               <EmojiHappyIcon className="w-10 mr-2" />
@@ -363,23 +318,6 @@ function MemberProfile({ profile }) {
 
 export default MemberProfile;
 
-{
-  /* <div className="flex items-center">
-<EmojiHappyIcon className="w-10 mr-2" />
-<span className="truncate">
-  Hosted by{" "}
-  <a
-    className="text-indigo-800 truncate hover:underline"
-    href={`${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}address/${event.eventOwner}`}
-    target="_blank"
-    rel="noreferrer"
-  >
-    {event.eventOwner}
-  </a>
-</span>
-</div> */
-}
-
 export async function getServerSideProps(context) {
   const { id } = context.query;
   try {
@@ -398,4 +336,70 @@ export async function getServerSideProps(context) {
       },
     };
   }
+}
+
+{
+  /* <div className="flex items-center">
+<EmojiHappyIcon className="w-10 mr-2" />
+<span className="truncate">
+  Hosted by{" "}
+  <a
+    className="text-indigo-800 truncate hover:underline"
+    href={`${process.env.NEXT_PUBLIC_TESTNET_EXPLORER_URL}address/${event.eventOwner}`}
+    target="_blank"
+    rel="noreferrer"
+  >
+    {event.eventOwner}
+  </a>
+</span>
+</div> */
+}
+
+{
+  /* <div>
+              <button
+                type="button"
+                className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={() => handleDeleteProfile(event.id)}
+              >
+                Delete Profile
+              </button>
+            </div> */
+}
+
+{
+  /* {event.eventTimestamp > currentTimestamp ? (
+              account ? (
+                checkIfAlreadyRSVPed() ? (
+                  <>
+                    <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full text-teal-800 bg-teal-100">
+                      You have RSVPed! 🙌
+                    </span>
+                    <div className="flex item-center">
+                      <LinkIcon className="w-6 mr-2 text-indigo-800" />
+                      <a
+                        className="text-indigo-800 truncate hover:underline"
+                        href={event.link}
+                      >
+                        {event.link}
+                      </a>
+                    </div>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={newRSVP}
+                  >
+                    Donate for {ethers.utils.formatEther(event.deposit)} MATIC
+                  </button>
+                )
+              ) : (
+                <ConnectButton />
+              )
+            ) : (
+              <span className="w-full text-center px-6 py-3 text-base font-medium rounded-full border-2 border-gray-200">
+                Event has ended
+              </span>
+            )} */
 }
