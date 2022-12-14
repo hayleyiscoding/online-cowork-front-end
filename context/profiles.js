@@ -23,24 +23,15 @@ const ProfilesProvider = ({ children }) => {
   };
 
   // for updating an existing item
-  const updateProfile = async (updatedProfile) => {
+  const updateProfile = async (id, fields) => {
     try {
       // we will send a PUT request with the updated information
       const res = await fetch("/api/updateProfile", {
         method: "PUT",
-        body: JSON.stringify(updatedProfile),
+        body: JSON.stringify({ id, fields }),
         headers: { "Content-Type": "application/json" },
       });
       await res.json();
-      // then we will update the 'items' by replacing the fields of existing item.
-      setItems((prevProfiles) => {
-        const existingProfiles = [...prevProfiles];
-        const existingProfile = existingProfiles.find(
-          (profile) => profile.id === updatedProfile.id
-        );
-        existingProfile.fields = updatedProfile.fields;
-        return existingProfiles;
-      });
     } catch (error) {
       console.error(error);
     }
