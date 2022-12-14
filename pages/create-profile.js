@@ -34,11 +34,11 @@ export default function CreateProfile({ initialProfiles }) {
   const [otherLink, setOtherLink] = useState("");
   const [bio, setBio] = useState("");
   const [coverImage, setCoverImage] = useState(null);
+
   const [avatarImage, setAvatarImage] = useState(null);
 
-  const router = useRouter();
-
-  const { addProfile, profiles, setProfiles } = useContext(ProfilesContext);
+  const { addProfile, profiles, setProfiles, updateProfile } =
+    useContext(ProfilesContext);
 
   useEffect(() => {
     setProfiles(initialProfiles);
@@ -69,8 +69,11 @@ export default function CreateProfile({ initialProfiles }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await addProfile({
+    const profile = profiles.find(
+      (p) => account?.address === p.fields.walletAddress
+    );
+    console.log({ profile });
+    const params = {
       firstName,
       email,
       walletAddress: account?.address,
@@ -90,7 +93,13 @@ export default function CreateProfile({ initialProfiles }) {
       bio,
       coverImage,
       avatarImage,
-    });
+    };
+
+    if (profile) {
+      await updateProfile(profile.id, params);
+    } else {
+      await addProfile(params);
+    }
     setFirstName("");
     setEmail("");
     setJobTitle("");
