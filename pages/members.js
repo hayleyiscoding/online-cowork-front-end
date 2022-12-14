@@ -1,7 +1,8 @@
 import LandingProfiles from "../components/LandingProfiles";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import { profileAirtable, minifyItems } from "../utils/airtable";
+import { ProfilesContext } from "../context/profiles";
 
 function filterArray(array, searchText) {
   const filterItems = ["firstName", "city", "bio", "jobTitle", "country"];
@@ -17,24 +18,32 @@ export default function Members({ initialProfiles }) {
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
+  const { profiles, setProfiles } = useContext(ProfilesContext);
+
+  useEffect(() => {
+    setProfiles(initialProfiles);
+  }, [initialProfiles, setProfiles]);
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
   }
 
-  function updateFilteredProfiles() {
-    if (initialProfiles?.length > 0) {
-      if (!searchText) {
-        setFilteredProfiles(initialProfiles);
-      } else {
-        setFilteredProfiles(filterArray(initialProfiles, searchText));
+  const updateFilteredProfiles = useCallback(
+    function updateFilteredProfiles() {
+      if (profiles?.length > 0) {
+        if (!searchText) {
+          setFilteredProfiles(profiles);
+        } else {
+          setFilteredProfiles(filterArray(profiles, searchText));
+        }
       }
-    }
-  }
+    },
+    [profiles, searchText]
+  );
 
   useEffect(() => {
     updateFilteredProfiles();
-  }, [searchText]);
+  }, [searchText, updateFilteredProfiles]);
 
   if (!initialProfiles)
     return (
@@ -90,9 +99,12 @@ export default function Members({ initialProfiles }) {
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
+    const aproovedProfiles = profiles.filter(
+      (profile) => profile.fields.approved === "yes"
+    );
     return {
       props: {
-        initialProfiles: minifyItems(profiles),
+        initialProfiles: minifyItems(aproovedProfiles),
       },
     };
   } catch (error) {
