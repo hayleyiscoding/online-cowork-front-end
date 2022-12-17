@@ -1,23 +1,29 @@
+import { useState, useEffect, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect, useContext } from "react";
-// import getRandomImage from "../utils/getRandomImage";
-import { ethers } from "ethers";
-import connectLotteryContract from "../utils/connectLotteryContract";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import Alert from "../components/Alert";
 import { useRouter } from "next/router";
-import LandingLottery from "../components/LandingLottery";
-import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
+import { ethers } from "ethers";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount, useBalance, useNetwork, useProvider } from "wagmi";
+import { toast } from "react-toastify";
 import { ItemsContext } from "../context/items";
-import Item from "../components/Item";
-import LotteryPageStats from "../components/LotteryPageStats";
-import SEO from "../components/SEO";
 import { ProfilesContext } from "../context/profiles";
+import { LotteryContext } from "../context/lottery";
+import LandingLottery from "../components/LandingLottery";
+import LotteryPageStats from "../components/LotteryPageStats";
+import Item from "../components/Item";
+import SEO from "../components/SEO";
+import Alert from "../components/Alert";
+import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
+// import getRandomImage from "../utils/getRandomImage";
 
 export default function Home({ tasks, profiles }) {
   const { data: account } = useAccount();
+  const { data: balance } = useBalance({
+    addressOrName: account?.address,
+  });
+  const { activeChain } = useNetwork();
+  const provider = useProvider();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
@@ -86,14 +92,17 @@ export default function Home({ tasks, profiles }) {
 
   const { items, setItems } = useContext(ItemsContext);
   const { setProfiles } = useContext(ProfilesContext);
-
-  useEffect(() => {
-    setItems(tasks);
-    setProfiles(profiles);
-  }, [tasks, setItems, profiles, setProfiles]);
+  const {
+    lotteryContract,
+    setLotteryContract,
+    getLotteryContract,
+    lotteryState,
+    setLotteryState,
+    getLotteryState,
+  } = useContext(LotteryContext);
 
   const [task, setTask] = useState("");
-  const [amount, setAmount] = useState("1");
+  const [amount, setAmount] = useState(1);
   const { addItem } = useContext(ItemsContext);
 
   const handleSubmit = async (e) => {
@@ -102,6 +111,36 @@ export default function Home({ tasks, profiles }) {
     setTask("");
     setAmount(1);
   };
+
+  useEffect(() => {
+    setItems(tasks);
+    setProfiles(profiles);
+  }, [tasks, setItems, profiles, setProfiles]);
+
+  useEffect(() => {
+    if (activeChain === undefined) toast.info("Please connect your wallet!");
+    else if (activeChain.id !== 80001 && activeChain.id !== 137)
+      toast.warn("Please switch to Polygon network!");
+    else
+      toast.success(`Your wallet is connected to ${activeChain.name} network!`);
+  }, [activeChain]);
+
+  useEffect(() => {
+    console.log("account:", account);
+    if (lotteryContract === null && account !== null) getLotteryContract();
+    if (account === null) {
+      setLotteryContract(null);
+      setLotteryState(null);
+    }
+    if (lotteryContract !== null) {
+      console.log("lotteryContract:", lotteryContract);
+      getLotteryState();
+    }
+  }, [lotteryContract, account]);
+
+  useEffect(() => {
+    console.log("lotteryState:", lotteryState);
+  }, [lotteryState]);
 
   useEffect(() => {
     // disable scroll on <input> elements of type number
@@ -156,7 +195,7 @@ export default function Home({ tasks, profiles }) {
                 </h3>
                 <p className="mb-10 text-sm font-light">
                   1) Please connect your wallet to add a task. If you are not
-                  sure what a wallet is, please see our FAQ's{" "}
+                  sure what a wallet is, please see our FAQ&apos;s{" "}
                   <Link href="/how-it-works" passHref>
                     <p className="underline  mb-4 text-sm font-light inline-block">
                       here.
@@ -208,8 +247,8 @@ export default function Home({ tasks, profiles }) {
                         </p>
                       </Link>
                       <br />
-                      <strong>TASK: </strong>This is the task that you'd like to
-                      complete.
+                      <strong>TASK: </strong>This is the task that you&apos;d
+                      like to complete.
                       <br />
                       <br />
                       <strong>AMOUNT: </strong>This is the amount of money (in
@@ -253,13 +292,14 @@ export default function Home({ tasks, profiles }) {
                     <input
                       id="amount"
                       name="amount"
-                      type="text"
-                      className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
+                      type="number"
+                      className="block w-1/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
                       required
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="e.g. 5"
                       step={1}
                       min={1}
+                      max={parseInt(balance.formatted * 10)}
                       value={amount}
                     />
 
