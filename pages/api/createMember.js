@@ -1,4 +1,4 @@
-import { table, minifyItems } from "../../utils/AirtableProfiles";
+import { table, minifyItems } from "../../utils/airtable";
 
 const handler = async (req, res) => {
   const fields = req.body;

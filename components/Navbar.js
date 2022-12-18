@@ -21,7 +21,6 @@ export default function Navbar() {
   useEffect(() => {
     setMounted(true);
   }, []);
-  console.log({ profile });
   return (
     mounted && (
       <header className="bg-white border-b-2 border-gray-100">

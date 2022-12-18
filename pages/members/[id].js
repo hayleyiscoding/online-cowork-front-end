@@ -11,11 +11,30 @@ import {
   CheckIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import { getMinifiedItem, profileAirtable } from "../../utils/airtable";
+import { minifyItems, profileAirtable } from "../../utils/airtable";
 
 function MemberProfile({ profile }) {
   const { query } = useRouter();
-  const { firstName, jobTitle, avatarImage, city, country } = profile.fields;
+  const {
+    firstName,
+    jobTitle,
+    avatarImage,
+    city,
+    country,
+    coverImage,
+    bio,
+    websiteLink,
+    facebookLink,
+    freebieLink,
+    instagramLink,
+    tiktokLink,
+    twitterLink,
+    pinterestLink,
+    facebookGroupLink,
+    linkdinLink,
+    otherLink,
+  } = profile.fields;
+
   // if (!event) {
   //   return (
   //     <div className="lds-spinner ml-20">
@@ -64,7 +83,7 @@ function MemberProfile({ profile }) {
               {city}, {country}
             </h6>
             <h1 className="pt-1 pb-2 text-2xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-5xl lg:text-5xl xl:text-5xl">
-              Jane - Social Media Manager
+              {firstName} - {jobTitle}
             </h1>
           </div>
         </div>
@@ -73,17 +92,9 @@ function MemberProfile({ profile }) {
           <div className="w-full pr-0 lg:pr-8 xl:pr-12 text-center lg:text-left xl:text-left">
             <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden">
               {/* {event.coverImage && ( */}
-              <Image
-                src="/images/candyland.png"
-                alt="event image"
-                layout="fill"
-              />
+              <Image src={coverImage} alt="event image" layout="fill" />
             </div>
-            <p>
-              I'm Jane - a social media manager for the past 5 years. I can help
-              you to get your business off the ground through social media
-              marketing.
-            </p>
+            <p>{bio}</p>
           </div>
 
           <div className="pb-12 pt-8 lg:pt-1 xl:pt-1 max-w-xs w-full flex flex-col gap-4 mb-6 lg:mb-0">
@@ -110,165 +121,182 @@ function MemberProfile({ profile }) {
               </a>
             </div>
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-white bg-coworkblue hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {freebieLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={freebieLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Grab Jane's Freebie!
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-white bg-coworkblue hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Grab Jane's Freebie!
+                  </button>
+                </a>
+              </div>
+            )}
+            {websiteLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={websiteLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Website
+                  </button>
+                </a>
+              </div>
+            )}
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://onlinecowork.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {facebookLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={facebookLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Website
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Facebook Page
+                  </button>
+                </a>
+              </div>
+            )}
+            {facebookGroupLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={facebookGroupLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Facebook Group
+                  </button>
+                </a>
+              </div>
+            )}
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {twitterLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={twitterLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Facebook Page
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Twitter
+                  </button>
+                </a>
+              </div>
+            )}
+            {instagramLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={instagramLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Instagram
+                  </button>
+                </a>
+              </div>
+            )}
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {pinterestLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={pinterestLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Facebook Group
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Pinterest
+                  </button>
+                </a>
+              </div>
+            )}
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {tiktokLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={tiktokLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Twitter
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Tiktok
+                  </button>
+                </a>
+              </div>
+            )}
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {linkdinLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={linkdinLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Instagram
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    LinkedIn
+                  </button>
+                </a>
+              </div>
+            )}
 
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {otherLink && (
+              <div className="flex">
+                <a
+                  className="text-indigo-800 hover:underline w-full"
+                  href={otherLink}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  Pinterest
-                </button>
-              </a>
-            </div>
-
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Tiktok
-                </button>
-              </a>
-            </div>
-
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  LinkedIn
-                </button>
-              </a>
-            </div>
-
-            <div className="flex">
-              <a
-                className="text-indigo-800 hover:underline w-full"
-                href={`https://facebook.com`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button
-                  type="button"
-                  className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Other Link
-                </button>
-              </a>
-            </div>
+                  <button
+                    type="button"
+                    className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-black bg-white hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Other Link
+                  </button>
+                </a>
+              </div>
+            )}
 
             {/* <div className="flex items-center">
               <EmojiHappyIcon className="w-10 mr-2" />
@@ -321,11 +349,14 @@ export default MemberProfile;
 export async function getServerSideProps(context) {
   const { id } = context.query;
   try {
-    const profiles = await profileAirtable.select({}).all();
-    const profile = profiles.find((p) => p.id === id);
+    const profiles = await profileAirtable.select({}).firstPage();
+    const aproovedProfiles = minifyItems(
+      profiles.filter((profile) => profile.fields.approved === "yes")
+    );
+    const profile = aproovedProfiles.find((p) => p.fields.walletAddress === id);
     return {
       props: {
-        profile: getMinifiedItem(profile),
+        profile,
       },
     };
   } catch (error) {
