@@ -7,8 +7,7 @@ const Layout = ({ children }) => {
     <div className="font-nunito flex flex-col min-h-screen font-light">
       <div className="mb-2 flex items-center justify-center text-center p-1 bg-blend-soft-light  bg-gradient-to-r from-[#7928ca] to-[#ff0080]">
         <h3 className="text-white text-sm ">
-          A huge congrats to last week's winner:
-          0x02389745619387465kajshgd12341234 (~ USD 200.80){" "}
+          A huge congrats to last week's winner: 0x02389...1234 (~ USD 200.80){" "}
         </h3>{" "}
         {/* {account.slice(0, 6)}...
                             {account.slice(account.length - 4)} */}

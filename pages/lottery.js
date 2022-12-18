@@ -306,7 +306,7 @@ export default function Lottery({ tasks, profiles }) {
                 Latest Tasks:
               </h3>
             </div>
-            <ul className="text-black py-3 grid grid-cols-1 lg:grid-cols-3 start-here-btn">
+            <ul className="text-black py-3 grid grid-cols-1 lg:grid-cols-1 ">
               {items &&
                 items?.map((item) => <Item key={item.id} item={item} />)}
             </ul>
