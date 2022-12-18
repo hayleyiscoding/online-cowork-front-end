@@ -1,24 +1,12 @@
 import { createContext, useState } from "react";
 import { ethers } from "ethers";
-import { useProvider } from "wagmi";
-import lotteryABI from "../constants/lotteryABI.json";
+import { toast } from "react-toastify";
 
 const LotteryContext = createContext();
 
 const LotteryProvider = ({ children }) => {
-  const provider = useProvider();
   const [lotteryContract, setLotteryContract] = useState(null);
   const [lotteryState, setLotteryState] = useState(null);
-
-  const getLotteryContract = () => {
-    console.log("address:", process.env.NEXT_PUBLIC_LOTTERY_CONTRACT);
-    const lotteryContractInstance = new ethers.Contract(
-      process.env.NEXT_PUBLIC_LOTTERY_CONTRACT,
-      lotteryABI,
-      provider
-    );
-    setLotteryContract(lotteryContractInstance);
-  };
 
   const getLotteryState = async () => {
     try {
@@ -35,20 +23,36 @@ const LotteryProvider = ({ children }) => {
       const withdrawPercentageForOwner =
         await lotteryContract.getWithdrawPercentageForOwner();
       setLotteryState({
-        balance,
-        entranceFee,
-        interval,
+        balance: ethers.utils.formatEther(balance),
+        entranceFee: ethers.utils.formatEther(entranceFee),
+        interval: parseInt(interval),
         players,
         recentWinners,
         lotteryStatus,
         numberOfWinners,
-        numberOfPlayers,
+        numberOfPlayers: parseInt(numberOfPlayers),
         withdrawPercentageForWinner,
         withdrawPercentageForOwner,
       });
     } catch (error) {
+      toast.warn("Something went wrong!");
       console.log(error);
     }
+  };
+
+  const listenLotteryEvents = () => {
+    lotteryContract.on("PlayerEnteredToLottery", (player) => {
+      console.log("PlayerEnteredToLottery:", player);
+      toast.info(`One Player Entered to Lottery: ${player}`, { delay: 5000 });
+    });
+    lotteryContract.on("WinnerPicked", (winner) => {
+      console.log("WinnerPicked:", winner);
+      toast.success(`Winner Picked: ${winner}`, { delay: 5000 });
+    });
+    lotteryContract.on("WithdrawnFund", (someone) => {
+      console.log("WithdrawnFund:", someone);
+      toast.info(`Withdrawn Fund to: ${someone}`, { delay: 5000 });
+    });
   };
 
   return (
@@ -56,10 +60,10 @@ const LotteryProvider = ({ children }) => {
       value={{
         lotteryContract,
         setLotteryContract,
-        getLotteryContract,
         lotteryState,
         setLotteryState,
         getLotteryState,
+        listenLotteryEvents,
       }}
     >
       {children}

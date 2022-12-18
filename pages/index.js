@@ -4,7 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useBalance, useNetwork, useProvider } from "wagmi";
+import {
+  useAccount,
+  useBalance,
+  useNetwork,
+  useContract,
+  useProvider,
+  useSigner,
+} from "wagmi";
 import { toast } from "react-toastify";
 import { ItemsContext } from "../context/items";
 import { ProfilesContext } from "../context/profiles";
@@ -16,14 +23,21 @@ import SEO from "../components/SEO";
 import Alert from "../components/Alert";
 import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
 // import getRandomImage from "../utils/getRandomImage";
+import lotteryABI from "../constants/lotteryABI.json";
 
 export default function Home({ tasks, profiles }) {
   const { data: account } = useAccount();
   const { data: balance } = useBalance({
     addressOrName: account?.address,
   });
-  const { activeChain } = useNetwork();
+  const { activeChain, switchNetwork } = useNetwork();
   const provider = useProvider();
+  const contract = useContract({
+    addressOrName: process.env.NEXT_PUBLIC_LOTTERY_CONTRACT,
+    contractInterface: lotteryABI,
+    signerOrProvider: provider,
+  });
+  const { data: signer } = useSigner();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
@@ -95,21 +109,42 @@ export default function Home({ tasks, profiles }) {
   const {
     lotteryContract,
     setLotteryContract,
-    getLotteryContract,
     lotteryState,
     setLotteryState,
     getLotteryState,
+    listenLotteryEvents,
   } = useContext(LotteryContext);
 
   const [task, setTask] = useState("");
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(0);
+  const [spin, setSpin] = useState(false);
   const { addItem } = useContext(ItemsContext);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await addItem({ task, amount: amount, address: account?.address });
-    setTask("");
-    setAmount(1);
+  const handleSubmit = async () => {
+    if (task === "") toast.error("Please filled a new Task name!");
+    else if (amount === 0)
+      toast.error("Please add Task with at least 1 Matic!");
+    else {
+      setSpin(true);
+      try {
+        const lotteryContractWithSigner = lotteryContract.connect(signer);
+        await lotteryContractWithSigner.enterLottery({
+          value: ethers.utils.parseEther(String(amount)),
+        });
+        await addItem({
+          task,
+          amount: amount,
+          address: account?.address,
+        });
+        setTask("");
+        setAmount(0);
+        setSpin(false);
+      } catch (error) {
+        setSpin(false);
+        toast.warn("Something went wrong!");
+        console.log(error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -119,24 +154,27 @@ export default function Home({ tasks, profiles }) {
 
   useEffect(() => {
     if (activeChain === undefined) toast.info("Please connect your wallet!");
-    else if (activeChain.id !== 80001 && activeChain.id !== 137)
+    else if (activeChain.id !== 80001 && activeChain.id !== 137) {
       toast.warn("Please switch to Polygon network!");
-    else
+      switchNetwork(80001);
+    } else
       toast.success(`Your wallet is connected to ${activeChain.name} network!`);
   }, [activeChain]);
 
   useEffect(() => {
-    console.log("account:", account);
-    if (lotteryContract === null && account !== null) getLotteryContract();
-    if (account === null) {
+    if (contract && account && activeChain) setLotteryContract(contract);
+    if (!account) {
       setLotteryContract(null);
       setLotteryState(null);
     }
-    if (lotteryContract !== null) {
-      console.log("lotteryContract:", lotteryContract);
+  }, [account, contract]);
+
+  useEffect(() => {
+    if (lotteryContract) {
+      listenLotteryEvents();
       getLotteryState();
     }
-  }, [lotteryContract, account]);
+  }, [lotteryContract]);
 
   useEffect(() => {
     console.log("lotteryState:", lotteryState);
@@ -220,7 +258,6 @@ export default function Home({ tasks, profiles }) {
               <h3 className="text-4xl font-bold pt-12 pb-4 text-center">
                 Latest Tasks:
               </h3>
-
               <ul className="text-black py-3 mx-auto sm:w-12/12 grid grid-cols-1 lg:grid-cols-3 ">
                 {items &&
                   items?.map((item) => <Item key={item.id} item={item} />)}
@@ -230,10 +267,7 @@ export default function Home({ tasks, profiles }) {
 
           {account && !success && (
             <div>
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-8 divide-y divide-gray-200 pt-4"
-              >
+              <section className="space-y-8 divide-y divide-gray-200 pt-4">
                 <div className="space-y-6 sm:space-y-5  w-4/6 py-4 mx-auto text-center shadow-xl">
                   <section className="flex flex-col items-center p-6 mx-auto text-center w-9/12">
                     <h3 className="font-bold mb-8 mt-5 text-4xl leading-normal">
@@ -298,8 +332,8 @@ export default function Home({ tasks, profiles }) {
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="e.g. 5"
                       step={1}
-                      min={1}
-                      max={parseInt(balance.formatted * 10)}
+                      min={0}
+                      max={balance.formatted}
                       value={amount}
                     />
 
@@ -309,9 +343,29 @@ export default function Home({ tasks, profiles }) {
                     >
                       {" "}
                       <button
-                        type="submit"
+                        type="button"
+                        onClick={handleSubmit}
+                        disabled={spin}
                         className="ml-3 mt-4 inline-flex justify-center py-2 px-4 border-2 border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:text-black hover:border-2 border-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                       >
+                        {spin && (
+                          <svg
+                            aria-hidden="true"
+                            className="mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-white"
+                            viewBox="0 0 100 101"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                              fill="currentColor"
+                            />
+                            <path
+                              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                              fill="currentFill"
+                            />
+                          </svg>
+                        )}
                         Get it done!
                       </button>
                     </div>
@@ -337,19 +391,14 @@ export default function Home({ tasks, profiles }) {
                     </p>
                   </div>
                 </div>
-              </form>
-
-              <section>
-                <div className="w-2/3 mx-auto pt-6">
-                  <h3 className="text-4xl font-bold py-4 pb-4 mt-12 text-center mx-auto">
-                    Latest Tasks:
-                  </h3>
-                </div>
-                <ul className="text-black py-3 grid grid-cols-1 lg:grid-cols-3">
-                  {items &&
-                    items?.map((item) => <Item key={item.id} item={item} />)}
-                </ul>
               </section>
+              <h3 className="text-4xl font-bold pt-12 pb-4 text-center">
+                Latest Tasks:
+              </h3>
+              <ul className="text-black py-3 mx-auto sm:w-12/12 grid grid-cols-1 lg:grid-cols-3 ">
+                {items &&
+                  items?.map((item) => <Item key={item.id} item={item} />)}
+              </ul>
             </div>
           )}
 
