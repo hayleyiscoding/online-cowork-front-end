@@ -7,9 +7,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        coworkblue: "#2B3349",
+        coworkblue: "#2b3349",
         coworkbeige: "#eae5df",
-        coworkdarkbeige: "#9b8f90",
+        coworkdarkbeige: "#aca0a0",
       },
       fontFamily: {
         serif: ["Nunito Sans", ...defaultTheme.fontFamily.serif],

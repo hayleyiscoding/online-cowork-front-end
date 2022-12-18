@@ -11,7 +11,7 @@ export default function Document() {
           rel="stylesheet"
         ></link>
       </Head>
-      <body className="">
+      <body className="bg-coworkblue">
         <Main />
         <NextScript />
       </body>

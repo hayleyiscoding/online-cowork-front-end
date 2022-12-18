@@ -22,6 +22,7 @@ export default function CreateProfile({ initialProfiles }) {
   const [jobTitle, setJobTitle] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
+  const [discord, setDiscord] = useState("");
   const [websiteLink, setWebsiteLink] = useState("");
   const [facebookLink, setFacebookLink] = useState("");
   const [facebookGroupLink, setFacebookGroupLink] = useState("");
@@ -34,7 +35,6 @@ export default function CreateProfile({ initialProfiles }) {
   const [otherLink, setOtherLink] = useState("");
   const [bio, setBio] = useState("");
   const [coverImage, setCoverImage] = useState(null);
-
   const [avatarImage, setAvatarImage] = useState(null);
 
   const { addProfile, profiles, setProfiles, updateProfile } =
@@ -81,6 +81,7 @@ export default function CreateProfile({ initialProfiles }) {
       jobTitle,
       city,
       country,
+      discord,
       websiteLink,
       facebookLink,
       facebookGroupLink,
@@ -107,6 +108,7 @@ export default function CreateProfile({ initialProfiles }) {
     setJobTitle("");
     setCity("");
     setCountry("");
+    setDiscord("");
     setWebsiteLink("");
     setFacebookLink("");
     setFacebookGroupLink("");
@@ -124,7 +126,7 @@ export default function CreateProfile({ initialProfiles }) {
       "Your profile has been submitted successfully! We aim to approve profiles as fast as we can, but please allow 24 to 72 hours - after which you will be able to see your profile in our member directory and participate in the lottery!"
     );
     setTimeout(() => {
-      router.push("/members");
+      router.push("/");
     }, 10000);
   };
 
@@ -171,14 +173,49 @@ export default function CreateProfile({ initialProfiles }) {
 
         {!success && (
           <div>
-            <h1 className="text-3xl tracking-tight font-extralight text-gray-900 sm:text-4xl md:text-5xl mb-4">
+            <h1 className="text-3xl tracking-tight font-extralight text-coworkdarkbeige sm:text-4xl md:text-5xl mb-4 mt-4">
               Create Your Profile
             </h1>
-            <p className="font-light text-base pr-40 pb-8 pt-8">
+            <p className="font-light text-base lg:pr-40 pb-8 pt-8 text-gray-200">
+              In order to make sure that the lottery winnings are going into the
+              right hands(i.e. to people with online businesses, remote workers,
+              online freelancers, etc), we please require all participants to
+              register for the lottery by creating a profile. As a bonus, your
+              profile will appear in our{" "}
+              <span className="underline">
+                <Link href="/members" passHref className="underline">
+                  member directory
+                </Link>{" "}
+              </span>
+              where potential clients/customers/followers can learn more about
+              you and/or your business!
+              <br />
+              <br />
               Below you will find a form to create your profile. Once you have
-              created your added your details below, we will approve it within
-              72 hours. If approved, you may participate in the Online CoWork
-              Lottery! Please keep an eye on your email (and spam folder!)
+              added your details below, we will take a look and approve it
+              within 72 hours (but we aim to approve as quickly as we can!).
+              <br />
+              <br />
+              If 72 hours have passed with no response, please assume that your
+              profile was not successful - but you are welcome to email us to
+              check - info (at) onlinecowork.com.
+              <br />
+              <br />
+              If approved, you will be added to our{" "}
+              <span className="underline">
+                <Link href="/members" passHref className="underline">
+                  member directory
+                </Link>
+              </span>{" "}
+              and you may participate in the Online CoWork Lottery right away!
+              Please keep an eye on your email (and spam folder!) for your
+              approval email.
+              <br />
+              <br />
+              NOTE: Please be mindful of formatting and punctuation when
+              completing this form as your info will not be edited before
+              publishing live on the site. You may also edit your profile later
+              on.
             </p>
           </div>
         )}
@@ -192,9 +229,9 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="first-name"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  First Name{" "}
+                  First Name<span className="text-red-500">*</span>{" "}
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
                     Add your first name. Please try to use your real first name
                     as it will be associated with your business.
@@ -205,10 +242,11 @@ export default function CreateProfile({ initialProfiles }) {
                     id="first-name"
                     name="first-name"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     required
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="Jane"
                   />
                 </div>
               </div>
@@ -216,9 +254,9 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="job-title"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  Email{" "}
+                  Email<span className="text-red-500">*</span>
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
                     Write your email address
                   </p>
@@ -228,10 +266,11 @@ export default function CreateProfile({ initialProfiles }) {
                     id="email"
                     name="email"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="onlinecowork@ymail.com"
                   />
                 </div>
               </div>
@@ -239,12 +278,12 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="job-title"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  Job Title{" "}
+                  Job Title<span className="text-red-500">*</span>
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
                     e.g. Social Media Manager, Etsy Seller, Virtual Assistant,
-                    etc.
+                    etc. Please capitalize the first letter of each word.
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -252,10 +291,12 @@ export default function CreateProfile({ initialProfiles }) {
                     id="job-title"
                     name="job-title"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     required
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
+                    placeholder="Social Media Manager"
+                    max={28}
                   />
                 </div>
               </div>
@@ -263,9 +304,9 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="city"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  City{" "}
+                  City<span className="text-red-500">*</span>
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
                     Write your city
                   </p>
@@ -275,10 +316,11 @@ export default function CreateProfile({ initialProfiles }) {
                     id="city"
                     name="city"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     required
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
+                    placeholder="Manila"
                   />
                 </div>
               </div>
@@ -286,9 +328,9 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="country"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  Country{" "}
+                  Country<span className="text-red-500">*</span>
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
                     Write your country
                   </p>
@@ -298,10 +340,43 @@ export default function CreateProfile({ initialProfiles }) {
                     id="country"
                     name="country"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     required
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
+                    placeholder="The Philippines"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
+                  htmlFor="discord"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
+                >
+                  Discord Handle{" "}
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    e.g. BlueSky#4423. You can find this in the bottom left
+                    corner of your discord screen. If you are not yet a member -
+                    visit{" "}
+                    <a
+                      href="https://office.onlinecowork.com"
+                      target="_blank"
+                      className="underline"
+                      rel="noreferrer"
+                    ></a>
+                    https://office.onlinecowork.com to join - it's free.
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    id="discord"
+                    name="discord"
+                    type="text"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
+                    value={discord}
+                    onChange={(e) => setDiscord(e.target.value)}
+                    placeholder="BlueSky#4225"
                   />
                 </div>
               </div>
@@ -309,11 +384,12 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="website-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Website
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                    Add your business website link here
+                    Add your business website link here (all links should start
+                    with https://)
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -321,9 +397,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="website-link"
                     name="website-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={websiteLink}
                     onChange={(e) => setWebsiteLink(e.target.value)}
+                    placeholder="https://onlinecowork.com"
                   />
                 </div>
               </div>
@@ -331,7 +408,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="facebook-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Facebook Page
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -343,9 +420,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="facebook-link"
                     name="facebook-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={facebookLink}
                     onChange={(e) => setFacebookLink(e.target.value)}
+                    placeholder="https://facebook.com/onlinecowork"
                   />
                 </div>
               </div>
@@ -353,7 +431,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="facebook-group-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Facebook Group
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -365,9 +443,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="facebook-group-link"
                     name="facebook-group-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige  sm:text-sm border border-gray-300 rounded-md text-white"
                     value={facebookGroupLink}
                     onChange={(e) => setFacebookGroupLink(e.target.value)}
+                    placeholder="https://facebook.com/groups/yourbestlifenow"
                   />
                 </div>
               </div>
@@ -375,7 +454,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="twitter-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Twitter Profile
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -387,9 +466,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="twitter-link"
                     name="twitter-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={twitterLink}
                     onChange={(e) => setTwitterLink(e.target.value)}
+                    placeholder="https://twitter.com/onlinecowork"
                   />
                 </div>
               </div>
@@ -397,7 +477,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="instagram-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Instagram Profile
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -409,9 +489,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="instagram-link"
                     name="instagram-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full shadow-sm box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={instagramLink}
                     onChange={(e) => setInstagramLink(e.target.value)}
+                    placeholder="https://instagram.com/onlinecowork"
                   />
                 </div>
               </div>
@@ -419,7 +500,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="pinterest-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Pinterest Page
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -431,9 +512,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="pinterest-link"
                     name="pinterest-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={pinterestLink}
                     onChange={(e) => setPinterestLink(e.target.value)}
+                    placeholder="https://www.pinterest.com/onlinecowork/"
                   />
                 </div>
               </div>
@@ -441,7 +523,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="tiktok-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your TikTok Profile
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -453,9 +535,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="tiktok-link"
                     name="tiktok-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={tiktokLink}
                     onChange={(e) => setTiktokLink(e.target.value)}
+                    placeholder="https://tiktok.com/@username"
                   />
                 </div>
               </div>
@@ -463,7 +546,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="linkedin-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your LinkedIn Profile
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -475,9 +558,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="linkedin-link"
                     name="linkedin-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={linkedinLink}
                     onChange={(e) => setLinkedinLink(e.target.value)}
+                    placeholder="http://ca.linkedin.com/in/linkedinyourname"
                   />
                 </div>
               </div>
@@ -485,7 +569,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="freebie-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Your Freebie
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -499,9 +583,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="freebie-link"
                     name="freebie-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={freebieLink}
                     onChange={(e) => setFreebieLink(e.target.value)}
+                    placeholder="https://onlinecowork.com/free-pdf-how-to-make-great-images-in-canva"
                   />
                 </div>
               </div>
@@ -509,7 +594,7 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="other-link"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
                   Other Important Link
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
@@ -521,9 +606,10 @@ export default function CreateProfile({ initialProfiles }) {
                     id="other-link"
                     name="other-link"
                     type="text"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     value={otherLink}
                     onChange={(e) => setOtherLink(e.target.value)}
+                    placeholder="https://otherimportantlink.com"
                   />
                 </div>
               </div>
@@ -531,22 +617,31 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="bio"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  Bio
+                  Bio<span className="text-red-500">*</span>
                   <p className="mt-2 text-sm text-gray-400">
                     Let people know a little bit about you! Max 500 characters.
+                    Example: "Hi! Great to meet you My name is Jane and I've
+                    been a social media manager for the past 5 years. I have the
+                    most experience with Instagram and Facebook, but I also love
+                    working with Pinterest ads. I am a huge coffee fan, love
+                    cuddles with my two puppies and a roadtrip in Iceland is on
+                    my bucketlist! Please don't hesitate to get in touch with me
+                    via my website or social media accounts! Or grab my freebie
+                    a free page PDF guide on how to increase your engagement on
+                    Instagram!"
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
                   <textarea
                     id="bio"
                     name="bio"
-                    rows={3}
-                    className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    rows={6}
+                    className="max-w-lg block w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige  sm:text-sm border border-gray-300 rounded-md text-white"
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
-                    max={500}
+                    maxLength={500}
                   />
                 </div>
               </div>
@@ -554,14 +649,16 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="profile-picture"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  Profile picture (Optional)
+                  Profile Picture<span className="text-red-500">*</span>
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                    Upload an avatar/business logo for your profile. Size: 800 X
-                    800px (Square). We recommend using an avatar which you can
-                    create for free on canva -
-                    https://www.canva.com/create/avatars/.
+                    Upload a head shot. Must be a SQUARE image. Size: 1080 X
+                    1080 (Instagram Size) Please make sure that your image is a
+                    square or your profile will not be approved. Please also
+                    make sure that your image file size is below 200kb. Thank
+                    you. You can also use an avatar which you can create for
+                    free on canva - https://www.canva.com/create/avatars/.
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -569,7 +666,7 @@ export default function CreateProfile({ initialProfiles }) {
                     id="profile-picture"
                     name="profile-picture"
                     type="file"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     required
                     onChange={(event) =>
                       uploadImage(event.target.files[0], setAvatarImage)
@@ -581,14 +678,16 @@ export default function CreateProfile({ initialProfiles }) {
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
                   htmlFor="cover-image"
-                  className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
-                  Cover image
+                  Cover Image<span className="text-red-500">*</span>
                   <p className="mt-1 max-w-2xl text-sm text-gray-400">
-                    Upload a cover image for your profile. Size: 8000 X 1960px.
-                    Visit our member directory to see examples of good cover
-                    images. Your cover image can serve as a banner advertisement
-                    for your business.
+                    Upload a cover image for your profile. Size: 650 X 460
+                    (length X height). Please make sure that your image size is
+                    less than 200kb. Visit our member directory to see examples
+                    of good cover images. Your cover image can serve as a banner
+                    advertisement for your business where you can include info
+                    about your sales, etc.
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -596,7 +695,7 @@ export default function CreateProfile({ initialProfiles }) {
                     id="cover-image"
                     name="cover-image"
                     type="file"
-                    className="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
                     onChange={(event) =>
                       uploadImage(event.target.files[0], setCoverImage)
                     }
@@ -604,18 +703,16 @@ export default function CreateProfile({ initialProfiles }) {
                 </div>
               </div>
             </div>
+
             <div className="pt-5">
               <div className="flex justify-end">
-                <Link
-                  href="/"
-                  className="bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                >
-                  Cancel
+                <Link href="/">
+                  <a className="btn p-8">Cancel</a>
                 </Link>
                 <button
                   type="submit"
                   disabled={isUploading}
-                  className="ml-3 inline-flex justify-center py-2 px-4 border-2 border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:text-black hover:border-2 border-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                  className="btn btn-primary"
                 >
                   {isUploading ? <Loader /> : "Create"}
                 </button>
@@ -632,14 +729,14 @@ export default function CreateProfile({ initialProfiles }) {
           </div>
         )} */}
 
-        {!isConnected && (
+        {/* {!isConnected && (
           <section className="flex flex-col items-start py-8">
             <p className="mb-4">
               Please connect your wallet to create a profile.
             </p>
             <ConnectButton />
           </section>
-        )}
+        )} */}
       </section>
     </div>
   );

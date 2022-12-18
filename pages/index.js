@@ -1,378 +1,104 @@
 import Head from "next/head";
-import Link from "next/link";
-import { useState, useEffect, useContext } from "react";
-// import getRandomImage from "../utils/getRandomImage";
-import { ethers } from "ethers";
-import connectLotteryContract from "../utils/connectLotteryContract";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import Alert from "../components/Alert";
-import { useRouter } from "next/router";
-import LandingLottery from "../components/LandingLottery";
-import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
-import { ItemsContext } from "../context/items";
-import Item from "../components/Item";
-import LotteryPageStats from "../components/LotteryPageStats";
+import Image from "next/image";
+
+import Hero from "../components/Hero";
+import HowItWorks from "../components/Howitworks";
+import JoinCommunity from "../components/JoinCommunity";
+import RightForMe from "../components/RightForMe";
+import TaskExamples from "../components/TaskExamples";
+import { useEffect, useState } from "react";
+import Feature from "../components/Feature";
 import SEO from "../components/SEO";
-import { ProfilesContext } from "../context/profiles";
+import NoWallet from "../components/NoWallet";
 
-export default function Home({ tasks, profiles }) {
-  const { data: account } = useAccount();
-
-  const [success, setSuccess] = useState(null);
-  const [message, setMessage] = useState(null);
-  const [loading, setLoading] = useState(null);
-
-  const [entranceFee, setEntranceFee] = useState("0");
-  const [numberOfPlayers, setNumberOfPlayers] = useState("0");
-  const [recentWinner, setRecentWinner] = useState("0");
-
-  const router = useRouter();
-
-  //   function handleSubmit(e) {
-  //     e.preventDefault();
-
-  // const body = {
-  //   task: task,
-  // };
-
-  // try {
-  // } catch (error) {
-  //   alert(
-  //     `Oops! Something went wrong. Please refresh and try again. Error ${error}`
-  //   );
-  // } finally {
-  //   setTask("");
-  // }
-
-  // const createEvent = async () => {
-  //   try {
-  //     const lotteryContract = connectContract();
-
-  //     if (lotteryontract) {
-  //       // let deposit = ethers.utils.parseEther(refund);
-  //       // let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
-  //       // let eventTimestamp = eventDateAndTime.getTime();
-  //       // let eventDataCID = cid;
-
-  //       const txn = await lotteryContract.enterLottery(
-  //         eventTimestamp,
-  //         deposit,
-  //         maxCapacity,
-  //         eventDataCID,
-  //         { gasLimit: 900000 }
-  //       );
-
-  //       setLoading(true);
-  //       console.log("Minting...", txn.hash);
-  //       let wait = await txn.wait();
-  //       console.log("Minted -- ", txn.hash);
-
-  //       setEventID(wait.events[0].args[0]);
-  //       setSuccess(true);
-  //       setLoading(false);
-  //       setMessage("Woohoo! Your task has been created successfully. Now get it done! 🥳");
-  //     } else {
-  //       console.log("Error getting contract.");
-  //     }
-  //   } catch (error) {
-  //     setSuccess(false);
-  //     setMessage(`There was an error adding your task: ${error.message}`);
-  //     setLoading(false);
-  //     console.log(error);
-  //   }
-  // };
-  //   }
-
-  const { items, setItems } = useContext(ItemsContext);
-  const { setProfiles } = useContext(ProfilesContext);
+const Home = () => {
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setItems(tasks);
-    setProfiles(profiles);
-  }, [tasks, setItems, profiles, setProfiles]);
-
-  const [task, setTask] = useState("");
-  const [amount, setAmount] = useState("1");
-  const { addItem } = useContext(ItemsContext);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await addItem({ task, amount: amount, address: account?.address });
-    setTask("");
-    setAmount(1);
-  };
-
-  useEffect(() => {
-    // disable scroll on <input> elements of type number
-    document.addEventListener("wheel", (event) => {
-      if (document.activeElement.type === "number") {
-        document.activeElement.blur();
-      }
-    });
-  });
-
-  if (loading) {
-    return (
-      <SEO>
-        <LandingLottery>
-          <div className="lds-spinner">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </LandingLottery>
-      </SEO>
-    );
-  }
-
-  //   if (error) {
-  //     return (
-  //       <LandingLottery>
-  //         <p>`Error! ${error.message}`</p>
-  //       </LandingLottery>
-  //     );
-  //   }
+    setIsMounted(true);
+  }, []);
 
   return (
-    <SEO>
-      <LandingLottery>
-        <LotteryPageStats initialItems={tasks} />
-        <section className="relative py-8">
-          {!account && (
-            <div>
-              <section className="flex flex-col items-center p-16 mx-auto border w-3/6 text-center sm:w-12/12 shadow-xl mt-8">
-                <h3 className="text-4xl font-bold mb-8">
-                  Connect your wallet here to add a task to enter the lottery!
-                </h3>
-                <p className="mb-10 text-sm font-light">
-                  1) Please connect your wallet to add a task. If you are not
-                  sure what a wallet is, please see our FAQ's{" "}
-                  <Link href="/how-it-works" passHref>
-                    <p className="underline  mb-4 text-sm font-light inline-block">
-                      here.
-                    </p>
-                  </Link>
-                  <br />
-                  2) In order to limit spammers, registration is required in
-                  order to take part - please also complete this quick
-                  application form{" "}
-                  <a
-                    href="https://airtable.com/shrDASlmULZmdC0C1"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline"
-                  >
-                    here
-                  </a>{" "}
-                  if this is your first time adding a task. Thank you!
-                </p>
-                <ConnectButton />
-              </section>
-              <h3 className="text-4xl font-bold pt-12 pb-4 text-center">
-                Latest Tasks:
-              </h3>
-
-              <ul className="text-black py-3 mx-auto sm:w-12/12 grid grid-cols-1 lg:grid-cols-3 ">
-                {items &&
-                  items?.map((item) => <Item key={item.id} item={item} />)}
-              </ul>
-            </div>
-          )}
-
-          {account && !success && (
-            <div>
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-8 divide-y divide-gray-200 pt-4"
-              >
-                <div className="space-y-6 sm:space-y-5  w-4/6 py-4 mx-auto text-center shadow-xl">
-                  <section className="flex flex-col items-center p-6 mx-auto text-center w-9/12">
-                    <h3 className="font-bold mb-8 mt-5 text-4xl leading-normal">
-                      Grab a lottery ticket here by adding a business task!
-                    </h3>
-                    <p className="font-light text-sm">
-                      If you are not sure how this works, click{" "}
-                      <Link href="/how-it-works" passHref>
-                        <p className="underline  mb-4 text-sm font-light inline-block">
-                          here.
-                        </p>
-                      </Link>
-                      <br />
-                      <strong>TASK: </strong>This is the task that you'd like to
-                      complete.
-                      <br />
-                      <br />
-                      <strong>AMOUNT: </strong>This is the amount of money (in
-                      MATIC) that you wish to pay in order to make a contract
-                      with yourself to complete your task. This amount needs to
-                      be a minimum of 1 MATIC. Please note that you WONT get
-                      this money back.
-                      <br />
-                      <br />
-                      This fee will buy you a lottery ticket/s. And one lucky
-                      random winner will win the prize pool each week! NOTE: 1
-                      MATIC = 1 LOTTERY TICKET. This means that if you pay 10
-                      MATIC to complete your task, you will get 10 entries into
-                      the draw.
-                    </p>
-                  </section>
-                  <div className="mt-1 sm:mt-0 sm:col-span-2">
-                    <label
-                      htmlFor="task"
-                      className="block text-sm font-bold text-gray-900"
-                    >
-                      Task that you would like to complete:
-                    </label>
-                    <input
-                      id="task"
-                      name="task"
-                      type="text"
-                      className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
-                      required
-                      onChange={(e) => setTask(e.target.value)}
-                      placeholder="e.g. Write a blog about 10 tips for branding..."
-                      maxLength={35}
-                      value={task}
-                    />
-                    <label
-                      htmlFor="amount"
-                      className="block text-sm font-bold text-gray-900"
-                    >
-                      Amount to Pay (in MATIC - minimum 1 MATIC):
-                    </label>
-                    <input
-                      id="amount"
-                      name="amount"
-                      type="text"
-                      className="block w-3/5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
-                      required
-                      onChange={(e) => setAmount(e.target.value)}
-                      placeholder="e.g. 5"
-                      step={1}
-                      min={1}
-                      value={amount}
-                    />
-
-                    <div
-                      className="flex justify-center
-              "
-                    >
-                      {" "}
-                      <button
-                        type="submit"
-                        className="ml-3 mt-4 inline-flex justify-center py-2 px-4 border-2 border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:text-black hover:border-2 border-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                      >
-                        Get it done!
-                      </button>
-                    </div>
-                    <p className="p-8 text-xs w-5/12 mx-auto font-extralight">
-                      By adding your task you agree to our{" "}
-                      <a
-                        href="https://onlinecowork.com/terms-and-conditions"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
-                        terms and conditions{" "}
-                      </a>
-                      and{" "}
-                      <a
-                        href="https://onlinecowork.com/privacy-policy"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline"
-                      >
-                        privacy policy
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </form>
-
-              <section>
-                <div className="w-2/3 mx-auto pt-6">
-                  <h3 className="text-4xl font-bold py-4 pb-4 mt-12 text-center mx-auto">
-                    Latest Tasks:
-                  </h3>
-                </div>
-                <ul className="text-black py-3 grid grid-cols-1 lg:grid-cols-3">
-                  {items &&
-                    items?.map((item) => <Item key={item.id} item={item} />)}
-                </ul>
-              </section>
-            </div>
-          )}
-
-          {/* {success && profileID && (
-          <div>
-            Success! Please wait a few minutes, then check out your event page{" "}
-            <span className="font-bold">
-              <Link href={`/profiles/${profileID}`}>here</Link>
-            </span>
-          </div>
-        )} */}
-        </section>
-
-        {/* <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 py-12"
-      >
-        {filteredProfiles.map((profile) => (
-          <li key={profile.id}>
-            <ProfileCard
-              id={profile.id}
-              firstName={profile.firstName}
-              // eventTimestamp={event.eventTimestamp}
-              imageURL={profile.imageURL}
-              // eventCost={event.cost}
-              jobTitle={profile.jobTitle}
+    <div className="">
+      <Head>
+        <title>Online CoWork Lottery</title>
+        <link rel="icon" href="/favicon.png" />
+      </Head>
+      <SEO>
+        <section className="relative  bg-coworkblue  ">
+          <Hero />
+          <Feature />
+          <TaskExamples />
+          <RightForMe />
+          <HowItWorks />
+          <NoWallet />
+          <JoinCommunity />
+          <div className="sm:mx-auto w-full h-13 object-contain py-12 bg-coworkblue flex justify-center">
+            <Image
+              className="rounded-xl"
+              src="/images/wbw3-logo.png"
+              alt="Women Build Web3 Logo"
+              width={400}
+              height={230}
             />
-          </li>
-        ))}
-      </ul> */}
-      </LandingLottery>
-    </SEO>
+            <hr />
+          </div>
+        </section>
+      </SEO>
+    </div>
   );
-}
+};
 
-export async function getServerSideProps(context) {
-  try {
-    const items = await taskAirtable
-      .select({
-        // Selecting the first 20 records in Grid view:
-        maxRecords: 20,
-        view: "Grid view",
-      })
-      .firstPage();
-    const profiles = await profileAirtable
-      .select({
-        // Selecting the first 20 records in Grid view:
-        maxRecords: 50,
-        view: "Grid view",
-      })
-      .all();
-    return {
-      props: {
-        tasks: minifyItems(items),
-        profiles: minifyItems(profiles),
-      },
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      props: {
-        err: "Something went wrong 😕",
-      },
-    };
-  }
+export default Home;
+
+{
+  /* <div className="absolute inset-0 hidden lg:block">
+            <img
+              className="object-cover object-top w-full h-full"
+              src="./hero-image-waitlist.png"
+              alt=""
+            />
+          </div>
+
+          <div className="relative px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-4xl font-semibold xl:tracking-wide leading-tight text-gray-900 sm:text-3xl xl:text-6xl sm:tracking-tight">
+                The Online CoWork Lottery
+                <br /> is coming SOON!
+              </h1>
+              <h2 className="text-2xl font-semibold tracking-wide sm:text23xl xl:text-2xl sm:tracking-tight mt-6 p-4 rounded-xl bg-white">
+                Complete Your Tasks. Win Funding For Your Online Business.
+              </h2>
+              <p className="font-extralight max-w-xl mx-auto mt-6 text-lg leading-7 text-gray-700 lg:leading-8 lg:text-xl">
+                Virtual assistants, Etsy sellers, online yoga instructors and
+                more... for women around the world with online businesses. Join
+                the waitlist to be notified of the launch! 🔥
+              </p>
+              <div className="flex flex-col items-center gap-5 mt-8">
+                {isMounted && (
+                  <button
+                    onClick={() =>
+                      // @ts-ignore
+
+                      ml_account("webforms", "5806137", "v6a2z2", "show")
+                    }
+                    className="inline-flex items-center justify-center px-8 py-4 text-base font-normal text-black transition-all duration-200 bg-white border border-coworkblue rounded-full hover:bg-coworkblue hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkblue shadow-lg shadow-coworkblue font-nunito"
+                  >
+                    Join the waitlist&nbsp;
+                    <AiOutlineArrowRight />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="-mt-16 sm:-mt-16 md:-mt-32 lg:hidden">
+              <img
+                className="object-cover object-top w-full h-full"
+                src="./hero-mobile.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </section>
+                </div*/
 }

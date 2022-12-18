@@ -4,13 +4,14 @@ import React from "react";
 
 const LotteryPageStats = ({ initialItems }) => {
   return (
-    <div className="sm:py-16 lg:py-1 ">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 py-5 border-gray-200 xl:grid-cols-5">
-          <div className="pb-10 lg:pb-0 xl:py-6">
-            <p className="text-md text-gray-600 font-light">Tasks Added</p>
+    <div className="sm:py-16 lg:py-8 text-center">
+      {/* <hr /> */}
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 box-shadow-n">
+        <div className="grid grid-cols-4 sm:grid-cols-1 py-20 border-gray-200 xl:grid-cols-5">
+          <div className="col-span-2 lg:col-span-1 pb-10 lg:pb-0 xl:py-6 px-10">
+            <p className="text-md text-white font-normal">Tasks Added</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-gray-900">500</p>
+              <p className="text-2xl font-bold text-coworkdarkbeige">500</p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 36%
                 <svg
@@ -29,17 +30,15 @@ const LotteryPageStats = ({ initialItems }) => {
                 </svg>
               </span> */}
             </div>
-            <p className="mt-4 text-md font-light text-gray-500">
+            <p className="mt-4 text-md font-light text-white">
               Since last draw
             </p>
           </div>
 
-          <div className="pb-10 pl-10 border-gray-200 xl:pb-0 xl:border-l xl:py-6">
-            <p className="text-md font-light text-gray-600">
-              Total Tasks Added
-            </p>
+          <div className="col-span-2 lg:col-span-1 pb-10 px-10 border-gray-200 xl:pb-0 xl:py-6">
+            <p className="text-md font-normal text-white">Total Tasks Added</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-2xl font-bold text-coworkdarkbeige">
                 {initialItems?.length}
               </p>
               {/* <span className="text-xs font-semibold text-red-500 ml-2.5 bg-red-100 rounded-full inline-flex items-center px-1.5 py-0.5">
@@ -60,13 +59,11 @@ const LotteryPageStats = ({ initialItems }) => {
                 </svg>
               </span> */}
             </div>
-            <p className="mt-4 text-md font-light text-gray-500">Lifetime</p>
+            <p className="mt-4 text-md font-light text-white">Lifetime</p>
           </div>
 
-          <div className="py-10 border-t xl:py-6 shadow-xl lg:border-gray-200 xl:pl-10 xl:border-t-0">
-            <p className="text-md font-light text-pink-500">
-              Up For Grabs This Week:
-            </p>
+          <div className="col-span-2 lg:col-span-1  py-10 xl:py-6  xl:px-10 ">
+            <p className="text-md font-bold text-pink-500">This Week's Draw:</p>
             <div className="inline-flex items-center mt-3">
               <p className="text-4xl font-extrabold text-pink-500">~ $4532</p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
@@ -95,10 +92,10 @@ const LotteryPageStats = ({ initialItems }) => {
             </p>
           </div>
 
-          <div className="py-10 pl-10 border-t border-gray-200 xl:border-t-0 xl:py-6">
-            <p className="text-md text-gray-600 font-light">Online CoWorkers</p>
+          <div className="col-span-2 lg:col-span-1 py-10 px-10  xl:py-6">
+            <p className="text-md text-white font-normal">Online CoWorkers</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-gray-900 ">54</p>
+              <p className="text-2xl font-bold text-coworkdarkbeige ">54</p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 19%
                 <svg
@@ -117,15 +114,15 @@ const LotteryPageStats = ({ initialItems }) => {
                 </svg>
               </span> */}
             </div>
-            <p className="mt-4 text-md  text-gray-500 font-light">
-              Participating in this draw
-            </p>
+            <p className="mt-4 text-md  text-white font-light">This draw</p>
           </div>
 
-          <div className="col-span-2 pt-10 border-t xl:col-span-1 xl:py-6 xl:border-l xl:border-t-0 xl:border-gray-200 xl:pl-10">
-            <p className="text-md  text-gray-600 font-light">Next Draw Date</p>
+          <div className="col-span-2 pt-10 xl:col-span-1 xl:py-6   xl:px-10">
+            <p className="text-md  text-white font-normal">Next Draw Date</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-gray-900">27 May 2022</p>
+              <p className="text-2xl font-bold text-coworkdarkbeige">
+                27 May 2022
+              </p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 21%
                 <svg
@@ -144,12 +141,13 @@ const LotteryPageStats = ({ initialItems }) => {
                 </svg>
               </span> */}
             </div>
-            <p className="mt-4 text-md  text-gray-500 font-light">
+            <p className="mt-4 text-md  text-white font-light">
               1 Lucky Winner!
             </p>
           </div>
         </div>
       </div>
+      {/* <hr /> */}
     </div>
   );
 };

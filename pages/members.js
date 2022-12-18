@@ -4,6 +4,7 @@ import ProfileCard from "../components/ProfileCard";
 import { profileAirtable, minifyItems } from "../utils/airtable";
 import { ProfilesContext } from "../context/profiles";
 import { getAccount } from "@wagmi/core";
+import Head from "next/head";
 
 function filterArray(array, searchText) {
   const filterItems = ["firstName", "city", "bio", "jobTitle", "country"];
@@ -67,33 +68,42 @@ export default function Members({ initialProfiles }) {
     );
 
   return (
-    <LandingProfiles>
-      <div className="flex justify-start pt-4 pb-6">
-        <div className="mb-3 xl:w-96">
-          <div className="input-group relative flex items-stretch w-full mb-4">
-            <input
-              type="search"
-              className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none"
-              placeholder="Search"
-              aria-label="Search"
-              aria-describedby="button-addon2"
-              onChange={searchInputHandler}
-              value={searchText}
-            />
+    <>
+      <Head>
+        <title>Online CoWork Member Directory</title>
+        <meta
+          name="description"
+          content="A directory of Online CoWork members"
+        />
+      </Head>
+      <LandingProfiles>
+        <div className="flex justify-start pt-4 pb-6">
+          <div className="mb-3 xl:w-96">
+            <div className="input-group relative flex items-stretch w-full mb-4">
+              <input
+                type="search"
+                className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none box-shadow-n"
+                placeholder="Search"
+                aria-label="Search"
+                aria-describedby="button-addon2"
+                onChange={searchInputHandler}
+                value={searchText}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <ul
-        role="list"
-        className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-      >
-        {filteredProfiles.reverse().map((profile) => (
-          <li key={profile}>
-            <ProfileCard profile={profile} />
-          </li>
-        ))}
-      </ul>
-    </LandingProfiles>
+        <ul
+          role="list"
+          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+        >
+          {filteredProfiles.reverse().map((profile) => (
+            <li key={profile}>
+              <ProfileCard profile={profile} />
+            </li>
+          ))}
+        </ul>
+      </LandingProfiles>
+    </>
   );
 }
 

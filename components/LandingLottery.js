@@ -1,5 +1,4 @@
 import Head from "next/head";
-import LotteryPageStats from "./LotteryPageStats";
 import { GiPartyPopper } from "react-icons/gi";
 import Link from "next/link";
 
@@ -13,13 +12,22 @@ export default function LandingLottery({ children }) {
           content="The virtual office for women who work online"
         />
       </Head>
-      <section className="pt-16 pb-4">
-        <div className="w-full md:w-11/12 text-left">
-          <div className="flex items-center">
-            <h1 className="mb-8 text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-              <span>Welcome to the Online CoWork </span>
-              <span className="text-gray-300">Lottery!</span>
+      <section className="pb-4">
+        <div className="py-4 pb-0">
+          <div className="">
+            <h1 className="text-center pt-12 pb-0 mb-3 text-5xl font-light leading-8 text-coworkdarkbeige md:text-7xl">
+              <span>The Online CoWork </span>
+              <span className="text-white font-bold leading-loose">
+                Lottery!
+              </span>
+              <br />
+              <br />
+              <div className="box-shadow-n text-coworkdarkbeige text-xl lg:text-2xl font-light p-12 text-center tracking-wider mx-auto">
+                "The productivity of a to-do list with the excitement of a
+                lottery" 🔥
+              </div>
             </h1>
+
             <div className=" mx-6 text-white my-5 ml-10">
               {/* <button
                 type="button"
@@ -30,7 +38,7 @@ export default function LandingLottery({ children }) {
             </div>
           </div>
 
-          <p className="mt-3 text-extralight text-gray-800sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 lg:text-lg font-extralight">
+          <p className=" pt-4 md:pt-12 p-3 text-gray-200 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 lg:text-lg font-thin">
             For virtual assistants, Etsy sellers, online yoga instructors,
             bloggers, online bookeepers, online freelancers and more! Get things
             done AND win funding for your online business with the Online CoWork
@@ -59,22 +67,14 @@ export default function LandingLottery({ children }) {
             Plus, our platform is built on blockchain technology to ensure a
             fair and verifiably random lottery with no human interference. So,
             don't miss out on this opportunity to grow your business and achieve
-            your dreams!{" "}
-            <Link href="/how-it-works" passHref>
-              <span className="underline cursor-pointer">Learn More</span>
-            </Link>
+            your dreams! <br />
+            <br />
+            <div className="flex justify-center">
+              <Link href="/how-it-works" passHref>
+                <span className="btn btn-primary">Learn More</span>
+              </Link>
+            </div>
           </p>
-        </div>
-      </section>
-      <section className="py-4 pb-0">
-        <div className="flex items-center justify-center my-12 text-center  p-5 bg-blend-soft-light rounded-lg bg-gradient-to-r from-[#7928ca] to-[#ff0080]">
-          <h3 className="text-white text-xl">
-            A huge congrats to last week's winner:
-            0x02389745619387465kajshgd12341234 (~ USD 200.80){" "}
-          </h3>{" "}
-          <div className="text-white p-4">
-            <GiPartyPopper size={"2em"} />
-          </div>
         </div>
       </section>
       <section className="py-4">{children}</section>

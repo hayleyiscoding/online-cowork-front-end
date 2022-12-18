@@ -12,14 +12,15 @@ export default function LandingProfiles({ children }) {
       </Head>
       <section className="pt-12 pb-4">
         <div className="w-full md:w-8/12 text-left">
-          <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+          <h1 className="text-4xl font-light tracking-tight text-coworkdarkbeige sm:text-5xl md:text-6xl mt-12">
             <span>Meet our </span>
-            <span className="text-gray-300">Online CoWorkers!</span>
+            <span className="text-white">Online CoWorkers!</span>
           </h1>
-          <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 font-extralight">
-            Support women with online businesses from around the world! Search
-            for virtual assistants, social media managers, yoga instructors and
-            more...
+          <p className="mt-5 text-base text-gray-500 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 font-extralight">
+            Support our members from around the world! Search for virtual
+            assistants, social media managers, online yoga instructors, business
+            coaches, online lawyers, online accountants, software developers,
+            website designers, Etsy sellers and more...
           </p>
         </div>
       </section>
