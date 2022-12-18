@@ -27,7 +27,7 @@ export default function Header() {
   return (
     mounted && (
       <div className="bg-coworkblue start-here-btn">
-        <div className="flex items-center justify-between border-b  cursor-pointer w-full py-6  flex-wrap border-white lg:border-none max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="flex items-center justify-between border-b  cursor-pointer w-full py-6 flex-wrap border-white lg:border-none max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           <Link href="/" passHref>
             <Image
               src={logoWhite}
@@ -77,28 +77,28 @@ export default function Header() {
                   </li>
                   <li className="my-1">
                     <Link href="/lottery" passHref>
-                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-medium rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                         Lottery
                       </a>
                     </Link>
                   </li>
                   <li className=" my-1 ">
                     <Link href="/how-it-works" passHref>
-                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-medium rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                         How it Works
                       </a>
                     </Link>
                   </li>
                   <li className="my-1 ">
                     <Link href="/members" passHref>
-                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-medium rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                         Members
                       </a>
                     </Link>
                   </li>
                   <li className=" my-1 ">
                     <Link href="https://office.onlinecowork.com" passHref>
-                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-medium rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                         Join Discord Community
                       </a>
                     </Link>
