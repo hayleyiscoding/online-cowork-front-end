@@ -25,7 +25,7 @@ import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
 // import getRandomImage from "../utils/getRandomImage";
 import lotteryABI from "../constants/lotteryABI.json";
 
-export default function Home({ tasks, profiles }) {
+export default function Home({ tasks, profiles, approvedProfiles }) {
   const { data: account } = useAccount();
   const { data: balance } = useBalance({
     addressOrName: account?.address,
@@ -125,6 +125,15 @@ export default function Home({ tasks, profiles }) {
     else if (amount === 0)
       toast.error("Please add Task with at least 1 Matic!");
     else {
+      if (
+        approvedProfiles.filter(
+          (approvedProfile) =>
+            approvedProfile.fields.walletAddress === account.address
+        ).length === 0
+      ) {
+        toast.warn("You are not registered. Please create a profile first!");
+        return;
+      }
       setSpin(true);
       try {
         const lotteryContractWithSigner = lotteryContract.connect(signer);
@@ -333,7 +342,7 @@ export default function Home({ tasks, profiles }) {
                       placeholder="e.g. 5"
                       step={1}
                       min={0}
-                      max={balance.formatted}
+                      max={balance?.formatted}
                       value={amount}
                     />
 
@@ -450,10 +459,17 @@ export async function getServerSideProps(context) {
         view: "Grid view",
       })
       .all();
+
+    const approvedProfiles = await profileAirtable
+      .select({
+        view: "Approved",
+      })
+      .all();
     return {
       props: {
         tasks: minifyItems(items),
         profiles: minifyItems(profiles),
+        approvedProfiles: minifyItems(approvedProfiles),
       },
     };
   } catch (error) {
