@@ -30,12 +30,12 @@ const LotteryProvider = ({ children }) => {
         recentWinners,
         lotteryStatus,
         numberOfWinners,
-        numberOfPlayers: parseInt(numberOfPlayers),
+        numberOfPlayers,
         withdrawPercentageForWinner,
         withdrawPercentageForOwner,
       });
     } catch (error) {
-      toast.warn("Something went wrong!");
+      toast.warn("Something went wrong! 😕");
       console.log(error);
     }
   };
@@ -43,15 +43,25 @@ const LotteryProvider = ({ children }) => {
   const listenLotteryEvents = () => {
     lotteryContract.on("PlayerEnteredToLottery", (player) => {
       console.log("PlayerEnteredToLottery:", player);
-      toast.info(`One Player Entered to Lottery: ${player}`, { delay: 5000 });
+      toast.info(`One Player Entered to Lottery: ${player}`, {
+        autoClose: 5000,
+      });
+      getLotteryState();
     });
     lotteryContract.on("WinnerPicked", (winner) => {
       console.log("WinnerPicked:", winner);
-      toast.success(`Winner Picked: ${winner}`, { delay: 5000 });
+      toast.success(`Winner Picked: ${winner}`, { autoClose: 5000 });
+      getLotteryState();
     });
-    lotteryContract.on("WithdrawnFund", (someone) => {
+    lotteryContract.on("WithdrawnFund", (someone, amount) => {
       console.log("WithdrawnFund:", someone);
-      toast.info(`Withdrawn Fund to: ${someone}`, { delay: 5000 });
+      toast.info(
+        `Withdrawn Fund to: ${someone} with ${ethers.utils.formatEther(
+          amount
+        )}`,
+        { autoClose: 5000 }
+      );
+      getLotteryState();
     });
   };
 

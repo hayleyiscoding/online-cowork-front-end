@@ -45,8 +45,8 @@
         "name": "currentBalance",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "numPlayers", "type": "uint256" },
-      { "internalType": "uint256", "name": "lotteryState", "type": "uint256" }
+      { "internalType": "uint32", "name": "numPlayers", "type": "uint32" },
+      { "internalType": "uint8", "name": "lotteryState", "type": "uint8" }
     ],
     "name": "Lottery__UpkeepNotNeeded",
     "type": "error"
@@ -223,7 +223,7 @@
   {
     "inputs": [],
     "name": "getNumberOfPlayers",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [{ "internalType": "uint32", "name": "", "type": "uint32" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -235,9 +235,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "index", "type": "uint256" }
-    ],
+    "inputs": [{ "internalType": "uint32", "name": "index", "type": "uint32" }],
     "name": "getPlayer",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",

@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import { HiOutlineInformationCircle } from "react-icons/hi";
 // import { GiPartyPopper } from "react-icons/gi";
+import { LotteryContext } from "../context/lottery";
 
-const LotteryPageStats = ({ initialItems }) => {
+const LotteryPageStats = ({ initialItems, approvedProfiles }) => {
+  const { lotteryState } = useContext(LotteryContext);
+  const [maticPrice, setMaticPrice] = useState(0);
+  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+
+  useEffect(() => {
+    const getPrice = async () => {
+      const res = await fetch("/api/getPrice", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      const price = await res.json();
+      setMaticPrice(price.USD);
+    };
+
+    getPrice();
+  }, []);
+
+  useEffect(() => {
+    console.log("lotteryState:", lotteryState);
+    if (lotteryState) {
+      let numberOfPlayers = 0;
+      const tasks = lotteryState.players;
+      approvedProfiles.map((approvedProfile) => {
+        if (
+          tasks.filter((task) => task === approvedProfile.fields.walletAddress)
+            .length > 0
+        )
+          numberOfPlayers++;
+      });
+      setNumberOfPlayers(numberOfPlayers);
+    }
+  }, [lotteryState, approvedProfiles]);
+
   return (
     <div className="sm:py-16 lg:py-8 text-center">
       {/* <hr /> */}
@@ -11,7 +45,9 @@ const LotteryPageStats = ({ initialItems }) => {
           <div className="col-span-2 lg:col-span-1 pb-10 lg:pb-0 xl:py-6 px-10">
             <p className="text-md text-white font-normal">Tasks Added</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-coworkdarkbeige">500</p>
+              <p className="text-2xl font-bold text-coworkdarkbeige">
+                {lotteryState ? lotteryState.numberOfPlayers : 0}
+              </p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 36%
                 <svg
@@ -63,9 +99,16 @@ const LotteryPageStats = ({ initialItems }) => {
           </div>
 
           <div className="col-span-2 lg:col-span-1  py-10 xl:py-6  xl:px-10 ">
-            <p className="text-md font-bold text-pink-500">This Week's Draw:</p>
+            <p className="text-md font-bold text-pink-500">
+              This Week&apos;s Draw:
+            </p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-4xl font-extrabold text-pink-500">~ $4532</p>
+              <p className="text-4xl font-extrabold text-pink-500">
+                ~ $
+                {lotteryState
+                  ? maticPrice.toFixed(2) * lotteryState.balance
+                  : 0}
+              </p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 0.6%
                 <svg
@@ -88,14 +131,16 @@ const LotteryPageStats = ({ initialItems }) => {
               className="mt-4 text-md font-light
              text-pink-500"
             >
-              Equiv. 4230 MATIC
+              Equiv. {lotteryState ? lotteryState.balance : 0} MATIC
             </p>
           </div>
 
           <div className="col-span-2 lg:col-span-1 py-10 px-10  xl:py-6">
             <p className="text-md text-white font-normal">Online CoWorkers</p>
             <div className="inline-flex items-center mt-3">
-              <p className="text-2xl font-bold text-coworkdarkbeige ">54</p>
+              <p className="text-2xl font-bold text-coworkdarkbeige ">
+                {numberOfPlayers}
+              </p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
                 19%
                 <svg
@@ -142,7 +187,7 @@ const LotteryPageStats = ({ initialItems }) => {
               </span> */}
             </div>
             <p className="mt-4 text-md  text-white font-light">
-              1 Lucky Winner!
+              {lotteryState ? lotteryState.numberOfWinners : 1} Lucky Winner!
             </p>
           </div>
         </div>
