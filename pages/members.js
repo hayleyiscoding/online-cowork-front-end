@@ -3,7 +3,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import { profileAirtable, minifyItems } from "../utils/airtable";
 import { ProfilesContext } from "../context/profiles";
-import { getAccount } from "@wagmi/core";
 import Head from "next/head";
 
 function filterArray(array, searchText) {
@@ -17,14 +16,18 @@ function filterArray(array, searchText) {
 }
 
 export default function Members({ initialProfiles }) {
+  const allProfiles = initialProfiles.sort(
+    (a, b) => new Date(b.fields.createdTime) - new Date(b.fields.createdTime)
+  );
+
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   const { profiles, setProfiles } = useContext(ProfilesContext);
 
   useEffect(() => {
-    setProfiles(initialProfiles);
-  }, [initialProfiles, setProfiles]);
+    setProfiles(allProfiles);
+  }, [allProfiles, setProfiles]);
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
@@ -47,7 +50,7 @@ export default function Members({ initialProfiles }) {
     updateFilteredProfiles();
   }, [searchText, updateFilteredProfiles]);
 
-  if (!initialProfiles)
+  if (!profiles)
     return (
       <LandingProfiles>
         <div className="lds-spinner">

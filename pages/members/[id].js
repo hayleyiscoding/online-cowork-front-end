@@ -1,17 +1,7 @@
-import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import {
-  EmojiHappyIcon,
-  TicketIcon,
-  UsersIcon,
-  LinkIcon,
-  CurrencyDollarIcon,
-  MapPinIcon,
-  CheckIcon,
-} from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import { getMinifiedItem, profileAirtable } from "../../utils/airtable";
+import { minifyItems, profileAirtable } from "../../utils/airtable";
 
 function MemberProfile({ profile }) {
   const { query } = useRouter();
@@ -22,38 +12,38 @@ function MemberProfile({ profile }) {
     avatarImage,
     city,
     country,
-    discord,
-    website,
-    facebookPage,
-    facebookGroup,
-    twitter,
-    instagram,
-    pinterest,
-    tiktok,
-    linkedin,
-    freebie,
-    otherLink,
-    bio,
     coverImage,
+    bio,
+    websiteLink,
+    facebookLink,
+    freebieLink,
+    instagramLink,
+    tiktokLink,
+    twitterLink,
+    pinterestLink,
+    facebookGroupLink,
+    linkedinLink,
+    otherLink,
   } = profile.fields;
-  // if (!event) {
-  //   return (
-  //     <div className="lds-spinner ml-20">
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //       <div></div>
-  //     </div>
-  //   );
-  // }
+
+  if (!profile) {
+    return (
+      <div className="lds-spinner ml-20">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,7 +82,7 @@ function MemberProfile({ profile }) {
           <div className="w-full pr-0 lg:pr-8 xl:pr-12 text-center lg:text-left xl:text-left">
             <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden box-shadow-n">
               {coverImage && (
-                <Image src={coverImage} alt="Cover image" layout="fill" />
+                <Image src={coverImage} alt="Cover Image" layout="fill" />
               )}
             </div>
             <p className="text-gray-200 tracking-wide leading-8">{bio}</p>
@@ -138,11 +128,11 @@ function MemberProfile({ profile }) {
               </a>
             </div>
 
-            {freebie && firstName && (
+            {freebieLink && firstName && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${freebie}`}
+                  href={freebieLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -156,11 +146,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {website && (
+            {websiteLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${website}`}
+                  href={websiteLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -174,11 +164,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {facebookPage && (
+            {facebookLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${facebookPage}`}
+                  href={facebookLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -192,11 +182,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {facebookGroup && (
+            {facebookGroupLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${facebookGroup}`}
+                  href={facebookGroupLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -210,11 +200,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {twitter && (
+            {twitterLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${twitter}`}
+                  href={twitterLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -228,11 +218,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {instagram && (
+            {instagramLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${instagram}`}
+                  href={instagramLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -246,11 +236,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {pinterest && (
+            {pinterestLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${pinterest}`}
+                  href={pinterestLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -264,11 +254,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {tiktok && (
+            {tiktokLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${tiktok}`}
+                  href={tiktokLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -282,11 +272,11 @@ function MemberProfile({ profile }) {
               </div>
             )}
 
-            {linkedin && (
+            {linkedinLink && (
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${linkedin}`}
+                  href={linkedinLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -304,7 +294,7 @@ function MemberProfile({ profile }) {
               <div className="flex">
                 <a
                   className="text-indigo-800 hover:underline w-full"
-                  href={`${otherLink}`}
+                  href={otherLink}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -369,11 +359,14 @@ export default MemberProfile;
 export async function getServerSideProps(context) {
   const { id } = context.query;
   try {
-    const profiles = await profileAirtable.select({}).all();
-    const profile = profiles.find((p) => p.id === id);
+    const profiles = await profileAirtable.select({}).firstPage();
+    const aproovedProfiles = minifyItems(
+      profiles.filter((profile) => profile.fields.approved === "yes")
+    );
+    const profile = aproovedProfiles.find((p) => p.fields.walletAddress === id);
     return {
       props: {
-        profile: getMinifiedItem(profile),
+        profile,
       },
     };
   } catch (error) {
