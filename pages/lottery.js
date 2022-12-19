@@ -1,107 +1,123 @@
+import { useState, useEffect, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState, useEffect, useContext } from "react";
-// import getRandomImage from "../utils/getRandomImage";
-import { ethers } from "ethers";
-import connectLotteryContract from "../utils/connectLotteryContract";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-import Alert from "../components/Alert";
 import { useRouter } from "next/router";
-import LandingLottery from "../components/LandingLottery";
+import { ethers } from "ethers";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
+import {
+  useAccount,
+  useBalance,
+  useNetwork,
+  useContract,
+  useProvider,
+  useSigner,
+} from "wagmi";
+import { toast } from "react-toastify";
 import { ItemsContext } from "../context/items";
+import { ProfilesContext } from "../context/profiles";
+import { LotteryContext } from "../context/lottery";
+import LandingLottery from "../components/LandingLottery";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";
-import { ProfilesContext } from "../context/profiles";
+import lotteryABI from "../constants/lotteryABI.json";
+import Alert from "../components/Alert";
 
 export default function Lottery({ tasks, profiles }) {
   const { data: account } = useAccount();
+  const { data: balance } = useBalance({
+    addressOrName: account?.address,
+  });
+  const { activeChain, switchNetwork } = useNetwork();
+  const provider = useProvider();
+  const contract = useContract({
+    addressOrName: process.env.NEXT_PUBLIC_LOTTERY_CONTRACT,
+    contractInterface: lotteryABI,
+    signerOrProvider: provider,
+  });
+  const { data: signer } = useSigner();
 
   const [success, setSuccess] = useState(null);
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(null);
 
-  const [entranceFee, setEntranceFee] = useState("0");
-  const [numberOfPlayers, setNumberOfPlayers] = useState("0");
-  const [recentWinner, setRecentWinner] = useState("0");
-
   const router = useRouter();
-
-  //   function handleSubmit(e) {
-  //     e.preventDefault();
-
-  // const body = {
-  //   task: task,
-  // };
-
-  // try {
-  // } catch (error) {
-  //   alert(
-  //     `Oops! Something went wrong. Please refresh and try again. Error ${error}`
-  //   );
-  // } finally {
-  //   setTask("");
-  // }
-
-  // const createEvent = async () => {
-  //   try {
-  //     const lotteryContract = connectContract();
-
-  //     if (lotteryontract) {
-  //       // let deposit = ethers.utils.parseEther(refund);
-  //       // let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
-  //       // let eventTimestamp = eventDateAndTime.getTime();
-  //       // let eventDataCID = cid;
-
-  //       const txn = await lotteryContract.enterLottery(
-  //         eventTimestamp,
-  //         deposit,
-  //         maxCapacity,
-  //         eventDataCID,
-  //         { gasLimit: 900000 }
-  //       );
-
-  //       setLoading(true);
-  //       console.log("Minting...", txn.hash);
-  //       let wait = await txn.wait();
-  //       console.log("Minted -- ", txn.hash);
-
-  //       setEventID(wait.events[0].args[0]);
-  //       setSuccess(true);
-  //       setLoading(false);
-  //       setMessage("Woohoo! Your task has been created successfully. Now get it done! 🥳");
-  //     } else {
-  //       console.log("Error getting contract.");
-  //     }
-  //   } catch (error) {
-  //     setSuccess(false);
-  //     setMessage(`There was an error adding your task: ${error.message}`);
-  //     setLoading(false);
-  //     console.log(error);
-  //   }
-  // };
-  //   }
 
   const { items, setItems } = useContext(ItemsContext);
   const { setProfiles } = useContext(ProfilesContext);
+  const {
+    lotteryContract,
+    setLotteryContract,
+    lotteryState,
+    setLotteryState,
+    getLotteryState,
+    listenLotteryEvents,
+  } = useContext(LotteryContext);
+
+  const [task, setTask] = useState("");
+  const [amount, setAmount] = useState(0);
+  const [spin, setSpin] = useState(false);
+  const { addItem } = useContext(ItemsContext);
+
+  const handleSubmit = async () => {
+    if (task === "") toast.error("Please add a Task!");
+    else if (amount === 0)
+      toast.error("Please add a task with at least 1 Matic!");
+    else {
+      setSpin(true);
+      try {
+        const lotteryContractWithSigner = lotteryContract.connect(signer);
+        await lotteryContractWithSigner.enterLottery({
+          value: ethers.utils.parseEther(String(amount)),
+        });
+        await addItem({
+          task,
+          amount: amount,
+          address: account?.address,
+        });
+        setTask("");
+        setAmount(0);
+        setSpin(false);
+      } catch (error) {
+        setSpin(false);
+        toast.warn("Something went wrong!");
+        console.log(error);
+      }
+    }
+  };
 
   useEffect(() => {
     setItems(tasks);
     setProfiles(profiles);
   }, [tasks, setItems, profiles, setProfiles]);
 
-  const [task, setTask] = useState("");
-  const [amount, setAmount] = useState("1");
-  const { addItem } = useContext(ItemsContext);
+  useEffect(() => {
+    if (activeChain === undefined) toast.info("Please connect your wallet!");
+    else if (activeChain.id !== 80001 && activeChain.id !== 137) {
+      toast.warn("Please switch to Polygon network!");
+      switchNetwork(80001);
+    } else
+      toast.success(`Your wallet is connected to ${activeChain.name} network!`);
+  }, [activeChain]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await addItem({ task, amount: amount, address: account?.address });
-    setTask("");
-    setAmount(1);
-  };
+  useEffect(() => {
+    if (contract && account && activeChain) setLotteryContract(contract);
+    if (!account) {
+      setLotteryContract(null);
+      setLotteryState(null);
+    }
+  }, [account, contract]);
 
+  useEffect(() => {
+    if (lotteryContract) {
+      listenLotteryEvents();
+      getLotteryState();
+    }
+  }, [lotteryContract]);
+
+  useEffect(() => {
+    console.log("lotteryState:", lotteryState);
+  }, [lotteryState]);
   useEffect(() => {
     // disable scroll on <input> elements of type number
     document.addEventListener("wheel", (event) => {
@@ -171,7 +187,7 @@ export default function Lottery({ tasks, profiles }) {
                   <br />
                   <br />
                   2) Please connect your wallet to add a task. If you are not
-                  sure what a wallet is, please see our FAQ's{" "}
+                  sure what a wallet is, please see our FAQ&apos;s{" "}
                   <Link href="/how-it-works" passHref>
                     <p className="underline  mb-4 text-sm font-light inline-block">
                       here
@@ -210,8 +226,8 @@ export default function Lottery({ tasks, profiles }) {
                         </p>
                       </Link>
                       <br />
-                      <strong>TASK: </strong>This is the task that you'd like to
-                      complete.
+                      <strong>TASK: </strong>This is the task that you&apos;d
+                      like to complete.
                       <br />
                       <br />
                       <strong>AMOUNT: </strong>This is the amount of money (in
@@ -255,14 +271,15 @@ export default function Lottery({ tasks, profiles }) {
                     <input
                       id="amount"
                       name="amount"
-                      type="text"
-                      className="block w-3/5 shadow-sm focus:ring-coworkdarkbeige focus:coworkdarkbeige sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
+                      type="number"
+                      className="block w-1/5 shadow-sm focus:ring-coworkdarkbeige focus:coworkdarkbeige sm:text-sm border border-gray-300 rounded-md mx-auto my-4"
                       required
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="e.g. 5"
                       step={1}
                       min={1}
                       value={amount}
+                      max={parseInt(balance.formatted * 10)}
                     />
 
                     <div
