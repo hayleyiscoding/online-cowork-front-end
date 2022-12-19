@@ -3,7 +3,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import ProfileCard from "../components/ProfileCard";
 import { profileAirtable, minifyItems } from "../utils/airtable";
 import { ProfilesContext } from "../context/profiles";
-import Head from "next/head";
 
 function filterArray(array, searchText) {
   const filterItems = ["firstName", "city", "bio", "jobTitle", "country"];
@@ -16,18 +15,14 @@ function filterArray(array, searchText) {
 }
 
 export default function Members({ initialProfiles }) {
-  const allProfiles = initialProfiles.sort(
-    (a, b) => new Date(b.fields.createdTime) - new Date(b.fields.createdTime)
-  );
-
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   const { profiles, setProfiles } = useContext(ProfilesContext);
 
   useEffect(() => {
-    setProfiles(allProfiles);
-  }, [allProfiles, setProfiles]);
+    setProfiles(initialProfiles);
+  }, [initialProfiles, setProfiles]);
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
@@ -71,51 +66,45 @@ export default function Members({ initialProfiles }) {
     );
 
   return (
-    <>
-      <Head>
-        <title>Online CoWork Member Directory</title>
-        <meta
-          name="description"
-          content="A directory of Online CoWork members"
-        />
-      </Head>
-      <LandingProfiles>
-        <div className="flex justify-start pt-4 pb-6">
-          <div className="mb-3 xl:w-96">
-            <div className="input-group relative flex items-stretch w-full mb-4">
-              <input
-                type="search"
-                className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-white bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-white focus:bg-white focus:border-coworkdarkbeige focus:outline-none box-shadow-n"
-                placeholder="Search"
-                aria-label="Search"
-                aria-describedby="button-addon2"
-                onChange={searchInputHandler}
-                value={searchText}
-              />
-            </div>
+    <LandingProfiles>
+      <div className="flex justify-start pt-4 pb-6">
+        <div className="mb-3 xl:w-96">
+          <div className="input-group relative flex items-stretch w-full mb-4">
+            <input
+              type="search"
+              className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="button-addon2"
+              onChange={searchInputHandler}
+              value={searchText}
+            />
           </div>
         </div>
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
-        >
-          {filteredProfiles.reverse().map((profile) => (
-            <li key={profile}>
-              <ProfileCard profile={profile} />
-            </li>
-          ))}
-        </ul>
-      </LandingProfiles>
-    </>
+      </div>
+      <ul
+        role="list"
+        className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+      >
+        {filteredProfiles.reverse().map((profile) => (
+          <li key={profile}>
+            <ProfileCard profile={profile} />
+          </li>
+        ))}
+      </ul>
+    </LandingProfiles>
   );
 }
 
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
-    const aproovedProfiles = profiles.filter(
-      (profile) => profile.fields.approved === "yes"
-    );
+    const aproovedProfiles = profiles
+      .filter((profile) => profile.fields.approved === "yes")
+      .sort(
+        (a, b) =>
+          new Date(a.fields.createdTime) - new Date(b.fields.createdTime)
+      );
     return {
       props: {
         initialProfiles: minifyItems(aproovedProfiles),
