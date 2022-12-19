@@ -40,6 +40,8 @@ export default function CreateProfile({ initialProfiles }) {
   const { addProfile, profiles, setProfiles, updateProfile } =
     useContext(ProfilesContext);
 
+  let router = useRouter();
+
   useEffect(() => {
     setProfiles(initialProfiles);
   }, [initialProfiles, setProfiles]);

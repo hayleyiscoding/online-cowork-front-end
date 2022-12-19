@@ -279,7 +279,7 @@ export default function Lottery({ tasks, profiles }) {
                       step={1}
                       min={1}
                       value={amount}
-                      max={parseInt(balance.formatted * 10)}
+                      max={parseInt(balance?.formatted * 10)}
                     />
 
                     <div

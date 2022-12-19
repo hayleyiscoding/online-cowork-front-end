@@ -40,9 +40,9 @@ export default function LandingLottery({ children }) {
 
           <p className=" pt-4 md:pt-12 p-3 text-gray-200 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 lg:text-lg font-thin">
             For virtual assistants, Etsy sellers, online yoga instructors,
-            bloggers, online bookeepers, online freelancers and more! Get things
-            done AND win funding for your online business with the Online CoWork
-            Lottery!
+            bloggers, online bookkeepers, online freelancers and more! Get
+            things done AND win funding for your online business with the Online
+            CoWork Lottery!
             <br />
             <br />
             Our unique platform for women and non-binary people combines{" "}

@@ -58,8 +58,8 @@ const HowItworks = () => {
                   <p className="ml-6 text-xl font-light text-gray-900 font-nunito">
                     Add your first task to the lottery! Add a{" "}
                     <strong className="underline">business/work&nbsp;</strong>{" "}
-                    that you are wanting to complete. You can add 1 task a week
-                    or 10 tasks a day, it's up to you!
+                    task that you are wanting to complete. You can add 1 task a
+                    week or 10 tasks a day, it&apos;s up to you!
                   </p>
                 </div>
               </div>
@@ -102,9 +102,9 @@ const HowItworks = () => {
                     <br />
                     <span className="italic">
                       (So if you add 10 MATIC for 1 task, that gives you 10
-                      entries for that week's draw! Please note that you will
-                      not get this money back as it makes up the lottery prize
-                      pool!)
+                      entries for that week&apos;s draw! Please note that you
+                      will not get this money back as it makes up the lottery
+                      prize pool!)
                     </span>
                   </p>
                 </div>
@@ -123,8 +123,8 @@ const HowItworks = () => {
                     5
                   </div>
                   <p className="ml-6 text-xl font-light text-gray-900 ">
-                    Get your task done and dusted! Don't miss this opportunity
-                    to take your business/life to the next level!
+                    Get your task done and dusted! Don&apos;t miss this
+                    opportunity to take your business/life to the next level!
                   </p>
                 </div>
               </div>
@@ -142,8 +142,8 @@ const HowItworks = () => {
                     6
                   </div>
                   <p className="ml-6 text-xl font-light text-gray-900 ">
-                    Keep an eye on the lottery home page to check if you've won
-                    that lottery prize pool for that week! 🥳
+                    Keep an eye on the lottery home page to check if you&apos;ve
+                    won that lottery prize pool for that week! 🥳
                   </p>
                 </div>
               </div>
