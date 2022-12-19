@@ -71,7 +71,7 @@ export default function CreateProfile({ initialProfiles }) {
     e.preventDefault();
 
     const profile = profiles.find(
-      (p) => account?.address === p.fields.walletAddress
+      (p) => account?.address === p?.fields?.walletAddress
     );
 
     const params = {

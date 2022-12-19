@@ -85,7 +85,7 @@ export default function Members({ initialProfiles }) {
             <div className="input-group relative flex items-stretch w-full mb-4">
               <input
                 type="search"
-                className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none box-shadow-n"
+                className="form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-white bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-white focus:bg-white focus:border-coworkdarkbeige focus:outline-none box-shadow-n"
                 placeholder="Search"
                 aria-label="Search"
                 aria-describedby="button-addon2"
