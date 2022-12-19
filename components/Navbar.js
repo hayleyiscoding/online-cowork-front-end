@@ -16,13 +16,12 @@ export default function Header() {
   const { disconnect } = useDisconnect();
 
   const profile = profiles?.find(
-    (p) => isSuccess && account?.address === p.fields.walletAddress
+    (p) => isSuccess && account?.address === p?.fields?.walletAddress
   );
 
   useEffect(() => {
     setMounted(true);
   }, []);
-  console.log({ profile });
 
   return (
     mounted && (
