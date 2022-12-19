@@ -15,17 +15,14 @@ function filterArray(array, searchText) {
 }
 
 export default function Members({ initialProfiles }) {
-  const allProfiles = initialProfiles.sort(
-    (a, b) => new Date(b.fields.createdTime) - new Date(b.fields.createdTime)
-  );
   const [filteredProfiles, setFilteredProfiles] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(false);
   const { profiles, setProfiles } = useContext(ProfilesContext);
 
   useEffect(() => {
-    setProfiles(allProfiles);
-  }, [allProfiles, setProfiles]);
+    setProfiles(initialProfiles);
+  }, [initialProfiles, setProfiles]);
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
@@ -102,9 +99,12 @@ export default function Members({ initialProfiles }) {
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
-    const aproovedProfiles = profiles.filter(
-      (profile) => profile.fields.approved === "yes"
-    );
+    const aproovedProfiles = profiles
+      .filter((profile) => profile.fields.approved === "yes")
+      .sort(
+        (a, b) =>
+          new Date(b.fields.createdTime) - new Date(a.fields.createdTime)
+      );
     return {
       props: {
         initialProfiles: minifyItems(aproovedProfiles),
