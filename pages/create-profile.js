@@ -775,7 +775,7 @@ export async function getServerSideProps(context) {
     const profiles = await profileAirtable.select({}).firstPage();
     return {
       props: {
-        initialProfiles: minifyItems(profiles),
+        initialProfiles: profiles?.length > 0 && minifyItems(profiles),
       },
     };
   } catch (error) {

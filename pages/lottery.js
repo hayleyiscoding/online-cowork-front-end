@@ -24,7 +24,7 @@ import lotteryABI from "../constants/lotteryABI.json";
 import Alert from "../components/Alert";
 
 export default function Lottery({ tasks, profiles, approvedProfiles }) {
-  const { data: account } = useAccount();
+  const { data: account, isSuccess } = useAccount();
   const { data: balance } = useBalance({
     addressOrName: account?.address,
   });
@@ -101,12 +101,12 @@ export default function Lottery({ tasks, profiles, approvedProfiles }) {
 
   useEffect(() => {
     if (activeChain === undefined) toast.info("Please connect your wallet!");
-    else if (activeChain.id !== 80001 && activeChain.id !== 137) {
+    else if (isSuccess && activeChain.id !== 80001 && activeChain.id !== 137) {
       toast.warn("Please switch to Polygon network!");
       switchNetwork(80001);
     } else
       toast.success(`Your wallet is connected to ${activeChain.name} network!`);
-  }, [activeChain]);
+  }, [activeChain, isSuccess]);
 
   useEffect(() => {
     if (contract && account && activeChain) setLotteryContract(contract);

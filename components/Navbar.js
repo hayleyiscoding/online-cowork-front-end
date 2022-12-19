@@ -1,23 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import logoWhite from "../public/logos/white-logo.png";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useDisconnect } from "wagmi";
-import { ProfilesContext } from "../context/profiles";
 import Navmenu from "./Navmenu";
+import useCurrentUser from "../utils/useCurrentUser";
 
 export default function Header() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { profiles } = useContext(ProfilesContext);
-  const { data: account, isSuccess } = useAccount();
+  const { data: account } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const profile = profiles?.find(
-    (p) => isSuccess && account?.address === p?.fields?.walletAddress
-  );
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     setMounted(true);
@@ -68,7 +65,7 @@ export default function Header() {
                 </div>
                 <ul className="flex flex-col items-center justify-between min-h-[250px">
                   <li className="mb-8">
-                    {account && !profile && (
+                    {account && !currentUser && (
                       <Link href="/create-profile" passHref>
                         <a className="btn btn-primary">Create Profile</a>
                       </Link>
@@ -161,7 +158,7 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                {account && !profile && (
+                {account && !currentUser && (
                   <Link href="/create-profile" passHref>
                     <a className="inline-flex items-center px-4 py-2 mr-4 border-transparent text-sm font-light rounded-md text-coworkdarkbeige border border-coworkdarkbeige hover:bg-coworkdarkbeige hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                       Start Here

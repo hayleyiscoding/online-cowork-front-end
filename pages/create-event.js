@@ -80,11 +80,7 @@ export default function CreateEvent({ initialEvents }) {
       eventImage,
     };
 
-    if (event) {
-      await updateEvent(event.id, params);
-    } else {
-      await addEvent(params);
-    }
+    await addEvent(params);
 
     setFirstName("");
     setEmail("");
@@ -101,7 +97,7 @@ export default function CreateEvent({ initialEvents }) {
       "Your event has been submitted successfully! We aim to approve events as fast as we can, but please allow 24 to 72 hours, thanks!"
     );
     setTimeout(() => {
-      router.push("/");
+      // router.push("/");
     }, 10000);
   };
 
@@ -486,7 +482,7 @@ export async function getServerSideProps(context) {
     const events = await eventAirtable.select({}).firstPage();
     return {
       props: {
-        initialEvents: minifyItems(events),
+        initialEvents: events?.length > 0 && minifyItems(events),
       },
     };
   } catch (error) {
