@@ -70,7 +70,7 @@ export default function Header() {
                   <li className="mb-8">
                     {account && !profile && (
                       <Link href="/create-profile" passHref>
-                        <a className="btn btn-primary">Start Here</a>
+                        <a className="btn btn-primary">Create Profile</a>
                       </Link>
                     )}
                   </li>
@@ -92,6 +92,13 @@ export default function Header() {
                     <Link href="/members" passHref>
                       <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                         Members
+                      </a>
+                    </Link>
+                  </li>
+                  <li className=" my-1 ">
+                    <Link href="/events" passHref>
+                      <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                        Events
                       </a>
                     </Link>
                   </li>
@@ -136,6 +143,13 @@ export default function Header() {
                 <Link href="/members" passHref>
                   <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
                     Members
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/events" passHref>
+                  <a className="inline-flex items-center justify-center px-2 py-2 border border-transparent text-sm font-light rounded-md text-coworkdarkbeige hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                    Events
                   </a>
                 </Link>
               </li>

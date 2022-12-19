@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from "next/link";
 
 export default function LandingEvents({ children }) {
   return (
@@ -10,20 +11,32 @@ export default function LandingEvents({ children }) {
           content="The virtual office for women who work online"
         />
       </Head>
-      <section className="py-12">
+      <section className="pt-12 pb-4">
         <div className="w-full md:w-8/12 text-left">
-          <h1 className="text-4xl font-light tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-            <span>Virtual Events Created By </span>
-            <span className="text-gray-300">women in online business!</span>
+          <h1 className="text-4xl font-light tracking-tight leading-tight text-coworkdarkbeige sm:text-5xl md:text-6xl mt-12">
+            <span className="leading-tight">Online Events Hosted By</span>
+            <span className="text-white leading-tight">
+              &nbsp;Women Across the Globe
+            </span>
+            <span>
+              {/* {account && !profile && ( */}
+              <Link href="/create-event" passHref>
+                <a className=" px-4 py-2 mx-5 align-middle border-transparent text-sm font-light tracking-normal rounded-md text-coworkdarkbeige border border-coworkdarkbeige hover:bg-coworkdarkbeige hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-coworkdarkbeige">
+                  Add an Event
+                </a>
+              </Link>
+              {/* )} */}
+            </span>
           </h1>
-          <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 font-extralight">
-            Support women with online businesses from around the world! Search
-            for virtual assistants, social media managers, yoga instructors and
-            more...
+          <p className="mt-5 text-base text-gray-500 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0 font-extralight">
+            Are you hosting an online event? A workshop, coffee chat, networking
+            event, meditation class, yoga class, webinar, AMA, etc? Add it to
+            our events directory below! *Note: Please create your profile before
+            adding an event. Click the 'Start Here' button in the menu above.
           </p>
         </div>
       </section>
-      <section className="py-12">{children}</section>
+      <section className="py-4">{children}</section>
     </div>
   );
 }

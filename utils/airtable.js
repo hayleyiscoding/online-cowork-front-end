@@ -8,6 +8,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 // Reference a table
 const taskAirtable = base(process.env.AIRTABLE_TABLE_NAME);
 const profileAirtable = base(process.env.AIRTABLE_PROFILES_TABLE_NAME);
+const eventAirtable = base(process.env.AIRTABLE_EVENTS_TABLE_NAME);
 
 // To get minified records array
 const minifyItems = (records) =>
@@ -24,4 +25,10 @@ const getMinifiedItem = (record) => {
   };
 };
 
-export { taskAirtable, profileAirtable, minifyItems, getMinifiedItem };
+export {
+  taskAirtable,
+  profileAirtable,
+  eventAirtable,
+  minifyItems,
+  getMinifiedItem,
+};

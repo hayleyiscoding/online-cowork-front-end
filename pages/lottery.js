@@ -59,9 +59,9 @@ export default function Lottery({ tasks, profiles, approvedProfiles }) {
   const { addItem } = useContext(ItemsContext);
 
   const handleSubmit = async () => {
-    if (task === "") toast.error("Please filled a new Task name!");
+    if (task === "") toast.error("Please add a new task!");
     else if (amount === 0)
-      toast.error("Please add Task with at least 1 Matic!");
+      toast.error("Please add a task with at least 1 Matic!");
     else {
       if (
         approvedProfiles.filter(
@@ -288,7 +288,7 @@ export default function Lottery({ tasks, profiles, approvedProfiles }) {
                         type="button"
                         onClick={handleSubmit}
                         disabled={spin}
-                        className="flex flex-row mt-5 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                        className="flex flex-row mt-5 border-2 border-purple-300 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                       >
                         {spin && (
                           <svg

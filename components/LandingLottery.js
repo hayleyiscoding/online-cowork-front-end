@@ -12,21 +12,21 @@ export default function LandingLottery({ children }) {
           content="The virtual office for women who work online"
         />
       </Head>
-      <section className="pb-4">
+      <section className="pb-12">
         <div className="py-4 pb-0">
           <div className="">
             <h1 className="text-center pt-12 pb-0 mb-3 text-5xl font-light leading-8 text-coworkdarkbeige md:text-7xl">
-              <span>The Online CoWork </span>
+              <span className="leading-loose">The Online CoWork </span>
               <span className="text-white font-bold leading-loose">
                 Lottery!
               </span>
-              <br />
-              <br />
-              <div className="box-shadow-n text-coworkdarkbeige text-xl lg:text-2xl font-light p-12 text-center tracking-wider mx-auto">
-                "The productivity of a to-do list with the excitement of a
-                lottery" 🔥
-              </div>
             </h1>
+            <br />
+            <br />
+            <div className="box-shadow-n text-coworkdarkbeige text-xl lg:text-2xl font-light p-12 text-center tracking-wider mx-auto">
+              "The productivity of a to-do list with the excitement of a
+              lottery" 🔥
+            </div>
 
             <div className=" mx-6 text-white my-5 ml-10">
               {/* <button
@@ -53,21 +53,22 @@ export default function LandingLottery({ children }) {
             <br />
             <br />
             Simply input a business task (such as 'get to inbox zero') that
-            you'd like to get done, and pay a small fee of your choice to hold
-            yourself accountable (we dare ya!). Doing this will automatically
-            entitle you to a lottery ticket. The draw will take place once a
-            week giving you the chance to win valuable funds for your business!
+            you&apos;d like to get done, and pay a small fee of your choice to
+            hold yourself accountable (we dare ya!). Doing this will
+            automatically entitle you to a lottery ticket (or tickets!). The
+            draw will take place once a week giving you the chance to win
+            valuable funds for your business!
             <br />
             <br />
-            The more tasks you add (i.e. the more you commit to getting done),
-            the more lottery entries you get, and the better your chances of
+            The more tasks you add - and the more money you add per task - the
+            more lottery entries you get, and the better your chances of
             winning!
             <br />
             <br />
             Plus, our platform is built on blockchain technology to ensure a
             fair and verifiably random lottery with no human interference. So,
-            don't miss out on this opportunity to grow your business and achieve
-            your dreams! <br />
+            don&apos;t miss out on this opportunity to grow your business and
+            achieve your dreams! <br />
             <br />
             <div className="flex justify-center">
               <Link href="/how-it-works" passHref>
