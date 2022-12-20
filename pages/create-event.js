@@ -97,7 +97,7 @@ export default function CreateEvent({ initialEvents }) {
       "Your event has been submitted successfully! We aim to approve events as fast as we can, but please allow 24 to 72 hours, thanks!"
     );
     setTimeout(() => {
-      // router.push("/");
+      router.push("/");
     }, 10000);
   };
 
