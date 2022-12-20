@@ -69,8 +69,8 @@ function MemberProfile({ profile }) {
               />
             </div>
             <p>
-              I'm Jane - a social media manager for the past 5 years. I can help
-              you to get your business off the ground through social media
+              I&apos;m Jane - a social media manager for the past 5 years. I can
+              help you to get your business off the ground through social media
               marketing.
             </p>
           </div>
@@ -126,7 +126,7 @@ function MemberProfile({ profile }) {
                   type="button"
                   className="w-full items-center px-6 py-3 border border-black text-base font-medium rounded-full text-white bg-coworkblue hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Grab Jane's Freebie!
+                  Grab Jane&apos;s Freebie!
                 </button>
               </a>
             </div>
