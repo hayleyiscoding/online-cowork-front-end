@@ -15,24 +15,26 @@ const LotteryProvider = ({ children }) => {
       const interval = await lotteryContract.getInterval();
       const players = await lotteryContract.getPlayers();
       const recentWinners = await lotteryContract.getRecentWinners();
+      const recentWinningAmounts =
+        await lotteryContract.getRecentWinningAmounts();
       const lotteryStatus = await lotteryContract.getLotteryState();
       const numberOfWinners = await lotteryContract.getNumberOfWinners();
       const numberOfPlayers = await lotteryContract.getNumberOfPlayers();
-      const withdrawPercentageForWinner =
-        await lotteryContract.getWithdrawPercentageForWinner();
-      const withdrawPercentageForOwner =
-        await lotteryContract.getWithdrawPercentageForOwner();
+      const winningPercentageForWinner =
+        await lotteryContract.getWinningPercentageForWinner();
       setLotteryState({
         balance: ethers.utils.formatEther(balance),
         entranceFee: ethers.utils.formatEther(entranceFee),
         interval: parseInt(interval),
         players,
         recentWinners,
+        recentWinningAmounts: recentWinningAmounts.map((amount) =>
+          ethers.utils.formatEther(amount)
+        ),
         lotteryStatus,
         numberOfWinners,
         numberOfPlayers,
-        withdrawPercentageForWinner,
-        withdrawPercentageForOwner,
+        winningPercentageForWinner,
       });
     } catch (error) {
       toast.warn("Something went wrong! 😕");
@@ -41,27 +43,27 @@ const LotteryProvider = ({ children }) => {
   };
 
   const listenLotteryEvents = () => {
-    lotteryContract.on("PlayerEnteredToLottery", (player) => {
+    lotteryContract.on("PlayerEnteredToLottery", async (player) => {
       console.log("PlayerEnteredToLottery:", player);
+      await getLotteryState();
       toast.info(`One Player Entered to Lottery: ${player}`, {
         autoClose: 5000,
       });
-      getLotteryState();
     });
-    lotteryContract.on("WinnerPicked", (winner) => {
+    lotteryContract.on("WinnerPicked", async (winner) => {
       console.log("WinnerPicked:", winner);
+      await getLotteryState();
       toast.success(`Winner Picked: ${winner}`, { autoClose: 5000 });
-      getLotteryState();
     });
-    lotteryContract.on("WithdrawnFund", (someone, amount) => {
-      console.log("WithdrawnFund:", someone);
+    lotteryContract.on("TransferWinningToWinner", async (winner, amount) => {
+      console.log("TransferWinningToWinner:", winner);
+      await getLotteryState();
       toast.info(
-        `Withdrawn Fund to: ${someone} with ${ethers.utils.formatEther(
+        `Transfer Winning to: ${winner} with ${ethers.utils.formatEther(
           amount
         )}`,
         { autoClose: 5000 }
       );
-      getLotteryState();
     });
   };
 

@@ -22,7 +22,6 @@ const LotteryPageStats = ({ initialItems, approvedProfiles }) => {
   }, []);
 
   useEffect(() => {
-    console.log("lotteryState:", lotteryState);
     if (lotteryState) {
       let numberOfPlayers = 0;
       const tasks = lotteryState.players;
@@ -106,7 +105,12 @@ const LotteryPageStats = ({ initialItems, approvedProfiles }) => {
               <p className="text-4xl font-extrabold text-pink-500">
                 ~ $
                 {lotteryState
-                  ? maticPrice.toFixed(2) * lotteryState.balance
+                  ? (
+                      (maticPrice *
+                        lotteryState.balance *
+                        lotteryState.winningPercentageForWinner) /
+                      100
+                    ).toFixed(2)
                   : 0}
               </p>
               {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
@@ -131,7 +135,13 @@ const LotteryPageStats = ({ initialItems, approvedProfiles }) => {
               className="mt-4 text-md font-light
              text-pink-500"
             >
-              Equiv. {lotteryState ? lotteryState.balance : 0} MATIC
+              Equiv.{" "}
+              {lotteryState
+                ? (lotteryState.balance *
+                    lotteryState.winningPercentageForWinner) /
+                  100
+                : 0}{" "}
+              MATIC
             </p>
           </div>
 

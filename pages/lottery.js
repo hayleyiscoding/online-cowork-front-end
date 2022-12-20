@@ -5,14 +5,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
-import {
-  useAccount,
-  useBalance,
-  useNetwork,
-  useContract,
-  useProvider,
-  useSigner,
-} from "wagmi";
+import { useAccount, useBalance, useSigner } from "wagmi";
 import { toast } from "react-toastify";
 import { ItemsContext } from "../context/items";
 import { ProfilesContext } from "../context/profiles";
@@ -20,20 +13,11 @@ import { LotteryContext } from "../context/lottery";
 import LandingLottery from "../components/LandingLottery";
 import Item from "../components/Item";
 import LotteryPageStats from "../components/LotteryPageStats";
-import lotteryABI from "../constants/lotteryABI.json";
-import Alert from "../components/Alert";
 
 export default function Lottery({ tasks, profiles, approvedProfiles }) {
   const { data: account } = useAccount();
   const { data: balance } = useBalance({
     addressOrName: account?.address,
-  });
-  const { activeChain, switchNetwork } = useNetwork();
-  const provider = useProvider();
-  const contract = useContract({
-    addressOrName: process.env.NEXT_PUBLIC_LOTTERY_CONTRACT,
-    contractInterface: lotteryABI,
-    signerOrProvider: provider,
   });
   const { data: signer } = useSigner();
 
@@ -45,13 +29,7 @@ export default function Lottery({ tasks, profiles, approvedProfiles }) {
 
   const { items, setItems } = useContext(ItemsContext);
   const { setProfiles } = useContext(ProfilesContext);
-  const {
-    lotteryContract,
-    setLotteryContract,
-    setLotteryState,
-    getLotteryState,
-    listenLotteryEvents,
-  } = useContext(LotteryContext);
+  const { lotteryContract } = useContext(LotteryContext);
 
   const [task, setTask] = useState("");
   const [amount, setAmount] = useState(0);
@@ -98,30 +76,6 @@ export default function Lottery({ tasks, profiles, approvedProfiles }) {
     setItems(tasks);
     setProfiles(profiles);
   }, [tasks, setItems, profiles, setProfiles]);
-
-  useEffect(() => {
-    if (activeChain === undefined) toast.info("Please connect your wallet!");
-    else if (activeChain.id !== 80001 && activeChain.id !== 137) {
-      toast.warn("Please switch to Polygon network!");
-      switchNetwork(80001);
-    } else
-      toast.success(`Your wallet is connected to ${activeChain.name} network!`);
-  }, [activeChain]);
-
-  useEffect(() => {
-    if (contract && account && activeChain) setLotteryContract(contract);
-    if (!account) {
-      setLotteryContract(null);
-      setLotteryState(null);
-    }
-  }, [account, contract]);
-
-  useEffect(() => {
-    if (lotteryContract) {
-      listenLotteryEvents();
-      getLotteryState();
-    }
-  }, [lotteryContract]);
 
   useEffect(() => {
     // disable scroll on <input> elements of type number

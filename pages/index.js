@@ -6,17 +6,22 @@ import HowItWorks from "../components/Howitworks";
 import JoinCommunity from "../components/JoinCommunity";
 import RightForMe from "../components/RightForMe";
 import TaskExamples from "../components/TaskExamples";
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import Feature from "../components/Feature";
 import SEO from "../components/SEO";
 import NoWallet from "../components/NoWallet";
+import { ItemsContext } from "../context/items";
+import { ProfilesContext } from "../context/profiles";
+import { minifyItems, profileAirtable, taskAirtable } from "../utils/airtable";
 
-const Home = () => {
-  const [isMounted, setIsMounted] = useState(false);
+const Home = ({ tasks, profiles }) => {
+  const { setItems } = useContext(ItemsContext);
+  const { setProfiles } = useContext(ProfilesContext);
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    setItems(tasks);
+    setProfiles(profiles);
+  }, [tasks, setItems, profiles, setProfiles]);
 
   return (
     <div className="">
@@ -101,4 +106,38 @@ export default Home;
           </div>
         </section>
                 </div*/
+}
+
+export async function getServerSideProps(context) {
+  try {
+    const items = await taskAirtable
+      .select({
+        // Selecting the first 20 records in Grid view:
+        maxRecords: 20,
+        view: "Grid view",
+      })
+      .firstPage();
+
+    const profiles = await profileAirtable
+      .select({
+        // Selecting the first 50 records in Grid view:
+        maxRecords: 50,
+        view: "Grid view",
+      })
+      .all();
+
+    return {
+      props: {
+        tasks: minifyItems(items),
+        profiles: minifyItems(profiles),
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        err: "Something went wrong 😕",
+      },
+    };
+  }
 }

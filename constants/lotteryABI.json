@@ -16,18 +16,14 @@
       { "internalType": "uint256", "name": "_interval", "type": "uint256" },
       {
         "internalType": "uint8",
-        "name": "_withdrawPercentageForWinner",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint8",
-        "name": "_withdrawPercentageForOwner",
+        "name": "_winningPercentageForWinner",
         "type": "uint8"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
+  { "inputs": [], "name": "Lottery_NotLessThan100", "type": "error" },
   {
     "inputs": [
       { "internalType": "address", "name": "recentWinner", "type": "address" }
@@ -129,20 +125,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "winner",
-        "type": "address"
-      }
-    ],
-    "name": "WinnerPicked",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "someone",
+        "name": "owner",
         "type": "address"
       },
       {
@@ -152,7 +135,39 @@
         "type": "uint256"
       }
     ],
-    "name": "WithdrawnFund",
+    "name": "TransferWinningToOwner",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "winner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "TransferWinningToWinner",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "winner",
+        "type": "address"
+      }
+    ],
+    "name": "WinnerPicked",
     "type": "event"
   },
   {
@@ -261,14 +276,16 @@
   },
   {
     "inputs": [],
-    "name": "getWithdrawPercentageForOwner",
-    "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
+    "name": "getRecentWinningAmounts",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "getWithdrawPercentageForWinner",
+    "name": "getWinningPercentageForWinner",
     "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }],
     "stateMutability": "view",
     "type": "function"
@@ -311,17 +328,10 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "to", "type": "address" }],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "uint256", "name": "_interval", "type": "uint256" }
     ],
-    "name": "updateInterval",
+    "name": "setInterval",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -330,7 +340,14 @@
     "inputs": [
       { "internalType": "uint32", "name": "_numberOfWinners", "type": "uint32" }
     ],
-    "name": "updateNumberOfWinners",
+    "name": "setNumberOfWinners",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "to", "type": "address" }],
+    "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
