@@ -5,19 +5,14 @@ import { minifyItems, eventAirtable } from "../../utils/airtable";
 
 function MemberEvent({ event }) {
   const { query } = useRouter();
-  const {
-    firstName,
-    email,
-    eventTitle,
-    eventDescription,
-    eventDate,
-    eventTime,
-    eventCost,
-    eventHost,
-    eventLink,
-    eventImage,
-  } = event.fields;
 
+  if (event.message) {
+    return (
+      <h3 className="text-white text-xl text-center">
+        This is not a valid event!
+      </h3>
+    );
+  }
   if (!event) {
     return (
       <div className="lds-spinner ml-20">
@@ -36,21 +31,21 @@ function MemberEvent({ event }) {
       </div>
     );
   }
-
+  const { fields } = event;
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>{eventTitle} | Online CoWork</title>
-        <meta name="description" content={eventTitle} />
+        <title>{fields?.eventTitle} | Online CoWork</title>
+        <meta name="description" content={fields?.eventTitle} />
         <link rel="icon" href="./images/favicon.png" />
       </Head>
       <section className="relative py-12">
         <div className="flex items-center mt-4 mb-9">
           <div className="ml-10">
             {/* <h6 className="mb-2">{formatTimestamp(event.eventTimestamp)}</h6> */}
-            <h6 className="mb-2 text-coworkdarkbeige">{eventCost}</h6>
+            <h6 className="mb-2 text-coworkdarkbeige">{fields?.eventCost}</h6>
             <h1 className="pt-1 pb-2 text-4xl tracking-tight font-extrabold  sm:text-2xl md:text-5xl lg:text-5xl xl:text-5xl text-white">
-              {eventTitle}
+              {fields?.eventTitle}
             </h1>
           </div>
         </div>
@@ -58,12 +53,16 @@ function MemberEvent({ event }) {
         <div className="flex justify-center flex-wrap lg:flex-nowrap">
           <div className="w-full pr-0 lg:pr-8 xl:pr-12 text-center lg:text-left xl:text-left">
             <div className="mb-8 w-full aspect-w-10 aspect-h-7 rounded-xl bg-gray-100 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500 overflow-hidden box-shadow-n">
-              {eventImage && (
-                <Image src={eventImage} alt="Cover Image" layout="fill" />
+              {fields?.eventImage && (
+                <Image
+                  src={fields?.eventImage}
+                  alt="Cover Image"
+                  layout="fill"
+                />
               )}
             </div>
             <p className="text-gray-200 tracking-wide leading-8">
-              {eventDescription}
+              {fields?.eventDescription}
             </p>
           </div>
 
@@ -78,7 +77,7 @@ function MemberEvent({ event }) {
             <div className="flex">
               <a
                 className="text-indigo-800 hover:underline w-full"
-                href={eventLink}
+                href={fields?.eventLink}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -94,21 +93,21 @@ function MemberEvent({ event }) {
             <div className="flex item-center justify-center py-4">
               {/* <CheckIcon className="w-6 mr-2" /> */}
               <span className="truncate text-center lg:text-left xl:text-left">
-                {eventDate}
+                {fields?.eventDate}
               </span>
             </div>
 
             <div className="flex item-center justify-center py-4">
               {/* <CheckIcon className="w-6 mr-2" /> */}
               <span className="truncate text-center lg:text-left xl:text-left">
-                {eventTime}
+                {fields?.eventTime}
               </span>
             </div>
 
             <div className="flex item-center justify-center py-4">
               {/* <CheckIcon className="w-6 mr-2" /> */}
               <span className="truncate text-center lg:text-left xl:text-left">
-                Hosted by {eventHost}
+                Hosted by {fields?.eventHost}
               </span>
             </div>
 
@@ -134,6 +133,7 @@ export default MemberEvent;
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
+
   try {
     const events = await eventAirtable.select({}).firstPage();
     const aproovedEvents = minifyItems(
@@ -142,7 +142,9 @@ export async function getServerSideProps(context) {
     const event = aproovedEvents.find((p) => p.id === id);
     return {
       props: {
-        event,
+        event: JSON.parse(
+          JSON.stringify(event || { message: "not available" })
+        ),
       },
     };
   } catch (error) {
