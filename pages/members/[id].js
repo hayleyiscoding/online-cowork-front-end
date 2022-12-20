@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { minifyItems, profileAirtable } from "../../utils/airtable";
+import { profileAirtable } from "../../utils/airtable";
 
 function MemberProfile({ profile }) {
   const { query } = useRouter();
