@@ -5,7 +5,7 @@ export default function ProfileCard({ profile }) {
   const { id, fields } = profile;
   const { firstName, avatarImage, jobTitle, bio } = fields;
   return (
-    <div className="group relative clickable-card focus-within:ring-2 focus-within:ring-offset-2 focus-within:opacity-50">
+    <div className="group relative clickable-card focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500">
       <Link href={`/members/${fields.walletAddress}`}>
         <a className="clickable-card__link"></a>
       </Link>

@@ -19,7 +19,6 @@ export default function Header() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
   return (
     mounted && (
       <div className="bg-coworkblue start-here-btn">

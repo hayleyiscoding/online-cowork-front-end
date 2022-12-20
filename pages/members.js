@@ -45,7 +45,7 @@ export default function Members({ initialProfiles }) {
     updateFilteredProfiles();
   }, [searchText, updateFilteredProfiles]);
 
-  if (!profiles)
+  if (!initialProfiles)
     return (
       <LandingProfiles>
         <div className="lds-spinner">
@@ -99,12 +99,9 @@ export default function Members({ initialProfiles }) {
 export async function getServerSideProps() {
   try {
     const profiles = await profileAirtable.select({}).firstPage();
-    const aproovedProfiles = profiles
-      .filter((profile) => profile.fields.approved === "yes")
-      .sort(
-        (a, b) =>
-          new Date(a.fields.createdTime) - new Date(b.fields.createdTime)
-      );
+    const aproovedProfiles = profiles.filter(
+      (profile) => profile.fields.approved === "yes"
+    );
     return {
       props: {
         initialProfiles: minifyItems(aproovedProfiles),
