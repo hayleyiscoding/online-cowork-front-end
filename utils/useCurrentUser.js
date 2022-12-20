@@ -6,10 +6,17 @@ export default function useCurrentUser() {
   const { data: account } = useAccount();
 
   useEffect(() => {
-    if (account?.address) {
-      fetch(`/api/verifyUser?address=${account.address}`)
-        .then((res) => res.json())
-        .then((user) => setCurrentUser(user));
+    async function main() {
+      if (account?.address) {
+        try {
+          const userInfo = await fetch(
+            `/api/verifyUser?address=${account.address}`
+          ).then((res) => res.json());
+          setCurrentUser(userInfo);
+        } catch {
+          console.log("SOmething went wrong!");
+        }
+      }
     }
   }, [account]);
   return currentUser;

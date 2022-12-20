@@ -139,7 +139,7 @@ export async function getServerSideProps(context) {
     const aproovedEvents = minifyItems(
       events.filter((event) => event.fields.approved === "yes")
     );
-    const event = aproovedEvents.find((p) => p.fields.walletAddress === id);
+    const event = aproovedEvents.find((p) => p.id === id);
     return {
       props: {
         event,
