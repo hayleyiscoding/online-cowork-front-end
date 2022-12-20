@@ -12,13 +12,14 @@ export default function useCurrentUser() {
           const userInfo = await fetch(
             `/api/verifyUser?address=${account.address}`
           ).then((res) => res.json());
+
           setCurrentUser(userInfo);
         } catch {
-          console.log("SOmething went wrong!");
+          setCurrentUser(null);
         }
       }
     }
     main();
-  }, [account]);
+  }, [account?.address]);
   return currentUser;
 }
