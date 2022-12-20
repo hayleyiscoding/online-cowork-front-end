@@ -28,6 +28,7 @@ export default function CreateProfile({ initialProfiles }) {
   const [facebookGroupLink, setFacebookGroupLink] = useState("");
   const [twitterLink, setTwitterLink] = useState("");
   const [instagramLink, setInstagramLink] = useState("");
+  const [youtubeLink, setYoutubeLink] = useState("");
   const [pinterestLink, setPinterestLink] = useState("");
   const [tiktokLink, setTiktokLink] = useState("");
   const [linkedinLink, setLinkedinLink] = useState("");
@@ -40,6 +41,8 @@ export default function CreateProfile({ initialProfiles }) {
   const { addProfile, profiles, setProfiles, updateProfile } =
     useContext(ProfilesContext);
 
+  let router = useRouter();
+
   useEffect(() => {
     setProfiles(initialProfiles);
   }, [initialProfiles, setProfiles]);
@@ -50,6 +53,7 @@ export default function CreateProfile({ initialProfiles }) {
     data.append("file", image);
     data.append("upload_preset", process.env.NEXT_PUBLIC_CLOUD_PRESET);
     data.append("cloud_name", process.env.NEXT_PUBLIC_CLOUD_NAME);
+    data.append("folder", process.env.NEXT_PUBLIC_CLOUD_PROFILES_FOLDER_NAME);
     try {
       const imageData = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
@@ -87,6 +91,7 @@ export default function CreateProfile({ initialProfiles }) {
       facebookGroupLink,
       twitterLink,
       instagramLink,
+      youtubeLink,
       pinterestLink,
       tiktokLink,
       linkedinLink,
@@ -123,7 +128,7 @@ export default function CreateProfile({ initialProfiles }) {
     setSuccess(true);
     setLoading(false);
     setMessage(
-      "Your profile has been submitted successfully! We aim to approve profiles as fast as we can, but please allow 24 to 72 hours - after which you will be able to see your profile in our member directory and participate in the lottery!"
+      "Your profile has been submitted successfully! We aim to approve profiles as fast as we can, but please allow 24 to 72 hours - after which you can participate in the lottery!"
     );
     setTimeout(() => {
       router.push("/");
@@ -499,6 +504,29 @@ export default function CreateProfile({ initialProfiles }) {
 
               <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                 <label
+                  htmlFor="facebook-link"
+                  className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
+                >
+                  Your YouTube Channel
+                  <p className="mt-1 max-w-2xl text-sm text-gray-400">
+                    Add the link to your YouTube Channel here
+                  </p>
+                </label>
+                <div className="mt-1 sm:mt-0 sm:col-span-2">
+                  <input
+                    id="facebook-link"
+                    name="facebook-link"
+                    type="text"
+                    className="block max-w-lg w-full box-shadow-n focus:ring-coworkdarkbeige focus:border-coworkdarkbeige sm:text-sm border border-gray-300 rounded-md text-white"
+                    value={youtubeLink}
+                    onChange={(e) => setYoutubeLink(e.target.value)}
+                    placeholder="https://facebook.com/onlinecowork"
+                  />
+                </div>
+              </div>
+
+              <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                <label
                   htmlFor="pinterest-link"
                   className="block text-sm font-medium text-white sm:mt-px sm:pt-2"
                 >
@@ -621,16 +649,16 @@ export default function CreateProfile({ initialProfiles }) {
                 >
                   Bio<span className="text-red-500">*</span>
                   <p className="mt-2 text-sm text-gray-400">
-                    Let people know a little bit about you! Max 500 characters.
-                    Example: "Hi! Great to meet you My name is Jane and I've
-                    been a social media manager for the past 5 years. I have the
-                    most experience with Instagram and Facebook, but I also love
-                    working with Pinterest ads. I am a huge coffee fan, love
-                    cuddles with my two puppies and a roadtrip in Iceland is on
-                    my bucketlist! Please don't hesitate to get in touch with me
-                    via my website or social media accounts! Or grab my freebie
-                    a free page PDF guide on how to increase your engagement on
-                    Instagram!"
+                    Let everyone know a little bit about you! Max 500
+                    characters. Example: "Hi! Great to meet you My name is Jane
+                    and I've been a social media manager for the past 5 years. I
+                    have the most experience with Instagram and Facebook, but I
+                    also love working with Pinterest ads. I am a huge coffee
+                    fan, love cuddles with my two puppies and a roadtrip in
+                    Iceland is on my bucketlist! Please don't hesitate to get in
+                    touch with me via my website or social media accounts! Or
+                    grab my freebie a free page PDF guide on how to increase
+                    your engagement on Instagram!"
                   </p>
                 </label>
                 <div className="mt-1 sm:mt-0 sm:col-span-2">
@@ -747,7 +775,7 @@ export async function getServerSideProps(context) {
     const profiles = await profileAirtable.select({}).firstPage();
     return {
       props: {
-        initialProfiles: minifyItems(profiles),
+        initialProfiles: profiles?.length > 0 && minifyItems(profiles),
       },
     };
   } catch (error) {

@@ -39,8 +39,7 @@ export default function HowItWorks() {
                 <strong>
                   for payments to be made without the need of a third party
                 </strong>{" "}
-                such as a bank or credit union. Thirdly, many people associate
-                blockchain technology with crypto scams. By building the Online
+                such as a bank or credit union. Thirdly, by building the Online
                 CoWork lottery with blockchain technology,{" "}
                 <strong>
                   we aim to show how useful this technology can be and how it
@@ -691,7 +690,12 @@ export default function HowItWorks() {
                 <br />
                 <br />
                 Head over to your Metamask and follow these{" "}
-                <a href="https://metamask.zendesk.com/hc/en-us/articles/360015488931-How-to-send-ETH-and-ERC-20-tokens-from-your-MetaMask-Wallet">
+                <a
+                  href="https://metamask.zendesk.com/hc/en-us/articles/360015488931-How-to-send-ETH-and-ERC-20-tokens-from-your-MetaMask-Wallet"
+                  className="underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   instructions
                 </a>
                 .

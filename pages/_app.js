@@ -8,6 +8,7 @@ import client from "../apollo-client";
 import { ItemsProvider } from "../context/items";
 import { ProfilesProvider } from "../context/profiles";
 import { LotteryProvider } from "../context/lottery";
+import { EventsProvider } from "../context/events";
 import Layout from "../components/Layout";
 import "@rainbow-me/rainbowkit/styles.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -40,23 +41,25 @@ export default function MyApp({ Component, pageProps }) {
           <ApolloProvider client={client}>
             <LotteryProvider>
               <ItemsProvider>
-                <ProfilesProvider>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                  <ToastContainer
-                    position="bottom-right"
-                    autoClose={2000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                  />
-                </ProfilesProvider>
+                <EventsProvider>
+                  <ProfilesProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                    <ToastContainer
+                      position="bottom-right"
+                      autoClose={2000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                      theme="colored"
+                    />
+                  </ProfilesProvider>
+                </EventsProvider>
               </ItemsProvider>
             </LotteryProvider>
           </ApolloProvider>

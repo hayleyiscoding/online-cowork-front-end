@@ -71,7 +71,7 @@ const Layout = ({ children }) => {
   }, [lotteryContract]);
 
   useEffect(() => {
-    console.log(lotteryState);
+    console.log("lotteryState:", lotteryState);
     if (lotteryState) {
       if (lotteryState.recentWinners.length > 0) {
         let address = "";

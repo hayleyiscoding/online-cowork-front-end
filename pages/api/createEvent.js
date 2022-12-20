@@ -1,9 +1,9 @@
-import { table, minifyItems } from "../../utils/airtable";
+import { eventAirtable, minifyItems } from "../../utils/airtable";
 
 const handler = async (req, res) => {
   const fields = req.body;
   try {
-    const newRecords = await table.create([
+    const newRecords = await eventAirtable.create([
       {
         fields,
       },

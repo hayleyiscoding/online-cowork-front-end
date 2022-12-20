@@ -1,69 +1,56 @@
 import LandingEvents from "../components/LandingEvents";
-import { useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
-import ProfileCard from "../components/ProfileCard";
+import { useCallback, useContext, useEffect, useState } from "react";
+import EventCard from "../components/EventCard";
+import { eventAirtable, minifyItems } from "../utils/airtable";
+import { EventsContext } from "../context/events";
 
-const LATEST_PROFILES = gql`
-  query Profiles {
-    profiles(where: { isDisabled: false }) {
-      id
-      firstName
-      jobTitle
-      imageURL
-    }
-  }
-`;
-
-// const UPCOMING_EVENTS = gql`
-//   query Events($currentTimestamp: String) {
-//     events(
-//       where: { eventTimestamp_gt: $currentTimestamp }
-//       orderBy: eventTimestamp
-//       orderDirection: desc
-//     ) {
-//       id
-//       name
-//       eventTimestamp
-//       imageURL
-//     }
-//   }
-// `;
-
-export default function Events() {
-  const [filteredProfiles, setFilteredProfiles] = useState([]);
-  const [searchText, setSearchText] = useState("");
-
-  // const [currentTimestamp, setCurrentTimestamp] = useState(
-  //   new Date().getTime().toString()
-  // );
-
-  const { loading, error, data, refetch } = useQuery(LATEST_PROFILES, {
-    variables: { searchText },
+function filterArray(array, searchText) {
+  const filterItems = [
+    "hostName",
+    "eventTitle",
+    "eventDescription",
+    "eventCost",
+  ];
+  return array.filter((item) => {
+    return filterItems.some((key) => {
+      const value = item.fields[key]?.toLowerCase() || "";
+      return value.includes(searchText);
+    });
   });
+}
+
+export default function Events({ initialEvents }) {
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { events, setEvents } = useContext(EventsContext);
+
+  useEffect(() => {
+    setEvents(initialEvents);
+  }, [initialEvents, setEvents]);
 
   function searchInputHandler(e) {
     setSearchText(e.target.value);
   }
 
-  function updateFilteredProfiles() {
-    if (data?.profiles) {
-      if (!searchText) {
-        setFilteredProfiles(data.profiles);
-      } else {
-        setFilteredProfiles(
-          data.profiles.filter((profile) =>
-            profile.firstName.toLowerCase().includes(searchText.toLowerCase())
-          )
-        );
+  const updateFilteredEvents = useCallback(
+    function updateFilteredEvents() {
+      if (events?.length > 0) {
+        if (!searchText) {
+          setFilteredEvents(events);
+        } else {
+          setFilteredEvents(filterArray(events, searchText));
+        }
       }
-    }
-  }
+    },
+    [events, searchText]
+  );
 
   useEffect(() => {
-    updateFilteredProfiles();
-  }, [searchText, data]);
+    updateFilteredEvents();
+  }, [searchText, updateFilteredEvents]);
 
-  if (loading)
+  if (!events)
     return (
       <LandingEvents>
         <div className="lds-spinner">
@@ -80,12 +67,6 @@ export default function Events() {
           <div></div>
           <div></div>
         </div>
-      </LandingEvents>
-    );
-  if (error)
-    return (
-      <LandingEvents>
-        <p>`Error! ${error.message}`</p>
       </LandingEvents>
     );
 
@@ -110,19 +91,36 @@ export default function Events() {
         role="list"
         className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
       >
-        {filteredProfiles.map((profile) => (
-          <li key={profile.id}>
-            <ProfileCard
-              id={profile.id}
-              firstName={profile.firstName}
-              // eventTimestamp={event.eventTimestamp}
-              imageURL={profile.imageURL}
-              // eventCost={event.cost}
-              jobTitle={profile.jobTitle}
-            />
+        {filteredEvents.reverse().map((event) => (
+          <li key={event}>
+            <EventCard event={event} />
           </li>
         ))}
       </ul>
     </LandingEvents>
   );
+}
+
+export async function getServerSideProps() {
+  try {
+    const events = await eventAirtable.select({}).firstPage();
+    const aproovedEvents = events
+      .filter((event) => event.fields.approved === "yes")
+      .sort(
+        (a, b) =>
+          new Date(a.fields.createdTime) - new Date(b.fields.createdTime)
+      );
+    return {
+      props: {
+        initialEvents: minifyItems(aproovedEvents),
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        err: "Something went wrong 😕",
+      },
+    };
+  }
 }

@@ -21,7 +21,7 @@ export default function Alert({ alertType, alertBody, triggerAlert, color }) {
       leaveTo="opacity-0"
     >
       <div
-        className="alert z-50 max-w-lg p-3 w-full shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
+        className="alert z-50 max-w-lg p-5 w-full shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden"
         style={{ backgroundColor: color }}
       >
         <div className="flex">

@@ -49,25 +49,81 @@ const LotteryPageStats = ({ initialItems, approvedProfiles }) => {
             </h3>
           </div>
 
-          <div className="pt-4 pb-8 lg:pb-12 lg:pl-8 lg:border-l lg:border-gray-200 border-l-transparent ">
-            <p className="text-4xl pb-4 lg:text-5xl font-semibold tracking-tight text-pink-500">
-              ~ $
-              {lotteryState
-                ? (
-                    (maticPrice *
-                      lotteryState.balance *
-                      lotteryState.winningPercentageForWinner) /
-                    100
-                  ).toFixed(2)
-                : 0}
+          <div className="col-span-2 lg:col-span-1 pb-10 px-10 border-gray-200 xl:pb-0 xl:py-6">
+            <p className="text-md font-normal text-white">Total Tasks Added</p>
+            <div className="inline-flex items-center mt-3">
+              <p className="text-2xl font-bold text-coworkdarkbeige">
+                {initialItems?.length}
+              </p>
+              {/* <span className="text-xs font-semibold text-red-500 ml-2.5 bg-red-100 rounded-full inline-flex items-center px-1.5 py-0.5">
+                15%
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-3 h-3 ml-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 13l-5 5m0 0l-5-5m5 5V6"
+                  />
+                </svg>
+              </span> */}
+            </div>
+            <p className="mt-4 text-md font-light text-white">Lifetime</p>
+          </div>
+
+          <div className="col-span-2 lg:col-span-1  py-10 xl:py-6  xl:px-10 ">
+            <p className="text-md font-bold text-pink-500">
+              This Week&apos;s Draw:
             </p>
-            <h3 className="mt-3 text-base font-semibold text-pink-500">
-              Up for Grabs! (Equiv.{" "}
+            <div className="inline-flex items-center mt-3">
+              <p className="text-4xl font-extrabold text-pink-500">
+                ~ $
+                {lotteryState
+                  ? (
+                      (maticPrice *
+                        lotteryState.balance *
+                        lotteryState.winningPercentageForWinner) /
+                      100
+                    ).toFixed(2)
+                  : 0}
+              </p>
+              {/* <span className="text-xs font-semibold text-green-500 ml-2.5 bg-green-100 rounded-full inline-flex items-center px-1.5 py-0.5">
+                0.6%
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-3 h-3 ml-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M7 11l5-5m0 0l5 5m-5-5v12"
+                  />
+                </svg>
+              </span> */}
+            </div>
+            <p
+              className="mt-4 text-md font-light
+             text-pink-500"
+            >
+              Equiv.{" "}
               {lotteryState
                 ? (lotteryState.balance *
                     lotteryState.winningPercentageForWinner) /
                   100
                 : 0}{" "}
+              MATIC
+            </p>
+            <h3 className="mt-3 text-base font-semibold text-pink-500">
+              Up for Grabs! (Equiv. {lotteryState ? lotteryState.balance : 0}{" "}
               MATIC)
             </h3>
           </div>
