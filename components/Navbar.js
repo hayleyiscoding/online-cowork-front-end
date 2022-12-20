@@ -16,6 +16,8 @@ export default function Header() {
 
   const currentUser = useCurrentUser();
 
+  console.log(currentUser);
+
   useEffect(() => {
     setMounted(true);
   }, []);

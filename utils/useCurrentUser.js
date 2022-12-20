@@ -18,6 +18,7 @@ export default function useCurrentUser() {
         }
       }
     }
+    main();
   }, [account]);
   return currentUser;
 }
