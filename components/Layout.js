@@ -79,17 +79,21 @@ const Layout = ({ children }) => {
           address += formatAddress(winner) + ", ";
         });
         setDescription(
-          `A huge congrats to last week's winner/s: ${address}(~USD ${(
+          `Last week 2 lucky Online CoWorkers won ~USD ${(
             maticPrice * lotteryState.recentWinningAmounts[0]
-          ).toFixed(2)} = ${Number(
-            lotteryState.recentWinningAmounts[0]
-          ).toFixed(2)} Matic each)`
+          ).toFixed(2)} each! Please check your wallets. Congrats!`
+          // `A huge congrats to last week's winner/s: ${address}(~USD ${(
+          //   maticPrice * lotteryState.recentWinningAmounts[0]
+          // ).toFixed(2)} = ${Number(
+          //   lotteryState.recentWinningAmounts[0]
+          // ).toFixed(2)} Matic each)`
         );
       } else
         setDescription(
           "Our first draw is coming up, add your tasks to get a ticket!"
         );
-    } else setDescription("Please connect your wallet!");
+    } else
+      setDescription("Please connect your wallet to see last week's winners!");
   }, [lotteryState]);
 
   return (
@@ -98,7 +102,7 @@ const Layout = ({ children }) => {
         <h3 className="text-white text-sm ">{description}</h3>{" "}
         {/* {account.slice(0, 6)}...
                             {account.slice(account.length - 4)} */}
-        <div className="text-white p-1">
+        <div className="text-white p-1 px-2">
           <GiPartyPopper size={"2em"} />
         </div>
       </div>
