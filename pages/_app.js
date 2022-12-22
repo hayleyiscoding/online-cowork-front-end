@@ -18,7 +18,7 @@ import "../styles/loader.css";
 const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 
 const { chains, provider } = configureChains(
-  [chain.polygon, chain.polygonMumbai],
+  [chain.polygonMumbai, chain.polygon],
   [alchemyProvider({ alchemyId }), publicProvider()]
 );
 
@@ -28,7 +28,7 @@ const { connectors } = getDefaultWallets({
 });
 
 const wagmiClient = createClient({
-  autoConnect: true,
+  // autoConnect: true,
   connectors,
   provider,
 });
